@@ -1,0 +1,30 @@
+﻿.rest {
+    width:200px;
+    background-color:aquamarine;
+
+}
+.random{
+    margin:0 auto;
+    width:500px;
+    background-color:cadetblue;
+}
+
+a:link {
+    color: red;
+    margin:5px;
+    padding: 200px;
+    font-size: 1.3rem;
+}
+
+a:visited {
+    color: green;
+}
+
+.countries {
+    width: 200px;
+    background-color: coral;
+}
+   
+
+
+
