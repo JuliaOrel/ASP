@@ -49,6 +49,7 @@ namespace ASP_DZ_2.Controllers
 
         public IActionResult Movies()
         {
+            
             if (movies.Count > 0)
             {
                 for (int i = 0; i < movies.Count; i++)
