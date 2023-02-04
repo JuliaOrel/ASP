@@ -8,10 +8,11 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
-using ASP_DZ_2.Data;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ASP_DZ_2.Models;
 
 namespace ASP_DZ_2
 {
@@ -27,13 +28,14 @@ namespace ASP_DZ_2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<MobileContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
         }
 
@@ -43,7 +45,7 @@ namespace ASP_DZ_2
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseMigrationsEndPoint();
+              //  app.UseMigrationsEndPoint();
             }
             else
             {
@@ -56,8 +58,8 @@ namespace ASP_DZ_2
 
             app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+           // app.UseAuthentication();
+           // app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
@@ -69,7 +71,7 @@ namespace ASP_DZ_2
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
+               // endpoints.MapRazorPages();
             });
         }
     }

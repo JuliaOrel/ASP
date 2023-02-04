@@ -1,2 +1,14 @@
-﻿<h1>Movie schedule</h1>
-<p>Movies: @ViewData["someKey"]</p>
+﻿@*<h1>Movie schedule</h1>
+    <p>Movies: @ViewData["someKey"]</p>*@
+
+@model IEnumerable<ASP_DZ_2.Models.Movie>
+
+@foreach (var movie in Model)
+{
+    <div>@movie.Name</div>
+
+    foreach (var session in movie.SessionList)
+    {
+        <div>@session.TimeSession</div>
+    }
+}
