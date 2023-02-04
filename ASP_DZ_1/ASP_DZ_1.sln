@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.33214.272
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASP_DZ_1", "ASP_DZ_1\ASP_DZ_1.csproj", "{BF663022-CF2E-4B73-BE36-6887C5E27A9F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASP_DZ_2", "ASP_DZ_2\ASP_DZ_2.csproj", "{CF8A5F46-0070-42C2-8696-BF1F90B7A886}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASP_DZ_2", "ASP_DZ_2\ASP_DZ_2.csproj", "{CF8A5F46-0070-42C2-8696-BF1F90B7A886}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

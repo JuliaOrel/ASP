@@ -48,7 +48,7 @@ namespace ASP_DZ_1
                 endpoints.MapControllerRoute(
 
                 name: "default",
-                pattern: "{Controller=Home}/{Action=Index}/{id:int?}");
+                pattern: "{Controller=Home}/{Action=Index}/{id?}");
 
             });
         }
