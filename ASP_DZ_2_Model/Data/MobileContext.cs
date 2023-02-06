@@ -10,7 +10,7 @@ namespace ASP_DZ_2_Model.Data
     public class MobileContext:DbContext
     {
         public DbSet<Movie> Movies { get; set; }
-        public DbSet<Session> Sessions { get; set; }
+        public DbSet<Session> Sessions => Set<Session>();
         public MobileContext(DbContextOptions<MobileContext> options)
             : base(options)
         {

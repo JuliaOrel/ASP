@@ -2,7 +2,25 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@model IEnumerable<ASP_DZ_2_Model.Models.Movie>
+@*@foreach (var movie in Model)
+    {
+        <div>@movie.Name</div>
+    }*@
+<h2>Movies</h2>
+<table class="table table-striped">
+    <tr>
+        <td>Name</td>
+        <td>Session list</td>
+    </tr>
+    @foreach (var movie in Model)
+    {
+        <tr>
+            <td>@movie.Name</td>
+            <td>@movie.SessionList</td>
+            <td>
+                <a asp-action="MakeOrder" asp-route-id="@movie.ID">Make order</a>
+            </td>
+        </tr>
+    }
+</table>
