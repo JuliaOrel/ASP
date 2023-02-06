@@ -12,15 +12,23 @@
     <tr>
         <td>Name</td>
         <td>Session list</td>
+        
     </tr>
     @foreach (var movie in Model)
     {
-        <tr>
-            <td>@movie.Name</td>
-            <td>@movie.SessionList</td>
-            <td>
-                <a asp-action="MakeOrder" asp-route-id="@movie.ID">Make order</a>
-            </td>
-        </tr>
+<tr>
+    <td>@movie.Name</td>
+    @foreach (Session session in movie.SessionList)
+    {
+        <td>@session.TimeSession</td>
+    }
+    <td>@movie.SessionList</td>
+    <td>
+        <a asp-action="MakeOrder" asp-route-id="@movie.ID">Make order</a>
+    </td>
+</tr>
+      
+
+
     }
 </table>

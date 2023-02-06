@@ -10,6 +10,7 @@ namespace ASP_DZ_2_Model.Data
     {
         public static async Task Initialize(MobileContext context)
         {
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
             if (!context.Movies.Any())
             {
