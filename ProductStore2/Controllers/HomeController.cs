@@ -47,6 +47,10 @@ namespace ProductStore2.Controllers
         public async Task<IActionResult> Buy([Bind(nameof(Order.UserName), nameof(Order.ContactPhone),
             nameof(Order.ProductId))] Order order)
         {
+            if (ModelState.IsValid == false)
+            {
+                return View(order);
+            }
             await _productService.Buy(order);
             //return Content($"Thanks, {order.UserName} for purchase");
             return View("BuyedProduct", order.UserName);

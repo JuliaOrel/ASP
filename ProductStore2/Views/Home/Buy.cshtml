@@ -11,13 +11,20 @@
     <div class="mb3">
         <label asp-for="UserName" class="form-label"></label>
         <input asp-for="UserName" class="form-control" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="ContactPhone" class="form-label"></label>
         <input asp-for="ContactPhone" class="form-control" />
+        <span asp-validation-for="ContactPhone" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <input type="submit" value="Order"/>
+        <input type="submit" value="Order" class="btn btn-success"/>
     </div>
 </form>
+@section Scripts{ 
+@{ 
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

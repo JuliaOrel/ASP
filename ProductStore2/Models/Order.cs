@@ -10,7 +10,9 @@ namespace ProductStore2.Models
     {
         public int Id { get; set; }
         [Display(Name ="User's name")]
+        [Required]
         public string UserName { get; set; }
+        [Required]
         public string ContactPhone { get; set; }
         public int ProductId { get; set; }
         public Product Product { get; set; }
