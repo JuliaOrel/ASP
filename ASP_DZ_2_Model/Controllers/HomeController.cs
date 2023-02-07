@@ -14,50 +14,33 @@ namespace ASP_DZ_2_Model.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly MobileContext _mobileContext;
+        private readonly MoviesContext _moviesContext;
 
-        public HomeController(ILogger<HomeController> logger, MobileContext context)
+        public HomeController(ILogger<HomeController> logger, MoviesContext context)
         {
             _logger = logger;
-            _mobileContext = context;
+            _moviesContext = context;
         }
-
-        public async Task<ActionResult<IEnumerable<Movie>>> IndexAsync()
+        public IActionResult Index()
         {
-
-            IQueryable<Movie> movies = _mobileContext.Movies;
-            IQueryable<Session> sessions = _mobileContext.Sessions;
-            return View(await _mobileContext.Movies.Include(m => m.SessionList).ToListAsync()
-
+            return View();
+        }
+        public async Task<ActionResult<IEnumerable<Movie>>> MovieAsync()
+        {
+            return View(await _moviesContext.Movies
+                .Include(m => m.Sessions)
+                .ToListAsync()
             );
         }
 
-        //public async Task<IActionResult> Index()
-        //{ 
-
-        //    var movies = await _mobileContext.Movies
-        //        .Include(m => m.SessionList)
-        //        .ToListAsync();
-
-        //    return View(movies);
-        //}
-        [HttpGet]
-        public IActionResult MakeOrder(int? id)
+        public IActionResult Details(int? id)
         {
-            if(id is null)
+            if (id is null)
             {
                 return NotFound();
             }
             ViewBag.MovieId = id;
             return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> MakeOrder(Session session)
-        {
-            _mobileContext.Sessions.Add(session);
-            await _mobileContext.SaveChangesAsync();
-            return RedirectToAction("Index");
         }
         public IActionResult Privacy()
         {

@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model IEnumerable<ProductStore2.Models.Product>
+<h2>Products</h2>
+<table class="table table-striped">
+    <tr>
+        <td>Name</td>
+        <td>Company</td>
+        <td>Price</td>
+        <td></td>
+    </tr>
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td>@product.Name</td>
+            <td>@product.Company</td>
+            <td>@product.Price</td>
+            <td>
+                <a asp-action="Buy" asp-route-id="@product.Id">Buy</a>
+            </td>
+        </tr>
+    }
+</table>

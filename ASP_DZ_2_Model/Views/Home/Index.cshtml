@@ -7,29 +7,4 @@
     {
         <div>@movie.Name</div>
     }*@
-<h2>Movies</h2>
-<table class="table table-striped">
-    <tr>
-        <td>Name</td>
-        <td>Session list</td>
-        <td>Order</td>
-        
-    </tr>
-    @foreach (var movie in Model)
-    {
-<tr>
-    <td>@movie.Name</td>
-    @foreach (Session session in movie.SessionList)
-    {
-        <td>@session.TimeSession</td>
-    }
-    <td>@movie.SessionList</td>
-    <td>
-        <a asp-action="MakeOrder" asp-route-id="@movie.ID">Make order</a>
-    </td>
-</tr>
-      
-
-
-    }
-</table>
+<a href="~/Home/Movie">Movies</a>

@@ -1,30 +1,28 @@
-using ASP_DZ_2_Model.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ProductStore2.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ASP_DZ_2_Model
+namespace ProductStore2
 {
     public class Program
     {
         public static async Task Main(string[] args)
         {
-            //CreateHostBuilder(args).Build().Run();
-            var host = CreateHostBuilder(args).Build();
-
+            var host=CreateHostBuilder(args).Build();
             using (IServiceScope scope = host.Services.CreateScope())
             {
                 IServiceProvider services = scope.ServiceProvider;
 
                 try
                 {
-                    MoviesContext context = services.GetRequiredService<MoviesContext>();
+                    ProductContext context = services.GetRequiredService<ProductContext>();
                     await SeedData.Initialize(context);
                 }
                 catch (System.Exception ex)
@@ -35,8 +33,6 @@ namespace ASP_DZ_2_Model
                 }
             }
             host.Run();
-
-
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -44,7 +40,6 @@ namespace ASP_DZ_2_Model
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                   
                 });
     }
 }

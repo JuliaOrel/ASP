@@ -13,6 +13,6 @@ namespace ASP_DZ_2_Model.Models
         public string Director { get; set; }
         public string Genre { get; set; }
         public string Description { get; set; }
-        public ICollection<Session> SessionList { get; set; }
+        public ICollection<Session> Sessions { get; set; }
     }
 }

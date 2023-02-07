@@ -8,30 +8,14 @@ namespace ASP_DZ_2_Model.Data
 {
     public static class SeedData
     {
-        public static async Task Initialize(MobileContext context)
+        public static async Task Initialize(MoviesContext context)
         {
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
             if (!context.Movies.Any())
             {
-                //context.Movies.AddRange(
-
-                //    new Movie
-                //    {
-                //        Name = "Men in Black",
-                //        Director = "Barry Sonnenfeld",
-                //        Genre = "action",
-                //        Description = "ta-ta"
-                //    },
-                //     new Movie
-                //     {
-                //         Name = "Venom",
-                //         Director = "Barry Sonnenfeld",
-                //         Genre = "action",
-                //         Description = "ta-ta"
-                //     }
-                //    );
-                Movie movie = new Movie
+               
+                Movie movie1 = new Movie
                 {
                     Name = "Men in black",
                     Director = "Barry Sonnenfeld",
@@ -45,25 +29,30 @@ namespace ASP_DZ_2_Model.Data
                     Genre = "action",
                     Description = "ta-ta"
                 };
-                List<Movie> movies=new List<Movie>();
-                List<Session> sessions=new List<Session>();
-                Session session = new Session { TimeSession = "15:45", Movie = movie };
-                Session session2 = new Session { TimeSession = "16:45", Movie = movie2 };
+                List<Session> sessionList1 = new List<Session>
+                {
+                    new Session {TimeSession="15:45", Movie=movie1},
+                    new Session {TimeSession="16:45", Movie=movie1}
 
-                List<Session> sessions1 = new List<Session>();
-                List<Session> sessions2 = new List<Session>();
+                };
+                List<Session> sessionList2 = new List<Session>
+                {
+                    new Session {TimeSession="17:45", Movie=movie2},
+                    new Session {TimeSession="18:45", Movie=movie2}
 
-                sessions1.Add(session);
-                sessions2.Add(session2);
-                movie.SessionList = sessions1;
-                movie2.SessionList = sessions2;
+                };
+                movie1.Sessions = sessionList1;
+                movie2.Sessions = sessionList2;
 
-                movies.Add(movie);
-                movies.Add(movie2);
+                List<Movie> movies = new List<Movie>
+                {
+                    movie1,
+                    movie2
+                };
 
                context.Movies.AddRange(movies);
-               context.Sessions.AddRange(sessions1);
-               context.Sessions.AddRange(sessions2);
+               context.Sessions.AddRange(sessionList1);
+               context.Sessions.AddRange(sessionList2);
                 await context.SaveChangesAsync();
             }
         }

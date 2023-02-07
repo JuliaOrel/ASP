@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewData["Title"] = "Buy";
+}
+
+@model ProductStore2.Models.Order
+
+<h1>Buy</h1>
+<form method="post" asp-action="Buy">
+    <input type="hidden" value="@ViewBag.ProductId" name="ProductId" />
+    <div class="mb3">
+        <label asp-for="UserName" class="form-label"></label>
+        <input asp-for="UserName" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ContactPhone" class="form-label"></label>
+        <input asp-for="ContactPhone" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <input type="submit" value="Order"/>
+    </div>
+</form>
