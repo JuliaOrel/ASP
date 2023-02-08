@@ -33,14 +33,27 @@ namespace ASP_DZ_2_Model.Controllers
             );
         }
 
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id is null)
             {
                 return NotFound();
             }
             //ViewBag.MovieId = id;
-            Movie movie = _moviesContext.Movies.Find(id);
+           // List<Session> list = new List<Session>();
+            Movie movie = await _moviesContext.Movies
+                .Include(m => m.Sessions)
+                .FirstOrDefaultAsync(m => m.ID == id);
+                //Find(id);
+            //for (int i = 0; i < _moviesContext.Sessions.Count(); i++)
+            //{
+            //    Session ses = _moviesContext.Sessions.Find(movie.ID);
+            //    list.Add(ses);
+            //}
+               
+            
+            //Session session = _moviesContext.Sessions.Find(movie.ID);
+            //movie.Sessions = (ICollection<Session>)session;
 
             return View(movie);
 
