@@ -3,7 +3,7 @@
         <td>Name</td>
         <td>Session list</td>
         <td>Count of sessions</td>
-        <td>Order</td>
+        <td>Details</td>
 
     </tr>
     @foreach (var movie in Model)
@@ -19,7 +19,7 @@
             </td>
             <td>Count of sessions: @movie.Sessions.Count</td>
             <td>
-                <a asp-action="Details" asp-route-id="@movie.ID">Details</a>
+                <a asp-action="Details" asp-route-id="@movie.ID">Learn More</a>
             </td>
         </tr>
 

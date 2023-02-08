@@ -39,8 +39,12 @@ namespace ASP_DZ_2_Model.Controllers
             {
                 return NotFound();
             }
-            ViewBag.MovieId = id;
-            return View();
+            //ViewBag.MovieId = id;
+            Movie movie = _moviesContext.Movies.Find(id);
+
+            return View(movie);
+
+
         }
         public IActionResult Privacy()
         {

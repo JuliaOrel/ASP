@@ -1,4 +1,18 @@
-﻿<h3>Details of movie</h3>
-<ul class="active">
-    <li></li>
+﻿@model ASP_DZ_2_Model.Models.Movie
+<h3>Details of movie</h3>
+<ul>
+    <li>@Html.ViewData.Model.Name</li>
+    <li>@Html.ViewData.Model.Genre</li>
+    <li>@Html.ViewData.Model.Director</li>
+    <li>@Html.ViewData.Model.Description</li>
 </ul>
+
+@*<ul>
+    @foreach (var session in @Html.ViewData.Model.Sessions)
+    {
+        <li>@session.TimeSession</li>
+
+    }
+</ul>*@
+@*<span>@Html.ViewData.Model.Sessions.ToList()</span>*@
+
