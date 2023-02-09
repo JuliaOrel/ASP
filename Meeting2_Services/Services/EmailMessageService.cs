@@ -5,7 +5,11 @@ using System.Threading.Tasks;
 
 namespace Meeting2_Services.Services
 {
-    public class EmailMessageService
+    public class EmailMessageService : IMessageService
     {
+        public string SendMessage()
+        {
+            return "Send email";
+        }
     }
 }
