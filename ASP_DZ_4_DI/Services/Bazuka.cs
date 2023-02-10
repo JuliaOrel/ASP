@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 
 namespace ASP_DZ_4_DI.Services
 {
-    public interface IWeapon
+    public class Bazuka : IWeapon
     {
-        string Kill();
+        public string Kill()
+        {
+            return "Kill with Bazuka";
+        }
     }
 }
