@@ -57,7 +57,7 @@ namespace Configuration
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync($"{AppConfiguration["name"]}");
+                    await context.Response.WriteAsync($"{AppConfiguration["name"]}"); //из строки в appsettings.json
                 });
             });
 
