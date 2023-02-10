@@ -53,18 +53,18 @@ namespace Configuration
             //AppConfiguration["blog"] = "MyBlog";
             //AppConfiguration["post"] = "MyPost";
 
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapGet("/", async context =>
-            //    {
-            //        await context.Response.WriteAsync($"{AppConfiguration["blog"]}");
-            //    });
-            //});
-
             app.UseEndpoints(endpoints =>
             {
-                app.endpoints.MapGet("/", (IConfiguration configuration)=>$"{configuration["name"]}");
+                endpoints.MapGet("/", async context =>
+                {
+                    await context.Response.WriteAsync($"{AppConfiguration["name"]}");
+                });
             });
+
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    app.endpoints.MapGet("/", (IConfiguration configuration)=>$"{configuration["name"]}");
+            //});
         }
     }
 }
