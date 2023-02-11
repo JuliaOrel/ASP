@@ -16,6 +16,13 @@ namespace Configuration
         public Startup(IConfiguration configuration)
         {
             AppConfiguration = configuration;
+
+            //AddJsonFile
+            var builder = new ConfigurationBuilder().AddJsonFile("config.json");
+
+            AppConfiguration = builder.Build();
+
+            //AddInMemoryCollection
             //var builder = new ConfigurationBuilder()
             //    .AddInMemoryCollection(new Dictionary<string, string>
             //    {
@@ -24,7 +31,7 @@ namespace Configuration
             //    });
             //AppConfiguration = builder.Build();
         }
-        public IConfiguration AppConfiguration;
+        public readonly IConfiguration AppConfiguration;
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -41,6 +48,7 @@ namespace Configuration
             }
 
             app.UseRouting();
+
             //AddInMemoryCollection
 
             //app.Run(async (context) => //если использую AddInMemoryCollection
@@ -53,18 +61,25 @@ namespace Configuration
             //AppConfiguration["blog"] = "MyBlog";
             //AppConfiguration["post"] = "MyPost";
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync($"{AppConfiguration["name"]}"); //из строки в appsettings.json
-                });
-            });
+            //
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapGet("/", async context =>
+            //    {
+            //        await context.Response.WriteAsync($"{AppConfiguration["name"]}"); //из строки в appsettings.json or config.json
+            //    });
+            //});
 
             //app.UseEndpoints(endpoints =>
             //{
             //    app.endpoints.MapGet("/", (IConfiguration configuration)=>$"{configuration["name"]}");
             //});
+
+            app.Run(async (context) => 
+            {
+                var appConfig = AppConfiguration.GetSection("ConnectionStrings");
+                string connString = appConfig.GetValue<string>("MainConnection");//appConfig.GetSection("MainConnection").Value;
+            });
         }
     }
 }
