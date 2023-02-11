@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProviderConfiguration.Extentions;
+using ProviderConfiguration.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,12 @@ namespace ProviderConfiguration
         public Startup(IConfiguration configuration)
         {
             AppConfiguration = configuration;
-            var builder = new ConfigurationBuilder().AddMyTextFileConfig("config.txt");
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("config.json");
+                //.AddMyTextFileConfig("config.txt");
+            //User user = new User();
+            //AppConfiguration.Bind(user);
+            User user = AppConfiguration.Get<User>();
 
             AppConfiguration = builder.Build();
         }

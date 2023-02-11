@@ -1,0 +1,22 @@
+{
+  "title": "My title",
+  "description": "my description",
+  "posts": [
+    {
+      "postTitle": "My post title",
+      "postDescription": null,
+      "author": {
+        "name": "Nik",
+        "age": 30
+      }
+    },
+    {
+      "postTitle": "My post title2",
+      "postDescription": "my post description",
+      "author": {
+        "name": "Another author",
+        "age": 123
+      }
+    }
+  ]
+}
