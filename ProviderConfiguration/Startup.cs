@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using ProviderConfiguration.Extentions;
 using ProviderConfiguration.Models;
 using System;
@@ -25,6 +26,8 @@ namespace ProviderConfiguration
             //User user = new User();
             //AppConfiguration.Bind(user);
             User user = AppConfiguration.Get<User>();
+            //Blog blog = AppConfiguration.Get<Blog>();
+            //IList<Post> posts = AppConfiguration.GetSection("posts").Get<IList<Post>>();
 
             AppConfiguration = builder.Build();
         }
@@ -32,6 +35,7 @@ namespace ProviderConfiguration
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<Blog>(AppConfiguration); //записывает в конфигурацию этот объект и создает объект IOptions
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,11 +55,24 @@ namespace ProviderConfiguration
             //        await context.Response.WriteAsync("Hello World!");
             //    });
             //});
-            app.Run(async (context) =>
+            //app.Run(async (context) =>
+            //{
+            //    await context.Response.WriteAsync(
+            //        AppConfiguration["name"]);
+            //});
+
+            app.UseEndpoints(endpoints =>  //???????
             {
-                await context.Response.WriteAsync(
-                    AppConfiguration["name"]);
+                endpoints.MapGet("/", (IOptions <Blog> options) =>
+                {
+                    Blog blog = options.Value;
+                });
             });
+
+            app.Run (IOptions<Blog> options) =>
+             {
+                 Blog blog = options.Value;
+             });
         }
     }
 }
