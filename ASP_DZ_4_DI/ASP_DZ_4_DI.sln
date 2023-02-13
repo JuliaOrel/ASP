@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASP_DZ_4_Beverage", "..\ASP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Configuration", "..\Configuration\Configuration.csproj", "{BE772B24-4015-4890-AF8D-6FA41EA343AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderConfiguration", "..\ProviderConfiguration\ProviderConfiguration.csproj", "{33FB2CCF-3397-4F63-968B-D85EE1653F7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProviderConfiguration", "..\ProviderConfiguration\ProviderConfiguration.csproj", "{33FB2CCF-3397-4F63-968B-D85EE1653F7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASP_DZ_5_Configuration", "..\ASP_DZ_5_Configuration\ASP_DZ_5_Configuration.csproj", "{DACF3C38-E8FF-4455-AE3F-3CDC90030A13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{33FB2CCF-3397-4F63-968B-D85EE1653F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33FB2CCF-3397-4F63-968B-D85EE1653F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33FB2CCF-3397-4F63-968B-D85EE1653F7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DACF3C38-E8FF-4455-AE3F-3CDC90030A13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DACF3C38-E8FF-4455-AE3F-3CDC90030A13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DACF3C38-E8FF-4455-AE3F-3CDC90030A13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DACF3C38-E8FF-4455-AE3F-3CDC90030A13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

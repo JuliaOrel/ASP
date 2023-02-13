@@ -1,0 +1,17 @@
+{
+  "name": "Julia",
+  "lastname": "Orel",
+  "age": 34,
+  "disciplines": [
+    "C++",
+    "C#",
+    "Winforms",
+    "WPF",
+    "DB",
+    "System programming",
+    "Network programming",
+    "HTML/CSS",
+    "Javascript"
+  ]
+
+}
