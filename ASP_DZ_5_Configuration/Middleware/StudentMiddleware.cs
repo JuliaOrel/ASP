@@ -22,14 +22,15 @@ namespace ASP_DZ_5_Configuration.Middleware
         }
         public async Task InvokeAsync(HttpContext context)
         {
-            //StringBuilder stringBuilder = new StringBuilder();
-            //stringBuilder.Append($"<p>Name: {Student?.Name}</p>");
-            //stringBuilder.Append($"<p>Lastname: {Student?.Lastname}</p>");
-            //stringBuilder.Append($"<p>Age: {Student?.Age}</p>");
-            //stringBuilder.Append("<h3>Disciplines</h3><ul>");
-            //foreach (string disc in Student.Disciplines)
-            //    stringBuilder.Append($"<li>{disc}</li>");
-            //stringBuilder.Append("</ul>");
+            string path = context.Request.Path;
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append($"<p>Name: {Student?.Name}</p>");
+            stringBuilder.Append($"<p>Lastname: {Student?.Lastname}</p>");
+            stringBuilder.Append($"<p>Age: {Student?.Age}</p>");
+            stringBuilder.Append("<h3>Disciplines</h3><ul>");
+            foreach (string disc in Student.Disciplines)
+                stringBuilder.Append($"<li>{disc}</li>");
+            stringBuilder.Append("</ul>");
 
             //or
             var jsonOptions = new JsonSerializerOptions
@@ -37,9 +38,16 @@ namespace ASP_DZ_5_Configuration.Middleware
                 WriteIndented = true
             };
             string json = JsonSerializer.Serialize(Student, jsonOptions);
+            string json2 = JsonSerializer.Serialize(Student.Disciplines, jsonOptions);
 
             //await context.Response.WriteAsync(stringBuilder.ToString());
+            if (path == "/academy")
+                await context.Response.WriteAsync(stringBuilder.ToString());
+            else if(path=="/home")
             await context.Response.WriteAsync(json);
+            else
+                await context.Response.WriteAsync("Input home or academy into address");
+
         }
     }
 }
