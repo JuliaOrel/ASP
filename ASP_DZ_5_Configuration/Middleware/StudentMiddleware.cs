@@ -24,9 +24,9 @@ namespace ASP_DZ_5_Configuration.Middleware
         {
             string path = context.Request.Path;
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append($"<p>Name: {Student?.Name}</p>");
-            stringBuilder.Append($"<p>Lastname: {Student?.Lastname}</p>");
-            stringBuilder.Append($"<p>Age: {Student?.Age}</p>");
+            stringBuilder.Append($"<p>Academy</p>");
+            //stringBuilder.Append($"<p>Lastname: {Student?.Lastname}</p>");
+            //stringBuilder.Append($"<p>Age: {Student?.Age}</p>");
             stringBuilder.Append("<h3>Disciplines</h3><ul>");
             foreach (string disc in Student.Disciplines)
                 stringBuilder.Append($"<li>{disc}</li>");
