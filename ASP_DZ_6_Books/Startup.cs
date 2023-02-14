@@ -42,9 +42,9 @@ namespace ASP_DZ_6_Books
 
                 try
                 {
-                    //BooksContext context = services.GetRequiredService<BooksContext>();
+                    BooksContext context = services.GetRequiredService<BooksContext>();
                     await SeedData.Initialize(serviceProvider: services,
-                        configuration: Configuration, webHostEnvironment: env);
+                         webHostEnvironment: env, Configuration);
                 }
                 catch (System.Exception ex)
                 {

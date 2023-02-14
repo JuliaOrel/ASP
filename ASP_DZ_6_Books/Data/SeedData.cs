@@ -12,8 +12,8 @@ namespace ASP_DZ_6_Books.Data
 {
     public static class SeedData
     {
-        public static async Task Initialize(IServiceProvider serviceProvider, IConfiguration configuration,
-                IWebHostEnvironment webHostEnvironment)
+        public static async Task Initialize(IServiceProvider serviceProvider,
+                IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
             DbContextOptions<BooksContext> options =
                  serviceProvider.GetRequiredService<DbContextOptions<BooksContext>>();
