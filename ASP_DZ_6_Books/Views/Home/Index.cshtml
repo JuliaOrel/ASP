@@ -2,7 +2,52 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@model IEnumerable<ASP_DZ_6_Books.Models.Book>
+@*@foreach (var book in Model)
+    {
+        <div>@book.NameBook</div>
+        <div>@book.Image</div>
+    }*@
+
+@*<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NameBook)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FIOAuthor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+
+        </tr>
+    </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+            }
+        </tbody>
+    </table>*@
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col col-xl-3 col-lg-4 col-md-6 col-12 mb-5">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-truncate">@item.NameBook</h5>
+                    <p class="card-text text-truncate">@item.FIOAuthor</p>
+                    <div class="btn-group" role="group">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success"></a>
+                    </div>
+
+                </div>
+                <img src="data:image/*;base64,@(Convert.ToBase64String(item.Image)) " class="card-img-bottom" alt="@item.NameBook"/>
+            </div>
+
+        </div>
+    }
 </div>

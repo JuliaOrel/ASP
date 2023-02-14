@@ -23,11 +23,11 @@ namespace ASP_DZ_6_Books.Controllers
 
         }
 
-        public async Task<ActionResult<IEnumerable<Book>>> IndexAsync()
+        public IActionResult Index()
         {
             IQueryable<Book> books = _booksContext.Books;
 
-            return View(await books.ToListAsync());
+            return View(books);
         }
 
         public IActionResult Privacy()
