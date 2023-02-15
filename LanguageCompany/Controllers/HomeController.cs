@@ -1,4 +1,6 @@
 ﻿using LanguageCompany.Models;
+using LanguageCompany.Models.DTO;
+using LanguageCompany.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -18,11 +20,51 @@ namespace LanguageCompany.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+            Company google = new Company { Name="Google",Country="USA" };
+            Company microsoft = new Company { Name="Microsoft",Country="USA" };
+            Company oracle = new Company { Name="Oracle",Country="Czech" };
+            _companies = new List<Company>
+            {
+                google,
+                microsoft,
+                oracle
+            };
+
+            Language language1 = new Language { Name = "js", Company = google };
+            Language language2 = new Language { Name = "TS", Company = google };
+            Language language3 = new Language { Name = "C#", Company = microsoft };
+            Language language4 = new Language { Name = "F#", Company = microsoft };
+            Language language5 = new Language { Name = "VB", Company = microsoft };
+            Language language6 = new Language { Name = "java", Company = oracle };
+            _languages = new List<Language>
+            {
+                language1,
+                language2,
+                language3,
+                language4,
+                language5,
+                language6
+
+            };
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int companyId)
         {
-            return View();
+            List<CompanyDTO> companies = _companies
+                .Select(c=>new CompanyDTO {Id=c.Id, Name=c.Name})
+                .ToList();
+            companies.Insert(0, new CompanyDTO {Id=0,Name="All companies" });
+            IndexVM indexVM = new IndexVM
+            {
+                Languages = _languages,
+                Companies = companies,
+            };
+            if(companyId!=0)
+            {
+                indexVM.Languages = _languages
+                    .Where(l => l.Company.Id == companyId);
+            }
+            return View(indexVM);
         }
 
         public IActionResult Privacy()

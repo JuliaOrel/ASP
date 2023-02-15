@@ -9,6 +9,6 @@ namespace LanguageCompany.Models.ViewModels
     public class IndexVM
     {
         public IEnumerable<Language> Languages { get; set; } = new List<Language>();
-        public IEnumerable<CompanyDTO> MyProperty { get; set; } = new List<CompanyDTO>();
+        public IEnumerable<CompanyDTO> Companies { get; set; } = new List<CompanyDTO>();
     }
 }
