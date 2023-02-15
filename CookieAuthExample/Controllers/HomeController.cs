@@ -1,4 +1,5 @@
 ﻿using CookieAuthExample.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -22,10 +23,12 @@ namespace CookieAuthExample.Controllers
         {
             return View();
         }
-
+        [Authorize]
         public IActionResult Privacy()
         {
-            return View();
+            string name = HttpContext.User.Identity.Name;
+            return Content(name ?? "user's name is null");
+            
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
