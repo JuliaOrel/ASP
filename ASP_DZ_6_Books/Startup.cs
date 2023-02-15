@@ -22,7 +22,6 @@ namespace ASP_DZ_6_Books
         }
 
         public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -34,24 +33,9 @@ namespace ASP_DZ_6_Books
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            using (IServiceScope scope = app.ApplicationServices.CreateScope())
-            {
-                IServiceProvider services = scope.ServiceProvider;
-
-                try
-                {
-                    BooksContext context = services.GetRequiredService<BooksContext>();
-                    await SeedData.Initialize(serviceProvider: services,
-                         webHostEnvironment: env, Configuration);
-                }
-                catch (System.Exception ex)
-                {
-
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occured while seeding the database");
-                }
+           
                 if (env.IsDevelopment())
                 {
                     app.UseDeveloperExceptionPage();
@@ -75,7 +59,7 @@ namespace ASP_DZ_6_Books
                         name: "default",
                         pattern: "{controller=Home}/{action=Index}/{id?}");
                 });
-            }
+            
         }
     }
 }

@@ -14,9 +14,21 @@ namespace ASP_DZ_6_Books
     public class Program
     {
 
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host=CreateHostBuilder(args).Build();
+            using(var scope=host.Services.CreateScope())
+            {
+                var sp = scope.ServiceProvider;
+                BooksContext context = sp.GetRequiredService<BooksContext>();
+                var webHostEnv = sp.GetRequiredService<IWebHostEnvironment>();
+                var conf = sp.GetRequiredService<IConfiguration>();
+                await SeedData.Initialize(
+                    serviceProvider: sp,
+                    webHostEnvironment: webHostEnv,
+                    conf);
+            }
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
