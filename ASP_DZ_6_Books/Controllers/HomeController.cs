@@ -30,6 +30,19 @@ namespace ASP_DZ_6_Books.Controllers
             return View(await books.ToListAsync());
         }
 
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id is null)
+            {
+                return NotFound();
+            }
+
+            Book book = await _booksContext.Books.FirstOrDefaultAsync(m => m.Id == id);
+            
+            return View(book);
+
+        }
+
         public IActionResult Privacy()
         {
             return View();
