@@ -20,9 +20,9 @@ namespace LanguageCompany.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            Company google = new Company { Name="Google",Country="USA" };
-            Company microsoft = new Company { Name="Microsoft",Country="USA" };
-            Company oracle = new Company { Name="Oracle",Country="Czech" };
+            Company google = new Company {Id=1, Name="Google",Country="USA" };
+            Company microsoft = new Company {Id=2, Name="Microsoft",Country="USA" };
+            Company oracle = new Company {Id=3, Name="Oracle",Country="Czech" };
             _companies = new List<Company>
             {
                 google,
@@ -30,12 +30,12 @@ namespace LanguageCompany.Controllers
                 oracle
             };
 
-            Language language1 = new Language { Name = "js", Company = google };
-            Language language2 = new Language { Name = "TS", Company = google };
-            Language language3 = new Language { Name = "C#", Company = microsoft };
-            Language language4 = new Language { Name = "F#", Company = microsoft };
-            Language language5 = new Language { Name = "VB", Company = microsoft };
-            Language language6 = new Language { Name = "java", Company = oracle };
+            Language language1 = new Language {Id=1, Name = "js", Company = google };
+            Language language2 = new Language { Id = 2, Name = "TS", Company = google };
+            Language language3 = new Language { Id = 3, Name = "C#", Company = microsoft };
+            Language language4 = new Language { Id = 4, Name = "F#", Company = microsoft };
+            Language language5 = new Language { Id = 5, Name = "VB", Company = microsoft };
+            Language language6 = new Language { Id = 6, Name = "java", Company = oracle };
             _languages = new List<Language>
             {
                 language1,
