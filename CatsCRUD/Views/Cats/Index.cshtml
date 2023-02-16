@@ -1,0 +1,57 @@
+﻿@model IndexCatsVM
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<a asp-action="Create"
+   class="btn btn-outline-primary mb-5">Create</a>
+<form asp-action="Index" method="get">
+    <div class="row">
+        <div class="col col-md-4 col-12">
+            <div class="mb-3">
+                <select asp-for="BreedId"
+                        asp-items="@Model.BreedSL"
+                        class="form-select">
+                    <option selected="selected" value="0">All Cats</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col col-md-4 col-12">
+            <div class="mb-3">
+                <input asp-for="Search"
+                       class="form-control"
+                       placeholder="@nameof(Model.Search)" />
+
+            </div>
+            <div class="col col-md-4 col-12">
+                <div class="mb-3">
+                   <button type="submit" class="btn btn-success">Search</button>
+
+                </div>
+            </div>
+        </div>
+
+</form>
+
+<div class="row">
+    @foreach (Cat cat in Model.Cats)
+	{
+		 <div class="col col-xl-3 col-lg-4 col-md-6 col-12 mb-5">
+             <div class="card">
+                 <div class="card-body">
+                     <h5 class="card-title text-truncate">@cat.CatName</h5>
+                     <p class="card-text text-truncate">@cat.Description</p>
+                     <p class="card-text">
+                         <small class="text-muted text-truncate">
+
+                         </small>
+                     </p>
+                 </div>
+             </div>
+         </div>
+	}
+</div>
+
