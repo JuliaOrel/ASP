@@ -60,7 +60,7 @@ namespace CatsCRUD.Controllers
         // GET: Cats/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id == null || _context.Cats==null)
             {
                 return NotFound();
             }
@@ -72,8 +72,11 @@ namespace CatsCRUD.Controllers
             {
                 return NotFound();
             }
-
-            return View(cat);
+            DetailsCatsVM vM = new DetailsCatsVM
+            {
+                Cat=cat
+            };
+            return View(vM);
         }
 
         // GET: Cats/Create
