@@ -1,18 +1,19 @@
-﻿@using LanguageCompany.Models
-@using LanguageCompany.Models.DTO
-@using LanguageCompany.Models.ViewModels
+﻿
 
 @model IndexVM
   
 @{
     ViewData["Title"] = "Home Page";
 }
-@await Html.PartialAsync("_LanguagesPartial")
+@*@await Html.PartialAsync("_LanguagesPartial")
 @{ 
     await Html.RenderPartialAsync("_LanguagesPartial");
 }
 
-<form method="get">
+<partial name="_LanguagesPartial"></partial>*@
+
+<partial name="_CompaniesDropDownListPartial"model="Model.Companies" />
+@*<form method="get">
     <label>Choose the company</label>
     <select name="companyId" class="form-select">
         @foreach(CompanyDTO company in Model.Companies)
@@ -24,11 +25,11 @@
     <div class="mb-3">
         <input type="submit" value="Filter" class="btn btn-primary"/>
     </div>
-</form>
+</form>*@
 
 <hr />
-
-<table class="table table-striped">
+<partial name="_LanguagesPartial" model="Model.Languages" />
+@*<table class="table table-striped">
     <tr>
         <td>Name</td>
         <td>Company</td>
@@ -40,5 +41,5 @@
             <td>@language.Company.Name</td>
         </tr>
     }
-</table>
+</table>*@
 

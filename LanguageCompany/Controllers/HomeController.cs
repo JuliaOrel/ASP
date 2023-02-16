@@ -69,7 +69,8 @@ namespace LanguageCompany.Controllers
 
         public IActionResult Privacy()
         {
-            return View();
+            //return RedirectToAction(nameof(Index), new {companyId=2 });
+            return RedirectToRoute("default", new {controller="Home", action="Index", companyId=2 });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

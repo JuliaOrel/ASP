@@ -1,1 +1,19 @@
 ﻿<h2>Language Partial View</h2>
+
+@using LanguageCompany.Models
+
+
+@model IEnumerable<Language>
+<table class="table table-striped">
+    <tr>
+        <td>Name</td>
+        <td>Company</td>
+    </tr>
+    @foreach (Language language in Model)
+    {
+        <tr>
+            <td>@language.Name</td>
+            <td>@language.Company.Name</td>
+        </tr>
+    }
+</table>

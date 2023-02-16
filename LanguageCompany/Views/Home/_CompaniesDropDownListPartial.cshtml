@@ -1,0 +1,15 @@
+﻿
+@model IEnumerable<CompanyDTO>
+    <form method="get">
+        <label>Choose the company</label>
+        <select name="companyId" class="form-select">
+            @foreach(CompanyDTO company in Model)
+            {
+            <option value="@company.Id">@company.Name</option>
+            }
+
+        </select>
+        <div class="mb-3">
+            <input type="submit" value="Filter" class="btn btn-primary" />
+        </div>
+    </form>
