@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CatsCRUD.Data.Entities
+namespace CatsCRUD.Models.DTO
 {
-    public class Breed
+    public class BreedDTO
     {
         public int Id { get; set; }
-        
+        [Required]
+        [Display(Name = "Breed Name")]
         public string BreedName { get; set; }
-        public ICollection<Cat> Cats { get; set; }
+        public ICollection<CatDTO> Cats { get; set; }
     }
 }

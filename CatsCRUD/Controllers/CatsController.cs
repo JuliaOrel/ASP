@@ -9,6 +9,9 @@ using CatsCRUD.Data;
 using CatsCRUD.Data.Entities;
 using Microsoft.Extensions.Logging;
 using CatsCRUD.Models.ViewModels.CatsViewModels;
+using Microsoft.AspNetCore.Http;
+using AutoMapper;
+using CatsCRUD.Models.DTO;
 
 namespace CatsCRUD.Controllers
 {
@@ -16,11 +19,13 @@ namespace CatsCRUD.Controllers
     {
         private readonly CatsContext _context;
         private readonly ILogger _logger;
+        private readonly IMapper _mapper;
 
-        public CatsController(CatsContext context, ILoggerFactory loggerFactory)
+        public CatsController(CatsContext context, ILoggerFactory loggerFactory, IMapper mapper)
         {
             _context = context;
             _logger = loggerFactory.CreateLogger<CatsController>();
+            _mapper = mapper;
         }
 
         // GET: Cats
@@ -28,27 +33,28 @@ namespace CatsCRUD.Controllers
         {
             //var catsContext = _context.Cats.Include(c => c.Breed);
             //return View(await catsContext.ToListAsync());
-            IQueryable<Cat> cats = _context.Cats
+            IQueryable<Cat> catsIQ = _context.Cats
                 .Include(c => c.Breed)
                 .Where(c => c.IsDeleted == false);
             if(breedId>0)
             {
-                cats = cats.Where(c => c.BreedId == breedId);
+                catsIQ = catsIQ.Where(c => c.BreedId == breedId);
             }
             if(search is not null)
             {
-                cats = cats.Where(c => c.CatName.Contains(search));
+                catsIQ = catsIQ.Where(c => c.CatName.Contains(search));
             }
-            IQueryable<Breed> breeds = _context.Breeds;
+            IQueryable<Breed> breedsIQ = _context.Breeds;
+            IEnumerable<BreedDTO> breedDTOs = _mapper.Map<IEnumerable<BreedDTO>>(await breedsIQ.ToListAsync());
             SelectList breedsSL = new SelectList(
-                items:await breeds.ToListAsync(),
+                items: breedDTOs,
                 dataValueField:"Id",
                 dataTextField:"BreedName",
                 selectedValue:breedId
                 );
             IndexCatsVM vM = new IndexCatsVM
             {
-                Cats = await cats.ToListAsync(),
+                Cats =_mapper.Map<IEnumerable<CatDTO>>(await catsIQ.ToListAsync()), //await catsIQ.ToListAsync(),
                 BreedSL = breedsSL,
                 BreedId = breedId,
                 Search = search
@@ -74,7 +80,7 @@ namespace CatsCRUD.Controllers
             }
             DetailsCatsVM vM = new DetailsCatsVM
             {
-                Cat=cat
+                Cat=_mapper.Map<CatDTO>(cat)//cat
             };
             return View(vM);
         }
@@ -90,8 +96,9 @@ namespace CatsCRUD.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CatName,Description,Gender,Vaccinated,Image,IsDeleted,BreedId")] Cat cat)
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(/*[Bind("CatName,Description,Gender,Vaccinated,Image,BreedId")]*/ Cat cat,
+          IFormFile image  )
         {
             if (ModelState.IsValid)
             {

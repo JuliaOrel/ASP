@@ -1,60 +1,71 @@
-﻿@model CatsCRUD.Data.Entities.Cat
-
+﻿@using CatsCRUD.Models.ViewModels.CatsViewModels
+@model DetailsCatsVM
 @{
     ViewData["Title"] = "Details";
 }
-
 <h1>Details</h1>
+<div class="card mb-3 w-100">
+    <div class="row g-0">
+        <div class="col-md-6">
+            <img src="data:image/*;base64,@(Convert.ToBase64String(Model.Cat.Image!))"
+                 class="w-100"
+                 alt="@Model.Cat.CatName">
+        </div>
+        <div class="col-md-6">
+            <div class="card-body">
+                <h4 class="card-title">@Model.Cat.CatName</h4>
+                <p>
+                    <span class="fw-bold">
+                        @Html.DisplayNameFor(m => m.Cat.Breed.BreedName)
+                    </span>
+                    @Model.Cat.Breed!.BreedName
+                </p>
 
-<div>
-    <h4>Cat</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CatName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CatName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Vaccinated)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Vaccinated)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Breed)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Breed.BreedName)
-        </dd>
-    </dl>
+
+                <p>
+
+                    <span class="fw-bold">
+                        @Html.DisplayNameFor(m => m.Cat.Gender)
+                    </span>
+                    @Model.Cat.Gender
+
+                </p>
+                <p class="card-text" style="white-space: pre-line">
+                    @Model.Cat.Description
+                </p>
+                <p class="card-text">
+                    <span class="fw-bold fs-3">
+                        @{
+                            string vaccinated =
+@"<span class='badge bg-light text-success fw-bold'>
+                                        Vaccinated
+                                        </span>";
+                            string noVaccinated =
+@"<span class='badge bg-light text-warning fw-bold'>
+                                        No Vaccinated
+                                        </span>";
+                        }
+                        @(Model.Cat.Vaccinated == true ?
+                            Html.Raw(vaccinated) :
+                            Html.Raw(noVaccinated))
+                    </span>
+                </p>
+
+
+                <p class="card-text">
+                    <small class="text-muted">
+                        It's all about the cats...
+                    </small>
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit"
+       asp-route-id="@Model.Cat.Id"
+class="btn btn-warning me-3">Edit</a> |
+    <a asp-action="Index"
+       class="btn btn-primary ms-3">Back to List</a>
 </div>
+
