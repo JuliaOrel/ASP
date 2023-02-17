@@ -12,6 +12,7 @@ using CatsCRUD.Models.ViewModels.CatsViewModels;
 using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using CatsCRUD.Models.DTO;
+using System.IO;
 
 namespace CatsCRUD.Controllers
 {
@@ -49,8 +50,7 @@ namespace CatsCRUD.Controllers
             SelectList breedsSL = new SelectList(
                 items: breedDTOs,
                 dataValueField:"Id",
-                dataTextField:"BreedName",
-                selectedValue:breedId
+                dataTextField:"BreedName"
                 );
             IndexCatsVM vM = new IndexCatsVM
             {
@@ -86,10 +86,21 @@ namespace CatsCRUD.Controllers
         }
 
         // GET: Cats/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
-            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "BreedName");
-            return View();
+            IQueryable<Breed> breedsIQ = _context.Breeds;
+            IEnumerable<BreedDTO> breedDTOs = _mapper
+                .Map<IEnumerable<BreedDTO>>(await breedsIQ.ToListAsync());
+            SelectList breedsSL = new SelectList(
+               items: breedDTOs,
+               dataValueField: "Id",
+               dataTextField: "BreedName"
+               );
+            CreateCatVM vM = new CreateCatVM
+            {
+                BreedSL = breedsSL
+            };
+            return View(vM);
         }
 
         // POST: Cats/Create
@@ -97,17 +108,36 @@ namespace CatsCRUD.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(/*[Bind("CatName,Description,Gender,Vaccinated,Image,BreedId")]*/ Cat cat,
-          IFormFile image  )
+        public async Task<IActionResult> Create(CreateCatVM vM)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid==false)
             {
-                _context.Add(cat);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                IQueryable<Breed> breedsIQ = _context.Breeds;
+                IEnumerable<BreedDTO> breedDTOs = _mapper
+                    .Map<IEnumerable<BreedDTO>>(await breedsIQ.ToListAsync());
+                SelectList breedsSL = new SelectList(
+                   items: breedDTOs,
+                   dataValueField: "Id",
+                   dataTextField: "BreedName",
+                   selectedValue: vM.Cat.BreedId
+                   );
+                vM.BreedSL = breedsSL;
+                foreach (var item in ModelState.Values.SelectMany(e=>e.Errors))
+                {
+                    _logger.LogError(item.ErrorMessage);
+                }
+                return View(vM);
             }
-            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "BreedName", cat.BreedId);
-            return View(cat);
+            byte[] dataImage = null;
+            using(System.IO.BinaryReader br =new BinaryReader(vM.Image.OpenReadStream()))
+            {
+                dataImage = br.ReadBytes((int)vM.Image.Length);
+                vM.Cat.Image = dataImage;
+            }
+            Cat catToCreate = _mapper.Map<Cat>(vM.Cat);
+            _context.Cats.Add(catToCreate);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Cats/Edit/5
