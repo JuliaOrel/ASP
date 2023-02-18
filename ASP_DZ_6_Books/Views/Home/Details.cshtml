@@ -1,12 +1,47 @@
-﻿@model ASP_DZ_6_Books.Models.Book
-<h3>Details of book</h3>
-<ul>
-    <li>@Html.ViewData.Model.NameBook</li>
-    <li>@Html.ViewData.Model.FIOAuthor</li>
-    <li>@Html.ViewData.Model.Genre</li>
-    <li>@Html.ViewData.Model.Publisher</li>
-    <li>@Html.ViewData.Model.YearIssue</li>
-   
-</ul>
+﻿@using ASP_DZ_6_Books.Models.ViewModels.BooksViewModels
+@model DetailsBooksVM
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+<div class="card mb-3 w-100">
+    <div class="row g-0">
+        <div class="col-md-6">
+            <img src="data:image/*;base64,@(Convert.ToBase64String(Model.Book.Image!))"
+                 class="w-100"
+                 alt="@Model.Book.NameBook">
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="card-body">
+                <h4 class="card-title">@Model.Book.NameBook</h4>
+                <p class="card-text" style="white-space: pre-line">
+                    @Model.Book.FIOAuthor
+                </p>
+                <p class="card-text" style="white-space: pre-line">
+                    @Model.Book.Genre
+                </p>
+                <p class="card-text" style="white-space: pre-line">
+                    @Model.Book.Publisher
+                </p>
+                <p class="card-text" style="white-space: pre-line">
+                    @Model.Book.YearIssue
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Edit"
+       asp-route-id="@Model.Book.Id"
+       class="btn btn-warning me-3">Edit</a> |
+    <a asp-action="Index"
+       class="btn btn-primary ms-3">Back to List</a>
+</div>
+
 
 

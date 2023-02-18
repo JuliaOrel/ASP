@@ -1,8 +1,10 @@
-﻿@{
+﻿
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-@model IEnumerable<ASP_DZ_6_Books.Models.Book>
+@model IndexBooksVM
 @*@foreach (var book in Model)
     {
         <div>@book.NameBook</div>
@@ -31,21 +33,30 @@
             }
         </tbody>
     </table>*@
+<h1>Index</h1>
+<a asp-action="Create"
+   class="btn btn-outline-primary mb-5">Create</a>
 
 <div class="row">
-    @foreach (var item in Model)
+    @foreach (BookDTO book in Model.Books)
     {
         <div class="col col-xl-3 col-lg-4 col-md-6 col-12 mb-5">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title text-truncate">@item.NameBook</h5>
-                    <p class="card-text text-truncate">@item.FIOAuthor</p>
-                    <div class="btn-group" role="group">
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success">Details</a>
+                    <h5 class="card-title text-truncate">@book.NameBook</h5>
+                    <p class="card-text text-truncate">@book.FIOAuthor</p>
+                    <p class="card-text">
+                    
+                    </p>
+                    <div class=" btn-group btn-group-sm" role="group">
+                        <a asp-action="Details"
+                           asp-route-id="@book.Id" class="btn btn-success">Details</a>
+                        <a asp-action="Edit"
+                           asp-route-id="@book.Id" class="btn btn-warning">Edit</a>
                     </div>
-
                 </div>
-                <img src="data:image/*;base64,@(Convert.ToBase64String(item.Image)) " class="card-img-bottom" height="400" alt="@item.NameBook"/>
+                <img src="data:image/*;base64,@(Convert.ToBase64String(book.Image))" class="card-img-bottom"
+                     alt="@book.NameBook" />
             </div>
 
         </div>

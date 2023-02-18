@@ -1,5 +1,8 @@
 ﻿using ASP_DZ_6_Books.Data;
 using ASP_DZ_6_Books.Models;
+using ASP_DZ_6_Books.Models.DTO;
+using ASP_DZ_6_Books.Models.ViewModels.BooksViewModels;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -15,11 +18,13 @@ namespace ASP_DZ_6_Books.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly BooksContext _booksContext;
+        private readonly IMapper _mapper;
 
-        public HomeController(ILogger<HomeController> logger, BooksContext context)
+        public HomeController(ILoggerFactory loggerFactory, BooksContext context, IMapper mapper)
         {
-            _logger = logger;
+            _logger = loggerFactory.CreateLogger<HomeController>();
             _booksContext = context;
+            _mapper = mapper;
 
         }
 
@@ -27,21 +32,75 @@ namespace ASP_DZ_6_Books.Controllers
         {
             IQueryable<Book> books = _booksContext.Books;
 
-            return View(await books.ToListAsync());
+            IEnumerable<BookDTO> breedsDTO = _mapper
+                .Map<IEnumerable<BookDTO>>(await books.ToListAsync());
+
+            IndexBooksVM vM = new IndexBooksVM
+            {
+                Books = _mapper.Map<IEnumerable<BookDTO>>(await books.ToListAsync()),
+            };
+
+
+            return View(vM);
         }
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id is null)
+            if (id == null || _booksContext.Books == null)
             {
                 return NotFound();
             }
 
-            Book book = await _booksContext.Books.FirstOrDefaultAsync(m => m.Id == id);
-            
-            return View(book);
+            Book book = await _booksContext.Books
+                .FirstOrDefaultAsync(m => m.Id == id);
 
+            if (book == null)
+            {
+                return NotFound();
+            }
+            DetailsBooksVM vM = new DetailsBooksVM
+            {
+                Book = _mapper.Map<BookDTO>(book)
+            };
+
+
+            return View(vM);
         }
+
+        public async Task<IActionResult> CreateAsync()
+        {
+            IQueryable<Book> books = _booksContext.Books;
+
+            IEnumerable<BookDTO> booksDTO = _mapper
+                .Map<IEnumerable<BookDTO>>(await books.ToListAsync());
+            CreateBooksVM vM = new CreateBooksVM();
+
+            return View(vM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CreateBooksVM vM)
+        {
+            if (ModelState.IsValid == false)
+            {
+                IQueryable<Book> books = _booksContext.Books;
+
+                IEnumerable<BookDTO> booksDTO = _mapper
+                    .Map<IEnumerable<BookDTO>>(await books.ToListAsync());
+
+
+                foreach (var item in ModelState.Values.SelectMany(e => e.Errors))
+                {
+                    _logger.LogError(item.ErrorMessage);
+                }
+                
+
+            }
+            return View(vM);
+        }
+
+
 
         public IActionResult Privacy()
         {
