@@ -111,9 +111,63 @@ namespace ASP_DZ_6_Books.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || _booksContext.Books == null)
+            {
+                return NotFound();
+            }
+            Book book = await _booksContext.Books.FindAsync(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            IQueryable<Book> books = _booksContext.Books;
+            
+            EditBookVM vM = new EditBookVM
+            {
+                Book = _mapper.Map<BookDTO>(book),
+                
+            };
+            return View(vM);
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, EditBookVM vM)
+        {
+            if (id != vM.Book.Id)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid == false)
+            {
+                
+                return View(vM);
+            }
+            if (vM.Image is not null)
+            {
+                byte[] dataImage = null;
+                using (System.IO.BinaryReader br = new BinaryReader(vM.Image.OpenReadStream()))
+                {
+                    dataImage = br.ReadBytes((int)vM.Image.Length);
+                    vM.Book.Image = dataImage;
+                }
+            }
 
-        public IActionResult Privacy()
+            try
+            {
+                Book bookToEdit = _mapper.Map<Book>(vM.Book);
+                _booksContext.Books.Update(bookToEdit);
+                await _booksContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+            public IActionResult Privacy()
         {
             return View();
         }
