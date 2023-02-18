@@ -37,11 +37,11 @@ namespace CatsCRUD.Controllers
             IQueryable<Cat> catsIQ = _context.Cats
                 .Include(c => c.Breed)
                 .Where(c => c.IsDeleted == false);
-            if(breedId>0)
+            if (breedId > 0)
             {
                 catsIQ = catsIQ.Where(c => c.BreedId == breedId);
             }
-            if(search is not null)
+            if (search is not null)
             {
                 catsIQ = catsIQ.Where(c => c.CatName.Contains(search));
             }
@@ -49,12 +49,12 @@ namespace CatsCRUD.Controllers
             IEnumerable<BreedDTO> breedDTOs = _mapper.Map<IEnumerable<BreedDTO>>(await breedsIQ.ToListAsync());
             SelectList breedsSL = new SelectList(
                 items: breedDTOs,
-                dataValueField:"Id",
-                dataTextField:"BreedName"
+                dataValueField: "Id",
+                dataTextField: "BreedName"
                 );
             IndexCatsVM vM = new IndexCatsVM
             {
-                Cats =_mapper.Map<IEnumerable<CatDTO>>(await catsIQ.ToListAsync()), //await catsIQ.ToListAsync(),
+                Cats = _mapper.Map<IEnumerable<CatDTO>>(await catsIQ.ToListAsync()), //await catsIQ.ToListAsync(),
                 BreedSL = breedsSL,
                 BreedId = breedId,
                 Search = search
@@ -66,21 +66,21 @@ namespace CatsCRUD.Controllers
         // GET: Cats/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Cats==null)
+            if (id == null || _context.Cats == null)
             {
                 return NotFound();
             }
 
-            var cat = await _context.Cats
+            Cat cat = await _context.Cats
                 .Include(c => c.Breed)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id && m.IsDeleted==false);
             if (cat == null)
             {
                 return NotFound();
             }
             DetailsCatsVM vM = new DetailsCatsVM
             {
-                Cat=_mapper.Map<CatDTO>(cat)//cat
+                Cat = _mapper.Map<CatDTO>(cat)//cat
             };
             return View(vM);
         }
@@ -110,7 +110,7 @@ namespace CatsCRUD.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateCatVM vM)
         {
-            if (ModelState.IsValid==false)
+            if (ModelState.IsValid == false)
             {
                 IQueryable<Breed> breedsIQ = _context.Breeds;
                 IEnumerable<BreedDTO> breedDTOs = _mapper
@@ -122,14 +122,14 @@ namespace CatsCRUD.Controllers
                    selectedValue: vM.Cat.BreedId
                    );
                 vM.BreedSL = breedsSL;
-                foreach (var item in ModelState.Values.SelectMany(e=>e.Errors))
+                foreach (var item in ModelState.Values.SelectMany(e => e.Errors))
                 {
                     _logger.LogError(item.ErrorMessage);
                 }
                 return View(vM);
             }
             byte[] dataImage = null;
-            using(System.IO.BinaryReader br =new BinaryReader(vM.Image.OpenReadStream()))
+            using (System.IO.BinaryReader br = new BinaryReader(vM.Image.OpenReadStream()))
             {
                 dataImage = br.ReadBytes((int)vM.Image.Length);
                 vM.Cat.Image = dataImage;
@@ -149,7 +149,7 @@ namespace CatsCRUD.Controllers
             }
 
             var cat = await _context.Cats.FindAsync(id);
-            if (cat == null)
+            if (cat == null || cat.IsDeleted==true)
             {
                 return NotFound();
             }
@@ -182,7 +182,7 @@ namespace CatsCRUD.Controllers
                 return NotFound();
             }
 
-            if(ModelState.IsValid==false)
+            if (ModelState.IsValid == false)
             {
                 IQueryable<Breed> breedsIQ = _context.Breeds;
                 IEnumerable<BreedDTO> breedDTOs = _mapper
@@ -196,7 +196,7 @@ namespace CatsCRUD.Controllers
                 vM.BreedSL = breedsSL;
                 return View(vM);
             }
-            if(vM.Image is not null)
+            if (vM.Image is not null)
             {
                 byte[] dataImage = null;
                 using (System.IO.BinaryReader br = new BinaryReader(vM.Image.OpenReadStream()))
@@ -205,28 +205,25 @@ namespace CatsCRUD.Controllers
                     vM.Cat.Image = dataImage;
                 }
             }
-            if (ModelState.IsValid)
+
+            try
             {
-                try
-                {
-                    _context.Update(cat);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CatExists(cat.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                Cat catToEdit = _mapper.Map<Cat>(vM.Cat);
+                _context.Cats.Update(catToEdit);
+                await _context.SaveChangesAsync();
             }
-            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "BreedName", cat.BreedId);
-            return View(cat);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CatExists(vM.Cat.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Cats/Delete/5
@@ -237,15 +234,18 @@ namespace CatsCRUD.Controllers
                 return NotFound();
             }
 
-            var cat = await _context.Cats
+            Cat cat = await _context.Cats
                 .Include(c => c.Breed)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cat == null)
             {
                 return NotFound();
             }
-
-            return View(cat);
+            DeleteCatVM vM = new DeleteCatVM
+            {
+                Cat = _mapper.Map<CatDTO>(cat)
+            };
+            return View(vM);
         }
 
         // POST: Cats/Delete/5
@@ -253,8 +253,16 @@ namespace CatsCRUD.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cat = await _context.Cats.FindAsync(id);
-            _context.Cats.Remove(cat);
+            if(_context.Cats==null)
+            {
+                return Problem("Entity set 'CatsContext.Cats' is null");
+            }
+            Cat cat = await _context.Cats.FindAsync(id);
+            //_context.Cats.Remove(cat);
+            if(cat!=null)
+            {
+                cat.IsDeleted = true;
+            }
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
