@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -75,7 +76,7 @@ namespace ASP_DZ_6_Books.Controllers
                 .Map<IEnumerable<BookDTO>>(await books.ToListAsync());
             CreateBooksVM vM = new CreateBooksVM();
 
-            return View(vM);
+            return View();
         }
 
         [HttpPost]
@@ -94,10 +95,20 @@ namespace ASP_DZ_6_Books.Controllers
                 {
                     _logger.LogError(item.ErrorMessage);
                 }
-                
+                return View(vM);
 
             }
-            return View(vM);
+            
+            byte[] dataImage = null;
+            using (System.IO.BinaryReader br = new BinaryReader(vM.Image.OpenReadStream()))
+            {
+                dataImage = br.ReadBytes((int)vM.Image.Length);
+                vM.Book.Image = dataImage;
+            }
+            Book bookToCreate = _mapper.Map<Book>(vM.Book);
+            _booksContext.Books.Add(bookToCreate);
+            await _booksContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
 

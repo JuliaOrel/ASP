@@ -8,12 +8,11 @@ using System.Threading.Tasks;
 
 namespace ASP_DZ_6_Books.Models.ViewModels.BooksViewModels
 {
-    public class CreateBooksVM
+    public class EditBookVM
     {
         public BookDTO Book { get; set; }
 
         [Required]
         public IFormFile Image { get; set; }
-
     }
 }
