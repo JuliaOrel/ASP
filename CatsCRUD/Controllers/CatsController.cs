@@ -153,8 +153,21 @@ namespace CatsCRUD.Controllers
             {
                 return NotFound();
             }
-            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "BreedName", cat.BreedId);
-            return View(cat);
+            IQueryable<Breed> breedsIQ = _context.Breeds;
+            IEnumerable<BreedDTO> breedDTOs = _mapper
+                .Map<IEnumerable<BreedDTO>>(await breedsIQ.ToListAsync());
+            SelectList breedsSL = new SelectList(
+               items: breedDTOs,
+               dataValueField: "Id",
+               dataTextField: "BreedName",
+               selectedValue: cat.BreedId
+               );
+            EditCatVM vM = new EditCatVM
+            {
+                Cat = _mapper.Map<CatDTO>(cat),
+                BreedSL = breedsSL
+            };
+            return View(vM);
         }
 
         // POST: Cats/Edit/5
@@ -162,13 +175,36 @@ namespace CatsCRUD.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CatName,Description,Gender,Vaccinated,Image,IsDeleted,BreedId")] Cat cat)
+        public async Task<IActionResult> Edit(int id, EditCatVM vM)
         {
-            if (id != cat.Id)
+            if (id != vM.Cat.Id)
             {
                 return NotFound();
             }
 
+            if(ModelState.IsValid==false)
+            {
+                IQueryable<Breed> breedsIQ = _context.Breeds;
+                IEnumerable<BreedDTO> breedDTOs = _mapper
+                    .Map<IEnumerable<BreedDTO>>(await breedsIQ.ToListAsync());
+                SelectList breedsSL = new SelectList(
+                   items: breedDTOs,
+                   dataValueField: "Id",
+                   dataTextField: "BreedName",
+                   selectedValue: vM.Cat.BreedId
+                   );
+                vM.BreedSL = breedsSL;
+                return View(vM);
+            }
+            if(vM.Image is not null)
+            {
+                byte[] dataImage = null;
+                using (System.IO.BinaryReader br = new BinaryReader(vM.Image.OpenReadStream()))
+                {
+                    dataImage = br.ReadBytes((int)vM.Image.Length);
+                    vM.Cat.Image = dataImage;
+                }
+            }
             if (ModelState.IsValid)
             {
                 try
