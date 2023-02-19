@@ -1,18 +1,20 @@
-﻿@model IEnumerable<ModelBinding.Models.Trail>
+﻿@*@model IEnumerable<ModelBinding.Models.Trail>*@
+@model IEnumerable<ModelBinding.Models.TrailVM>
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <h2>Trails</h2>
 <div class="display-3 text-center">Trails</div>
-<a asp-action="Create" class="btn btn-primary mb-3">Create Trail</a>
+<a asp-action="CreateTrail" class="btn btn-primary mb-3">Create Trail</a>
 <table class="table table-striped">
-    @foreach (Trail trail in Model)
+    @foreach (TrailVM trail in Model)
     {
         <tr>
             <td>@trail.Id</td>
             <td>@trail.Name</td>
             <td>@trail.TrailLength</td>
+            <td>@trail.DisplayTrailLength</td>
         </tr>
     }
 </table>

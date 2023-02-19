@@ -1,4 +1,5 @@
-﻿@model ModelBinding.Models.Trail
+﻿@*@model ModelBinding.Models.Trail*@
+@model ModelBinding.Models.TrailVM
 
 <h1>CreateTrail</h1>
 
@@ -6,16 +7,19 @@
     <div class="mb-3 w-50">
         <label asp-for="Name" class="form-label"></label>
         <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
     <div class="mb-3 w-50">
-        <label for="kilometers" class="form-label">Km</label>
-        <input name="kilometers" type="number" max="1000" class="form-control" />
+        <label asp-for="TrailLengthKm" class="form-label"></label>
+        <input asp-for="TrailLengthKm" type="number" class="form-control" />
+        <span asp-validation-for="TrailLengthKm" class="text-danger"></span>
     </div>
 
     <div class="mb-3 w-50">
-        <label for="meters" class="form-label">M</label>
-        <input name="meters" type="number" max="1000" class="form-control" />
+        <label asp-for="TrailLengthM" class="form-label"></label>
+        <input asp-for="TrailLengthM" type="number" max="1000" class="form-control" />
+        <span asp-validation-for="TrailLengthM" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <input type="submit" value="Add" class="btn btn-success" />

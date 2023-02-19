@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ModelBinding.ModelBindings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,10 @@ namespace ModelBinding
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews();//configure=>
+            //{
+                //configure.ModelBinderProviders.Insert(0, new TrailLengthModelBinderProvider());
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +49,22 @@ namespace ModelBinding
             app.UseRouting();
 
             app.UseAuthorization();
+
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute(
+            //        name: "UserData",
+            //        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+            //});
+
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapAreaControllerRoute(
+                    name: "userDataRoute",
+                    areaName:"UserData",
+                    pattern: "userData/{controller=Home}/{action=Index}/{id?}");//без userData будет по умолчанию заходить сюда
+            });
 
             app.UseEndpoints(endpoints =>
             {
