@@ -1,0 +1,23 @@
+﻿@model ModelBinding.Models.Trail
+
+<h1>CreateTrail</h1>
+
+<form asp-action="CreateTrail" method="post">
+    <div class="mb-3 w-50">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="mb-3 w-50">
+        <label for="kilometers" class="form-label">Km</label>
+        <input name="kilometers" type="number" max="1000" class="form-control" />
+    </div>
+
+    <div class="mb-3 w-50">
+        <label for="meters" class="form-label">M</label>
+        <input name="meters" type="number" max="1000" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <input type="submit" value="Add" class="btn btn-success" />
+    </div>
+</form>
