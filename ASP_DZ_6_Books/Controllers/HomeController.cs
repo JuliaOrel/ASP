@@ -29,16 +29,20 @@ namespace ASP_DZ_6_Books.Controllers
 
         }
 
-        public async Task<ActionResult<IEnumerable<Book>>> IndexAsync()
+        public async Task<ActionResult<IEnumerable<Book>>> IndexAsync(string search)
         {
-            IQueryable<Book> books = _booksContext.Books;
-
-            IEnumerable<BookDTO> breedsDTO = _mapper
-                .Map<IEnumerable<BookDTO>>(await books.ToListAsync());
+            IQueryable<Book> books = _booksContext.Books.Where(b=>b.IsDeleted==false);
+            if (search is not null)
+            {
+                books = books.Where(b => b.NameBook.Contains(search));
+            }
+            //IEnumerable<BookDTO> breedsDTO = _mapper
+            //    .Map<IEnumerable<BookDTO>>(await books.ToListAsync());
 
             IndexBooksVM vM = new IndexBooksVM
             {
                 Books = _mapper.Map<IEnumerable<BookDTO>>(await books.ToListAsync()),
+                Search = search
             };
 
 
@@ -167,7 +171,44 @@ namespace ASP_DZ_6_Books.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-            public IActionResult Privacy()
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _booksContext.Books == null)
+            {
+                return NotFound();
+            }
+            var book = await _booksContext.Books
+            .FirstOrDefaultAsync(m => m.Id == id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            DeleteBookVM vM = new DeleteBookVM
+            {
+                Book = _mapper.Map<BookDTO>(book)
+            };
+            return View(vM);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_booksContext.Books == null)
+            {
+                return Problem("Entity set 'CatsContext.Cats' is null.");
+            }
+            Book book = await _booksContext.Books.FindAsync(id);
+            if (book != null)
+            {
+                // _context.Cats.Remove(cat);
+                book.IsDeleted = true;
+            }
+            await _booksContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        public IActionResult Privacy()
         {
             return View();
         }

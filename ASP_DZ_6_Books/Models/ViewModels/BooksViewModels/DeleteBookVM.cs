@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace ASP_DZ_6_Books.Models.ViewModels.BooksViewModels
 {
-    public class IndexBooksVM
+    public class DeleteBookVM
     {
-        public IEnumerable<BookDTO> Books { get; set; }
-        public string Search { get; set; }
+        public BookDTO Book { get; set; }
     }
-       
 }

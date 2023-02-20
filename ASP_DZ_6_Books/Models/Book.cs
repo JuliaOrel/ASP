@@ -16,6 +16,7 @@ namespace ASP_DZ_6_Books.Models
         public string Genre { get; set; }
         public string Publisher { get; set; }
         public int YearIssue { get; set; }
+        public bool IsDeleted { get; set; }
         public byte[] Image { get; set; }
     }
 }
