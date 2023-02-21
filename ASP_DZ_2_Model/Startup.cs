@@ -1,3 +1,4 @@
+using ASP_DZ_2_Model.AutoMapperProfiles;
 using ASP_DZ_2_Model.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,6 +32,7 @@ namespace ASP_DZ_2_Model
                 });
 
             services.AddControllersWithViews();
+            services.AddAutoMapper(typeof(MovieProfile), typeof(SessionProfile));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

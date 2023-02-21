@@ -1,27 +1,56 @@
-﻿<table class="table table-striped">
-    <tr>
-        <td>Name</td>
-        <td>Session list</td>
-        <td>Count of sessions</td>
-        <td>Details</td>
+﻿@model IndexMoviesVM
+    <a asp-action="Create"
+       class="btn btn-outline-primary mb-5">Create</a>
+<form asp-action="Movie" method="get">
+    <div class="col col-md-4 col-12">
+        <div class="mb-3">
+            <input asp-for="Search"
+                   class="form-control"
+                   placeholder="@nameof(Model.Search)" />
+        </div>
+    </div>
+    <div class="col col-md-4 col-12">
+        <div class="mb-3">
+            <button type="submit" class="btn btn-success">Search</button>
+        </div>
+    </div>
+</form>
+        <table class="table table-striped">
+            <tr>
+                <td>Name</td>
+                <td>Session list</td>
+                <td>Count of sessions</td>
+                <td>Details</td>
+                <td>Functions</td>
 
-    </tr>
-    @foreach (var movie in Model)
-    {
-        <tr>
-            <td>@movie.Name</td>
-            <td>
-                @foreach (Session session in movie.Sessions)
-                {
-                    <div class="m-1">@session.TimeSession</div>
+            </tr>
+            @foreach (var movie in Model.Movies)
+            {
+                <tr>
+                    <td>@movie.Name</td>
+                    <td>
+                        @foreach (var session in movie.Sessions)
+                        {
+                            <div class="m-1">@session.TimeSession</div>
 
-                }
-            </td>
-            <td>Count of sessions: @movie.Sessions.Count</td>
-            <td>
-                <a asp-action="Details" asp-route-id="@movie.ID">Learn More</a>
-            </td>
-        </tr>
+                        }
+                    </td>
+                    <td>Count of sessions: @movie.Sessions.Count</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@movie.ID">Learn More</a>
+                    </td>
+                   
+                    <td>
+                        <a asp-action="Edit"
+                           asp-route-id="@Model.MovieId"
+                           class="btn btn-outline-warning">Edit</a>
+                    </td>
+                    <td>
+                        <a asp-action="Delete"
+                           asp-route-id="@Model.MovieId"
+                           class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
 
-    }
-</table>
+            }
+        </table>

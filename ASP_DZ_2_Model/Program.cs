@@ -18,24 +18,19 @@ namespace ASP_DZ_2_Model
             //CreateHostBuilder(args).Build().Run();
             var host = CreateHostBuilder(args).Build();
 
-            using (IServiceScope scope = host.Services.CreateScope())
+            using (var scope = host.Services.CreateScope())
             {
-                IServiceProvider services = scope.ServiceProvider;
-
-                try
-                {
-                    MoviesContext context = services.GetRequiredService<MoviesContext>();
-                    await SeedData.Initialize(context);
-                }
-                catch (System.Exception ex)
-                {
-
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occured while seeding the database");
-                }
+                var sp = scope.ServiceProvider;
+                MoviesContext context = sp.GetRequiredService<MoviesContext>();
+                var webHostEnv = sp.GetRequiredService<IWebHostEnvironment>();
+                var conf = sp.GetRequiredService<IConfiguration>();
+                await SeedData.Initialize(
+                    serviceProvider: sp,
+                    webHostEnvironment: webHostEnv,
+                    conf);
             }
-            host.Run();
 
+            host.Run();
 
         }
 
@@ -44,7 +39,7 @@ namespace ASP_DZ_2_Model
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                   
+
                 });
     }
 }

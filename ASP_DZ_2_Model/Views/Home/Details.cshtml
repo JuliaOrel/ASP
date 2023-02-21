@@ -1,16 +1,16 @@
-﻿@model ASP_DZ_2_Model.Models.Movie
+﻿@model DetailsMoviesVM
 @*@model2 ASP_DZ_2_Model.Models.Session*@
 <h3>Details of movie</h3>
 <ul>
-    <li>@Html.ViewData.Model.Name</li>
-    <li>@Html.ViewData.Model.Genre</li>
-    <li>@Html.ViewData.Model.Director</li>
-    <li>@Html.ViewData.Model.Description</li>
+    <li>@Model.Movie.Name</li>
+    <li>@Model.Movie.Genre</li>
+    <li>@Model.Movie.Director</li>
+    <li>@Model.Movie.Description</li>
     <li>Sessions:</li>
 </ul>
 
 <ol>
-    @foreach (var session in Model.Sessions)
+    @foreach (var session in Model.Movie.Sessions)
     {
         <li>@session.TimeSession</li>
     }

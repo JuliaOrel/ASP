@@ -1,4 +1,8 @@
 ﻿using ASP_DZ_2_Model.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +12,20 @@ namespace ASP_DZ_2_Model.Data
 {
     public static class SeedData
     {
-        public static async Task Initialize(MoviesContext context)
+        public static async Task Initialize(IServiceProvider serviceProvider, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
-            if (!context.Movies.Any())
+            DbContextOptions<MoviesContext> options = serviceProvider.GetRequiredService<DbContextOptions<MoviesContext>>();
+            using (MoviesContext context = new MoviesContext(options))
             {
-               
+                //context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+                if (context.Movies.Any())
+                {
+                    return;
+                }
+
+
+
                 Movie movie1 = new Movie
                 {
                     Name = "Men in black",
@@ -50,11 +61,13 @@ namespace ASP_DZ_2_Model.Data
                     movie2
                 };
 
-               context.Movies.AddRange(movies);
-               context.Sessions.AddRange(sessionList1);
-               context.Sessions.AddRange(sessionList2);
+                context.Movies.AddRange(movies);
+                context.Sessions.AddRange(sessionList1);
+                context.Sessions.AddRange(sessionList2);
                 await context.SaveChangesAsync();
             }
+        
+            
         }
     }
 }
