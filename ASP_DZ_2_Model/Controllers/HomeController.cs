@@ -47,10 +47,10 @@ namespace ASP_DZ_2_Model.Controllers
                 sessionsIQ = sessionsIQ.Where(c => c.Movie.Name.Contains(search));
             }
             IQueryable<Movie> moviesIQ = _moviesContext.Movies;
-            IEnumerable<MovieDTO> moviesDTOs = _mapper.Map<IEnumerable<MovieDTO>>(await moviesIQ.Include(n=>n.Sessions).ToListAsync());
+            IEnumerable<MovieDTO> moviesDTOs = _mapper.Map<IEnumerable<MovieDTO>>(await moviesIQ.ToListAsync());
             SelectList moviessSL = new SelectList(
                 items: moviesDTOs,
-                dataValueField: "Id",
+                dataValueField: "ID",
                 dataTextField: "Name"
                 );
             IndexMoviesVM vM = new IndexMoviesVM
@@ -89,30 +89,59 @@ namespace ASP_DZ_2_Model.Controllers
 
         public async Task<IActionResult> Create()
         {
-            IQueryable<Movie> moviesIQ = _moviesContext.Movies;
-            IEnumerable<MovieDTO> movieDTOs = _mapper
-                .Map<IEnumerable<MovieDTO>>(await moviesIQ.ToListAsync());
-            SelectList moviesSL = new SelectList(
-               items: movieDTOs,
-               dataValueField: "Id",
-               dataTextField: "Name"
+            IQueryable<Session> sessionsIQ = _moviesContext.Sessions;
+            IEnumerable<SessionDTO> sessionDTOs = _mapper
+                .Map<IEnumerable<SessionDTO>>(await sessionsIQ.ToListAsync());
+            SelectList sessionSL = new SelectList(
+               items: sessionDTOs,
+               dataValueField: "ID",
+               dataTextField: "TimeSession"
                );
             CreateMoviesVM vM = new CreateMoviesVM
             {
-                MoviesSL=moviesSL,
-                
-
-
+                SessionsSL= sessionSL,   
             };
+            //Movie mov = (Movie)_moviesContext.Movies.Where(n => n.ID == vM.Session.MovieId).Include(g => g.Sessions);
+            //vM.Movie = mov;
+            //Movie movie = _moviesContext.Movies.Where(v => v.ID == id);
+            //vM.Movie.Sessions = (ICollection<Session>)sessionSL;
             return View(vM);
         }
-
-        //[HttpPost]
+        [HttpPost]
         //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create(CreateMoviesVM vM)
-        //{
-            
-        //}
+        public async Task<IActionResult> Create(CreateMoviesVM vM)
+        {
+            if (ModelState.IsValid == false)
+            {
+                IQueryable<Session> breedsIQ =_moviesContext.Sessions;
+                IEnumerable<SessionDTO> breedDTOs = _mapper
+                    .Map<IEnumerable<SessionDTO>>(await breedsIQ.ToListAsync());
+                SelectList breedsSL = new SelectList(
+                   items: breedDTOs,
+                   dataValueField: "ID",
+                   dataTextField: "TimeSession",
+                   selectedValue: vM.Session.ID
+                   );
+                vM.SessionsSL = breedsSL;
+                Movie mov = (Movie)_moviesContext.Movies.Where(n => n.ID == vM.Session.MovieId).Include(g=>g.Sessions);
+                vM.Movie = mov;
+                //vM.Movie.Sessions = (ICollection<Session>)breedsSL;
+                //vM.Movie.Sessions.Add((Session)(ICollection<Session>)breedsSL);
+                foreach (var item in ModelState.Values.SelectMany(e => e.Errors))
+                {
+                    _logger.LogError(item.ErrorMessage);
+                }
+                return View(vM);
+            }
+
+            //IQueryable<Movie> moviesIQ = _moviesContext.Movies;
+            //IEnumerable<MovieDTO> movieDTOs = _mapper
+            //    .Map<IEnumerable<MovieDTO>>(await moviesIQ.ToListAsync());
+            Movie catToCreate = vM.Movie;
+            _moviesContext.Movies.Add(catToCreate);
+            await _moviesContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
         public IActionResult Privacy()
         {
             return View();

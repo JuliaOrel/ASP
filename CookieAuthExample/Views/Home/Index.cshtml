@@ -6,3 +6,15 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<a asp-action="Register" asp-controller="Account" class="btn btn-lg btn-outline-secondary mb-3">Register</a>
+<a asp-action="Login" asp-controller="Account" class="btn btn-lg btn-outline-secondary mb-3">Login</a>
+<a asp-action="Logout" asp-controller="Account" class="btn btn-lg btn-outline-secondary mb-3">Logout</a>
+@if(User.Identity.IsAuthenticated)
+            {
+                <h2>@User.Identity.Name</h2>
+    foreach (var claim in User.Claims)
+    {
+        <p>@claim.Value</p>
+    }
+}

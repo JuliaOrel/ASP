@@ -24,6 +24,11 @@ namespace CookieAuthExample.Controllers
         {
             return View();
         }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult>Login(LoginVM model)
@@ -34,6 +39,35 @@ namespace CookieAuthExample.Controllers
                     .FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
                 if(user is not null)
                 {
+                    await Authenticate(model.Email);
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError("", "Incorrect email or password");
+            }
+            return View(model);
+        }
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult>Register(RegisterVM model)
+        {
+            if (ModelState.IsValid == true)
+            {
+                User user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Email == model.Email);
+                if (user is null)
+                {
+                    User newUser = new User
+                    {
+                        Email = model.Email,
+                        Password = model.Password
+                    };
+                    await _context.Users.AddAsync(newUser);
+                    await _context.SaveChangesAsync();
                     await Authenticate(model.Email);
                     return RedirectToAction("Index", "Home");
                 }
@@ -55,8 +89,15 @@ namespace CookieAuthExample.Controllers
                 roleType: ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(
                 scheme: CookieAuthenticationDefaults.AuthenticationScheme,
-                principal: new ClaimsPrincipal,
+                principal: new ClaimsPrincipal(identity)
                 );
+            
+        }
+
+        public async Task<IActionResult>Logout()
+        {
+            await HttpContext.SignOutAsync(scheme: CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction(nameof(Login));
         }
     }
 }

@@ -14,7 +14,8 @@ namespace CookieAuthExample.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [Required]
-        [DataType(DataType.Password, ErrorMessage ="Passwords are not match")]
+        [Compare(nameof(Password), ErrorMessage ="Passwords dont match")]
+        [DataType(DataType.Password, ErrorMessage ="Passwords do not match")]
         public string ConfirmPassword { get; set; }
     }
 }

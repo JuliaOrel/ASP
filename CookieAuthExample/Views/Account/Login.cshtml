@@ -1,0 +1,31 @@
+﻿@model CookieAuthExample.Models.LoginVM
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+<a asp-action="Register" class="btn btn-lg btn-outline-secondary mb-3">Register</a>
+<form asp-action="Login" asp-controller="Account">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-floating mb-3">
+        <input type="text"
+               asp-for="Email"
+               class="form-control"
+               placeholder="@nameof(Model.Email)" />
+        <label asp-for="Email"></label>
+        <span asp-validation-for="Email" class="text-danger" />
+    </div>
+    <div class="form-floating mb-3">
+        <input type="password"
+               asp-for="Password"
+               class="form-control"
+               placeholder="@nameof(Model.Password)" />
+        <label asp-for="Password"></label>
+        <span asp-validation-for="Password" class="text-danger" />
+    </div>
+    <div class="mb-3">
+        <input type="submit"
+               value="Login"
+               class="btn btn-lg btn-primary" />
+    </div>
+</form>

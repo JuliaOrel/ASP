@@ -17,7 +17,7 @@ namespace ASP_DZ_2_Model.Data
             DbContextOptions<MoviesContext> options = serviceProvider.GetRequiredService<DbContextOptions<MoviesContext>>();
             using (MoviesContext context = new MoviesContext(options))
             {
-                //context.Database.EnsureDeleted();
+                context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
                 if (context.Movies.Any())
                 {
