@@ -13,6 +13,7 @@ namespace MyBlog.Data
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         public DbSet<Post> Posts => Set<Post>(); // { get; set; } = default!; то же самое

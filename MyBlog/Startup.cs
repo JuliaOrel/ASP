@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyBlog.Data;
 using MyBlog.Data.Entitties;
+using MyBlog.Services.EmailServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace MyBlog
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IEmailService, EmailService>();
             services.AddControllersWithViews();
             services.AddDbContext<ApplicationContext>(options =>
             {
