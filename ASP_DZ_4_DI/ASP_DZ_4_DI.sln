@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LanguageCompany", "..\Langu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatsCRUD", "..\CatsCRUD\CatsCRUD.csproj", "{327DE416-5689-42F0-A0E7-303099C07302}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelBinding", "..\ModelBinding\ModelBinding.csproj", "{7DAF15FF-1976-44F5-BE39-46A9EA8E8E8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModelBinding", "..\ModelBinding\ModelBinding.csproj", "{7DAF15FF-1976-44F5-BE39-46A9EA8E8E8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBlog", "..\MyBlog\MyBlog.csproj", "{BBC8EE7C-216E-44B7-8CD7-05364635A964}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{7DAF15FF-1976-44F5-BE39-46A9EA8E8E8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DAF15FF-1976-44F5-BE39-46A9EA8E8E8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DAF15FF-1976-44F5-BE39-46A9EA8E8E8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBC8EE7C-216E-44B7-8CD7-05364635A964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBC8EE7C-216E-44B7-8CD7-05364635A964}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBC8EE7C-216E-44B7-8CD7-05364635A964}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBC8EE7C-216E-44B7-8CD7-05364635A964}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
