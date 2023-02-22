@@ -46,7 +46,8 @@ namespace ASP_DZ_2_Model.Controllers
             {
                 sessionsIQ = sessionsIQ.Where(c => c.Movie.Name.Contains(search));
             }
-            IQueryable<Movie> moviesIQ = _moviesContext.Movies;
+            IQueryable<Movie> moviesIQ = _moviesContext.Movies
+                .Include(m => m.Sessions);
             IEnumerable<MovieDTO> moviesDTOs = _mapper.Map<IEnumerable<MovieDTO>>(await moviesIQ.ToListAsync());
             SelectList moviessSL = new SelectList(
                 items: moviesDTOs,
@@ -59,7 +60,7 @@ namespace ASP_DZ_2_Model.Controllers
                 Search=search,
                 MoviesSL = moviessSL,
                 MovieId = movieId,
-                Movies= moviesIQ
+                Movies= await moviesIQ.ToListAsync()
 
             };
             return View(vM);
@@ -97,10 +98,19 @@ namespace ASP_DZ_2_Model.Controllers
                dataValueField: "ID",
                dataTextField: "TimeSession"
                );
+
+
+            //var movies = await _moviesContext.Movies
+            //    .Include(m => m.Sessions)
+            //    .ToListAsync();
+
             CreateMoviesVM vM = new CreateMoviesVM
             {
-                SessionsSL= sessionSL,   
+                //Movie
+                SessionsSL = sessionSL,
+
             };
+
             //Movie mov = (Movie)_moviesContext.Movies.Where(n => n.ID == vM.Session.MovieId).Include(g => g.Sessions);
             //vM.Movie = mov;
             //Movie movie = _moviesContext.Movies.Where(v => v.ID == id);

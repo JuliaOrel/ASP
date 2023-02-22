@@ -7,7 +7,7 @@
 <h1>Index</h1>
 
 <div class="text-center">
-    <div class="dropdown-center mb-3">
+    <div class="dropdown dropdown-center mb-3">
         <button class="btn btn-secondary dropdown-toggle mb-3"
                 type="button"
                 data-bs-toggle="dropdown"
@@ -55,7 +55,8 @@ Model.Categories.First(c => c.Id == Model.CategoryId).Name)
 
     @foreach (var post in Model.Posts)
     {
-        <div class="col col-lg-4 col-md-6 col-12">
+        <partial name="_PostViewPartial" model="post"/>
+        @*<div class="col col-lg-4 col-md-6 col-12">
             <div class="card h-100 border-0 border-bottom border-3">
                 <a asp-action="Details"
                    asp-route-id="@post.Id">
@@ -78,7 +79,7 @@ Model.Categories.First(c => c.Id == Model.CategoryId).Name)
                     </p>
                 </div>
             </div>
-        </div>
+        </div>*@
     }
 </div>
 
