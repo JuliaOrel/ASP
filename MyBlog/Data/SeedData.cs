@@ -34,7 +34,7 @@ namespace MyBlog.Data
             using (ApplicationContext context = new ApplicationContext(options))
             {
                 //context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
+                //context.Database.EnsureCreated();
 
                 if (context.Posts.Any())
                 {

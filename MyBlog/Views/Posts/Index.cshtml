@@ -1,0 +1,85 @@
+﻿@model MyBlog.Models.ViewModels.PostsVM
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div class="text-center">
+    <div class="dropdown-center mb-3">
+        <button class="btn btn-secondary dropdown-toggle mb-3"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+            @(Model.CategoryId == 0 ?
+"All Categories" :
+Model.Categories.First(c => c.Id == Model.CategoryId).Name)
+        </button>
+        <ul class="dropdown-menu">
+            @{
+                string active = "";
+                bool isActive = false;
+            }
+
+            @foreach (var category in Model.Categories)
+            {
+                if (category.Id == Model.CategoryId && isActive == false)
+                {
+                    active = "active";
+                    isActive = true;
+                }
+
+                <li>
+                    <a asp-action="Index"
+                       asp-controller="Posts"
+                       asp-route-categoryId="@category.Id"
+                       class="@active dropdown-item">@category.Name</a>
+                </li>
+                @(active = "")
+            }
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li>
+                <a asp-action="Index"
+                   asp-controller="Posts"
+                   asp-route-categoryId="0"
+                   class="dropdown-item @(isActive == false ? "active" : "")">All Categories</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="row g-3">
+
+    @foreach (var post in Model.Posts)
+    {
+        <div class="col col-lg-4 col-md-6 col-12">
+            <div class="card h-100 border-0 border-bottom border-3">
+                <a asp-action="Details"
+                   asp-route-id="@post.Id">
+                    <img src="data:image/*;base64,@(Convert.ToBase64String(post.MainPostImage))"
+                         class="card-img-top"
+                         alt="@post.Title">
+                </a>
+                <div class="card-body">
+                </div>
+                <div class="card-footer bg-white">
+                    <h5 class="card-title">
+                        <a asp-action="Details"
+                           asp-route-id="@post.Id"
+                           class="text-decoration-none">@post.Title</a>
+                    </h5>
+                    <p class="card-text">
+                        <a asp-action="Index"
+                           asp-route-categoryId="@post.Category!.Id"
+                           class="badge text-bg-warning rounded-pill">@post.Category.Name</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+

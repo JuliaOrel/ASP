@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MyBlog.Authorization;
 using MyBlog.Models;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace MyBlog.Controllers
             return View();
         }
 
-        [Authorize]
+        [Authorize(Policy =MyPolicies.SuperAdminAccessOnly)]
         public IActionResult Privacy()
         {
             return View();
