@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MyBlog.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +13,21 @@ namespace MyBlog
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+            using (var scope = host.Services.CreateScope())
+            {
+                var sp = scope.ServiceProvider;
+                ApplicationContext context = sp.GetRequiredService<ApplicationContext>();
+                var webHostEnv = sp.GetRequiredService<IWebHostEnvironment>();
+                var conf = sp.GetRequiredService<IConfiguration>();
+                await SeedData.Initialize(
+                    sp,
+                   webHostEnv,
+                    conf);
+            }
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

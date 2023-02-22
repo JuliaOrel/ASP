@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MyBlog.Authorization;
 using MyBlog.Data;
 using MyBlog.Data.Entitties;
 using MyBlog.Services.EmailServices;
@@ -45,6 +46,35 @@ namespace MyBlog
              })
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddDefaultTokenProviders();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(
+                    MyPolicies.PostsWriterAndAboveAccess,
+                    policy => policy.RequireAssertion(context =>
+                      {
+                          return context.User.HasClaim(
+                              claim => claim.Type == MyClaims.SuperAdmin ||
+                              claim.Type == MyClaims.Admin ||
+                              claim.Type == MyClaims.PostsWriter
+                              );
+                      }));
+                options.AddPolicy(
+                    MyPolicies.AdminAndAboveAccess,
+                    policy => policy.RequireAssertion(context =>
+                    {
+                        return context.User.HasClaim(
+                            claim => claim.Type == MyClaims.SuperAdmin ||
+                            claim.Type == MyClaims.Admin);
+                    }));
+                options.AddPolicy(
+                  MyPolicies.SuperAdminAccessOnly,
+                  policy => policy.RequireAssertion(context =>
+                  {
+                      return context.User.HasClaim(
+                          claim => claim.Type == MyClaims.SuperAdmin);
+                  }));
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
