@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using MyBlog.Data;
 using MyBlog.Data.Entitties;
 using MyBlog.Models.ViewModels;
+using MyBlog.Models.ViewModels.PostsViewModels;
 
 namespace MyBlog.Controllers
 {
@@ -47,16 +48,21 @@ namespace MyBlog.Controllers
                 return NotFound();
             }
 
-            var post = await _context.Posts
+            Post post = await _context.Posts
                 .Include(p => p.Category)
                 .Include(p => p.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (post == null)
+                .Include(p => p.Comments)
+                .ThenInclude(c => c.User)
+                .FirstOrDefaultAsync(p => p.Id == id);
+            if(post is null)
             {
                 return NotFound();
             }
-
-            return View(post);
+            DetailsPostVM vM = new DetailsPostVM
+            {
+                Post = post
+            };
+            return View(vM);
         }
 
         // GET: Posts/Create
