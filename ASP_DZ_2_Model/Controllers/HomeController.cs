@@ -42,13 +42,15 @@ namespace ASP_DZ_2_Model.Controllers
             {
                 sessionsIQ = sessionsIQ.Where(c => c.MovieId == movieId);
             }
-            if (search is not null)
-            {
-                sessionsIQ = sessionsIQ.Where(c => c.Movie.Name.Contains(search));
-            }
             IQueryable<Movie> moviesIQ = _moviesContext.Movies
                 .Include(m => m.Sessions);
-            IEnumerable<MovieDTO> moviesDTOs = _mapper.Map<IEnumerable<MovieDTO>>(await moviesIQ.ToListAsync());
+            if (search is not null)
+            {
+                //sessionsIQ = sessionsIQ.Where(c => c.Movie.Name.Contains(search));
+                moviesIQ = moviesIQ.Where(m => m.Name.Contains(search));
+            }
+            
+            IEnumerable<MovieDTO> moviesDTOs = _mapper.Map<IEnumerable<MovieDTO>>(await moviesIQ.Include(m=>m.Sessions).ToListAsync());
             SelectList moviessSL = new SelectList(
                 items: moviesDTOs,
                 dataValueField: "ID",
@@ -56,7 +58,7 @@ namespace ASP_DZ_2_Model.Controllers
                 );
             IndexMoviesVM vM = new IndexMoviesVM
             {
-                Sessions= _mapper.Map<IEnumerable<SessionDTO>>(await sessionsIQ.ToListAsync()),
+                Sessions = _mapper.Map<IEnumerable<SessionDTO>>(await sessionsIQ.ToListAsync()),
                 Search=search,
                 MoviesSL = moviessSL,
                 MovieId = movieId,
