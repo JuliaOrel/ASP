@@ -1,5 +1,6 @@
 using ASP_DZ_6_Books.AutoMapperProfiles;
 using ASP_DZ_6_Books.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +33,15 @@ namespace ASP_DZ_6_Books
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddAutoMapper(typeof(BookProfile));
+            services.AddDbContext<UserContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(opt =>
+                {
+                    opt.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                });
 
         }
 
@@ -53,14 +63,14 @@ namespace ASP_DZ_6_Books
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Account}/{action=Login}/{id?}");
             });
 
         }
