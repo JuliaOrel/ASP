@@ -1,0 +1,81 @@
+﻿@model ASP_DZ_2_Model.Models.ViewModels.EditMoviesVM
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.Movie.ID" />
+            <div class="mb-3">
+                <label asp-for="Movie.Name" class="control-label"></label>
+                <input asp-for="Movie.Name" class="form-control" />
+                <span asp-validation-for="Movie.Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Movie.Director" class="control-label"></label>
+                <input asp-for="Movie.Director" class="form-control" />
+                <span asp-validation-for="Movie.Director" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Movie.Genre" class="control-label"></label>
+                <input asp-for="Movie.Genre" class="form-control" />
+                <span asp-validation-for="Movie.Genre" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Movie.Description" class="control-label"></label>
+                <input asp-for="Movie.Description" class="form-control" />
+                <span asp-validation-for="Movie.Description" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                @foreach (var item in Model.Movie.Sessions)
+                {
+                    <label asp-for="@item.TimeSession" class="control-label"></label>
+                    <input asp-for="@item.TimeSession" class="form-control" />
+                    <span asp-validation-for="@item.TimeSession" class="text-danger"></span>
+                }
+            </div>
+            <button type="button"
+                    onclick="addSessionHandler(@(Model is null ? 0 : Model.CountOfSessions))"
+                    class="btn btn-lg btn-outline-info" mb-3>
+                Add Session
+            </button>
+            @*@if (Model?.Movie.Sessions.Count > 0)
+            {
+                int index = 0;
+                foreach (var session in Model.Movie.Sessions)
+                {
+                    <div class="mb-3">
+                        <label for="Sessions[@index].TimeSession">New Session</label>
+                        <input name="Sessions[@index].TimeSession"
+                               value="@session.TimeSession"
+                               class="form-control" />
+                    </div>
+                    index++;
+                }
+            }*@
+            <div id="sessionsId"></div>
+
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-primary" />
+            </div>
+
+
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<script src="~/js/sessionsHandlers.js"></script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

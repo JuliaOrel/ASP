@@ -87,7 +87,6 @@ namespace ASP_DZ_2_Model.Controllers
             };
             return View(vM);
 
-
         }
 
         public IActionResult Create()
@@ -117,8 +116,69 @@ namespace ASP_DZ_2_Model.Controllers
                 await _moviesContext.SaveChangesAsync();
                
                 return RedirectToAction(nameof(Movie), new { movieId=0, search=""});
-
           
+        }
+
+        // GET: Cats/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var movie = await _moviesContext.Movies.FindAsync(id);
+
+            //if (movie == null || movie.IsDeleted == true)
+            //{
+            //    return NotFound();
+            //}
+            IQueryable<Session> sessionsIQ = _moviesContext.Sessions.Where(b => b.MovieId == id);
+            IEnumerable<SessionDTO> sessionDTOs = _mapper
+                .Map<IEnumerable<SessionDTO>>(await sessionsIQ.ToListAsync());
+            //SelectList sessionsSL = new SelectList(
+            //   items: sessionDTOs,
+            //   dataValueField: "Id",
+            //   dataTextField: "TimeSession",
+            //   selectedValue: movie.ID);
+            //IQueryable<Session> list = _moviesContext.Sessions.Where(b => b.MovieId == id);
+            EditMoviesVM vM = new EditMoviesVM
+            {
+                Movie = _mapper.Map<MovieDTO>(movie),
+                //Sessions = (List<Session>)_moviesContext.Sessions.Where(b => b.MovieId == id)
+                //Sessions= (List<Session>)sessionDTOs
+
+            };
+            //vM.Movie.Sessions = (List<Session>)sessionsIQ;
+          
+            return View(vM);
+        }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, EditMoviesVM vM)
+        {
+
+            foreach (var session in vM.Movie.Sessions)
+            {
+                if (string.IsNullOrEmpty(session.TimeSession))
+                {
+                    ModelState.AddModelError("", "Sessions are required");
+                }
+            }
+            if (ModelState.IsValid == false)
+            {
+                return View(vM);
+            }
+            vM.Movie.ID = id;
+            vM.Movie.Sessions = vM.Sessions;
+            Movie movieToEdit = _mapper.Map<Movie>(vM.Movie);
+            _moviesContext.Movies.Update(movieToEdit);
+            //await _moviesContext.AddAsync(vM.Movie);
+            await _moviesContext.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Movie));
+
         }
         public IActionResult Privacy()
         {
