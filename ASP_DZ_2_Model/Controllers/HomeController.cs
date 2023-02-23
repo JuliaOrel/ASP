@@ -88,69 +88,35 @@ namespace ASP_DZ_2_Model.Controllers
 
         }
 
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            IQueryable<Session> sessionsIQ = _moviesContext.Sessions;
-            IEnumerable<SessionDTO> sessionDTOs = _mapper
-                .Map<IEnumerable<SessionDTO>>(await sessionsIQ.ToListAsync());
-            SelectList sessionSL = new SelectList(
-               items: sessionDTOs,
-               dataValueField: "ID",
-               dataTextField: "TimeSession"
-               );
-
-
-            //var movies = await _moviesContext.Movies
-            //    .Include(m => m.Sessions)
-            //    .ToListAsync();
-
-            CreateMoviesVM vM = new CreateMoviesVM
-            {
-                //Movie
-                SessionsSL = sessionSL,
-
-            };
-
-            //Movie mov = (Movie)_moviesContext.Movies.Where(n => n.ID == vM.Session.MovieId).Include(g => g.Sessions);
-            //vM.Movie = mov;
-            //Movie movie = _moviesContext.Movies.Where(v => v.ID == id);
-            //vM.Movie.Sessions = (ICollection<Session>)sessionSL;
-            return View(vM);
+            return View();
+            
         }
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateMoviesVM vM)
         {
-            if (ModelState.IsValid == false)
-            {
-                IQueryable<Session> breedsIQ =_moviesContext.Sessions;
-                IEnumerable<SessionDTO> breedDTOs = _mapper
-                    .Map<IEnumerable<SessionDTO>>(await breedsIQ.ToListAsync());
-                SelectList breedsSL = new SelectList(
-                   items: breedDTOs,
-                   dataValueField: "ID",
-                   dataTextField: "TimeSession",
-                   selectedValue: vM.Session.ID
-                   );
-                vM.SessionsSL = breedsSL;
-                Movie mov = (Movie)_moviesContext.Movies.Where(n => n.ID == vM.Session.MovieId).Include(g=>g.Sessions);
-                vM.Movie = mov;
-                //vM.Movie.Sessions = (ICollection<Session>)breedsSL;
-                //vM.Movie.Sessions.Add((Session)(ICollection<Session>)breedsSL);
-                foreach (var item in ModelState.Values.SelectMany(e => e.Errors))
+           
+                foreach (var session in vM.Sessions)
                 {
-                    _logger.LogError(item.ErrorMessage);
+                    if(string.IsNullOrEmpty(session.TimeSession))
+                    {
+                        ModelState.AddModelError("", "Sessions are required");
+                    }
                 }
-                return View(vM);
-            }
+                if(ModelState.IsValid==false)
+                {
+                    return View(vM);
+                }
 
-            //IQueryable<Movie> moviesIQ = _moviesContext.Movies;
-            //IEnumerable<MovieDTO> movieDTOs = _mapper
-            //    .Map<IEnumerable<MovieDTO>>(await moviesIQ.ToListAsync());
-            Movie catToCreate = vM.Movie;
-            _moviesContext.Movies.Add(catToCreate);
-            await _moviesContext.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                vM.Movie.Sessions = vM.Sessions;
+                await _moviesContext.AddAsync(vM.Movie);
+                await _moviesContext.SaveChangesAsync();
+               
+                return RedirectToAction(nameof(Movie), new { movieId=0, search=""});
+
+          
         }
         public IActionResult Privacy()
         {
