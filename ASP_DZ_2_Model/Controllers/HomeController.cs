@@ -43,7 +43,8 @@ namespace ASP_DZ_2_Model.Controllers
                 sessionsIQ = sessionsIQ.Where(c => c.MovieId == movieId);
             }
             IQueryable<Movie> moviesIQ = _moviesContext.Movies
-                .Include(m => m.Sessions);
+                .Include(m => m.Sessions)
+                .Where(s=>s.IsDeleted==false);
             if (search is not null)
             {
                 //sessionsIQ = sessionsIQ.Where(c => c.Movie.Name.Contains(search));
@@ -180,7 +181,51 @@ namespace ASP_DZ_2_Model.Controllers
             return RedirectToAction(nameof(Movie));
 
         }
-        public IActionResult Privacy()
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _moviesContext.Movies == null)
+            {
+                return NotFound();
+            }
+
+            Movie movie = await _moviesContext.Movies
+                .Include(c => c.Sessions)
+                .FirstOrDefaultAsync(m => m.ID == id);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            DeleteMoviesVM vM = new DeleteMoviesVM
+            {
+                Movie = _mapper.Map<MovieDTO>(movie)
+            };
+
+            return View(vM);
+        }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (_moviesContext.Movies == null)
+            {
+                return Problem("Entity set 'MoviesContext.Movies' is null.");
+            }
+            Movie movie = await _moviesContext.Movies.FindAsync(id);
+            if (movie != null)
+            {
+                // _context.Cats.Remove(cat);
+                movie.IsDeleted = true;
+            }
+            await _moviesContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Movie));
+        }
+
+
+
+    public IActionResult Privacy()
         {
             return View();
         }
