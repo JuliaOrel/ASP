@@ -15,8 +15,8 @@ namespace ASP_DZ_6_Books.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserContext _context;
-        public AccountController(UserContext context)
+        private readonly BooksContext _context;
+        public AccountController(BooksContext context)
         {
             _context = context;
         }

@@ -12,7 +12,7 @@ namespace ASP_DZ_6_Books.Data
         public BooksContext(DbContextOptions<BooksContext>options)
             : base(options) { }
         public DbSet<Book> Books => Set<Book>();
-
+        public DbSet<User> Users => Set<User>();
 
     }
 }

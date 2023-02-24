@@ -61,18 +61,18 @@ namespace ProviderConfiguration
             //        AppConfiguration["name"]);
             //});
 
-            app.UseEndpoints(endpoints =>  //???????
-            {
-                endpoints.MapGet("/", (IOptions <Blog> options) =>
-                {
-                    Blog blog = options.Value;
-                });
-            });
+            //app.UseEndpoints(endpoints =>  //???????
+            //{
+            //    endpoints.MapGet("/", (IOptions <Blog> options) =>
+            //    {
+            //        Blog blog = options.Value;
+            //    });
+            //});
 
-            app.Run (IOptions<Blog> options) =>
-             {
-                 Blog blog = options.Value;
-             });
+            //app.Run (IOptions<Blog> options) =>
+            // {
+            //     Blog blog = options.Value;
+            // });
         }
     }
 }

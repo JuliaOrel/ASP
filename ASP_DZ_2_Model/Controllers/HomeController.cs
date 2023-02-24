@@ -128,7 +128,7 @@ namespace ASP_DZ_2_Model.Controllers
                 return NotFound();
             }
 
-            var movie = await _moviesContext.Movies.FindAsync(id);
+            var movie = await _moviesContext.Movies.Include(m => m.Sessions).FirstOrDefaultAsync();
 
             //if (movie == null || movie.IsDeleted == true)
             //{
@@ -146,6 +146,7 @@ namespace ASP_DZ_2_Model.Controllers
             EditMoviesVM vM = new EditMoviesVM
             {
                 Movie = _mapper.Map<MovieDTO>(movie),
+                Sessions = movie.Sessions.ToList()
                 //Sessions = (List<Session>)_moviesContext.Sessions.Where(b => b.MovieId == id)
                 //Sessions= (List<Session>)sessionDTOs
 
