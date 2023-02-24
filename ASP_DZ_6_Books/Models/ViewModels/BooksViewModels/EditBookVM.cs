@@ -11,6 +11,7 @@ namespace ASP_DZ_6_Books.Models.ViewModels.BooksViewModels
     public class EditBookVM
     {
         public BookDTO Book { get; set; }
+        //public User User { get; set; }
 
         [Required]
         public IFormFile Image { get; set; }

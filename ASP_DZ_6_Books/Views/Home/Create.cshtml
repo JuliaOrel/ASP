@@ -6,58 +6,63 @@
 <h1>Create</h1>
 <h4>Book</h4>
 <hr />
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @*<input type="hidden" asp-for="Book.Id" />
+                    <input type="hidden" asp-for="Book.Image" />*@
+                <div class="mb-3">
+                    <label asp-for="Book.NameBook" class="control-label"></label>
+                    <input asp-for="Book.NameBook" class="form-control" />
+                    <span asp-validation-for="Book.NameBook" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Book.FIOAuthor" class="control-label"></label>
+                    <input asp-for="Book.FIOAuthor" class="form-control" />
+                    <span asp-validation-for="Book.FIOAuthor" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Book.Genre" class="control-label"></label>
+                    <input asp-for="Book.Genre" class="form-control" />
+                    <span asp-validation-for="Book.Genre" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Book.Publisher" class="control-label"></label>
+                    <input asp-for="Book.Publisher" class="form-control" />
+                    <span asp-validation-for="Book.Publisher" class="text-danger"></span>
+                </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<input type="hidden" asp-for="Book.Id" />
-            <input type="hidden" asp-for="Book.Image" />*@
-            <div class="mb-3">
-                <label asp-for="Book.NameBook" class="control-label"></label>
-                <input asp-for="Book.NameBook" class="form-control" />
-                <span asp-validation-for="Book.NameBook" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Book.FIOAuthor" class="control-label"></label>
-                <input asp-for="Book.FIOAuthor" class="form-control" />
-                <span asp-validation-for="Book.FIOAuthor" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Book.Genre" class="control-label"></label>
-                <input asp-for="Book.Genre" class="form-control" />
-                <span asp-validation-for="Book.Genre" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Book.Publisher" class="control-label"></label>
-                <input asp-for="Book.Publisher" class="form-control" />
-                <span asp-validation-for="Book.Publisher" class="text-danger"></span>
-            </div>
+                <div class="mb-3">
+                    <label asp-for="Book.YearIssue" class="control-label"></label>
+                    <input asp-for="Book.YearIssue" class="form-control" />
+                    <span asp-validation-for="Book.YearIssue" class="text-danger"></span>
+                </div>
 
-            <div class="mb-3">
-                <label asp-for="Book.YearIssue" class="control-label"></label>
-                <input asp-for="Book.YearIssue" class="form-control" />
-                <span asp-validation-for="Book.YearIssue" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" type="file" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
+                <div class="mb-3">
+                    <label asp-for="Image" class="control-label"></label>
+                    <input asp-for="Image" type="file" class="form-control" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
 
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
+else
+{
+    <h2>You should log in</h2>
+}
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
