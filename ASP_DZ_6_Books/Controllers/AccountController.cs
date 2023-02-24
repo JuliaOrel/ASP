@@ -70,7 +70,7 @@ namespace ASP_DZ_6_Books.Controllers
                     await _context.Users.AddAsync(newUser);
                     await _context.SaveChangesAsync();
                     await Authenticate(model.Email);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Login", "Account");
                 }
                 ModelState.AddModelError("", "Incorrect email or password");
             }
