@@ -11,7 +11,7 @@ namespace MyBlog.Models.ViewModels.SharedViewModells
         public Comment Comment { get; set; }
         public bool IsReply { get; set; }
         public int CurrentNested { get; set; }
-        public const int MaxNestes = 5; 
+        public const int MaxNested = 5; 
         public string BackgroundColor
         {
             get => CurrentNested % 2 == 0 ? "lightgray" : "white";
