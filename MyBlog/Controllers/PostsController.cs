@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using MyBlog.Data;
 using MyBlog.Data.Entitties;
 using MyBlog.Models.ViewModels;
+using MyBlog.Models.ViewModels.NavigationViewModels;
 using MyBlog.Models.ViewModels.PostsViewModels;
 
 namespace MyBlog.Controllers
@@ -22,21 +23,65 @@ namespace MyBlog.Controllers
         }
 
         // GET: Posts
-        public async Task<IActionResult> Index(int categoryId)
+        public async Task<IActionResult> Index(int categoryId, string search, SortState sortOrder=SortState.TitleAsc, int page=1)
         {
+           int pageSize = 3;
             IQueryable<Post> posts = _context.Posts.Include(p => p.Category).Include(p => p.User)
                 .AsNoTracking<Post>();
+            //filtration
             if(categoryId!=0)
             {
                 posts = posts.Where(p => p.CategoryId == categoryId);
             }
-            IQueryable<Category> categories = _context.Categories;
-            PostsVM postVM = new PostsVM
+            if(string.IsNullOrEmpty(search))
             {
-                Posts = await posts.ToListAsync(),
-                Categories = await categories.ToListAsync(),
-                CategoryId = categoryId
-            };
+                posts = posts.Where(p => p.Title.Contains(search));
+            }
+            //sort
+            switch(sortOrder)
+            {
+                case SortState.TitleDesc:
+                    posts = posts.OrderByDescending(p => p.Title);
+                    break;
+                case SortState.DescriptionAsc:
+                    posts = posts.OrderBy(p => p.Description);
+                    break;
+                case SortState.DescriptionDesc:
+                    posts = posts.OrderByDescending(p => p.Description);
+                    break;
+                case SortState.CategoryAsc:
+                    posts = posts.OrderBy(p => p.Category.Name);
+                    break;
+                case SortState.CategoryDesc:
+                    posts = posts.OrderByDescending(p => p.Category.Name);
+                    break;
+                case SortState.CreatedAsc:
+                    posts = posts.OrderBy(p => p.Created);
+                    break;
+                case SortState.CreatedDesc:
+                    posts = posts.OrderByDescending(p => p.Created);
+                    break;
+                default:
+                    posts = posts.OrderBy(p => p.Title);
+                    break;
+            }
+            //pagination
+            int itemCount = await posts.CountAsync();
+            var items=await posts.Skip((page-1)*pageSize).Take(pageSize).ToListAsync();
+
+
+            //IQueryable<Category> categories = _context.Categories;
+            List<Category> categories = await _context.Categories.ToListAsync();
+            PostsVM postVM = new PostsVM
+            (
+                items,
+                new FilterVM(categories, categoryId, search),
+                new PageVM(page, itemCount, page),
+                new SortVM(sortOrder)
+                
+                //Categories = await categories.ToListAsync(),
+                //CategoryId = categoryId
+            );
             return View(postVM);
         }
 
