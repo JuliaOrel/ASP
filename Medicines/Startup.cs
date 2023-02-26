@@ -1,3 +1,4 @@
+using Medicines.Authorization;
 using Medicines.Data;
 using Medicines.Data.Entities;
 using Medicines.Services.EmailServices;
@@ -47,7 +48,34 @@ namespace Medicines
 .AddEntityFrameworkStores<ApplicationContext>()
 .AddDefaultTokenProviders();
 
-
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(
+                    MyPolicies.PostsWriterAndAboveAccess,
+                    policy => policy.RequireAssertion(context =>
+                    {
+                        return context.User.HasClaim(
+                            claim => claim.Type == MyClaims.SuperAdmin ||
+                            claim.Type == MyClaims.Admin ||
+                            claim.Type == MyClaims.PostsWriter
+                            );
+                    }));
+                options.AddPolicy(
+                    MyPolicies.AdminAndAboveAccess,
+                    policy => policy.RequireAssertion(context =>
+                    {
+                        return context.User.HasClaim(
+                            claim => claim.Type == MyClaims.SuperAdmin ||
+                            claim.Type == MyClaims.Admin);
+                    }));
+                options.AddPolicy(
+                  MyPolicies.SuperAdminAccessOnly,
+                  policy => policy.RequireAssertion(context =>
+                  {
+                      return context.User.HasClaim(
+                          claim => claim.Type == MyClaims.SuperAdmin);
+                  }));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
