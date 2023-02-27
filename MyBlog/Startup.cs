@@ -74,6 +74,13 @@ namespace MyBlog
                           claim => claim.Type == MyClaims.SuperAdmin);
                   }));
             });
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(1);
+                options.Cookie.IsEssential = true;
+            });
+
 
         }
 
@@ -94,6 +101,7 @@ namespace MyBlog
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
 

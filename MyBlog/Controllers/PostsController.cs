@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using MyBlog.Data.Entitties;
 using MyBlog.Models.ViewModels;
 using MyBlog.Models.ViewModels.NavigationViewModels;
 using MyBlog.Models.ViewModels.PostsViewModels;
+using MyBlog.Extensions;
 
 namespace MyBlog.Controllers
 {
@@ -105,6 +107,8 @@ namespace MyBlog.Controllers
             {
                 return NotFound();
             }
+            HttpContext.Session.Set<Post>("LastViewedPosts" + post.Id, post);
+            //HttpContext.Session.Remove("LastViewedPosts" + post.Id);
             DetailsPostVM vM = new DetailsPostVM
             {
                 Post = post

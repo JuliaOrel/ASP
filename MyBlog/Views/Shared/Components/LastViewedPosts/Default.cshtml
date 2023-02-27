@@ -1,0 +1,16 @@
+﻿@using MyBlog.Data.Entitties
+@model IEnumerable<Post>
+
+@if (Model.Any())
+{
+    <hr class="bg-primary mt-5" style="height:5px" />
+    <p class="fs-3">Last Viewed Posts</p>
+    <hr class="bg-warning mb-5" style="height:5px" />
+
+    <div class="row">
+        @foreach (Post post in Model)
+        {
+            <partial name="_PostViewPartial" model="post" />
+        }
+    </div>
+}
