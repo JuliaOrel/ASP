@@ -30,6 +30,14 @@
                     <ul class="navbar-nav">
                         @if (User.Identity.IsAuthenticated)
                         {
+                            @if (User.HasClaim(MyClaims.SuperAdmin, MyClaims.SuperAdmin))
+                            {
+                                <li class="nav-item bg-light rounded rounded-1 mb-3">
+                                    <a asp-action="Index" asp-controller="SuperAdmin"
+                                       class="nav-link btn btn-outline-primary">SuperAdmin Panel</a>
+                                </li>
+
+                            }
                             <li class="nav-item bg-light rounded rounded-1">
                                 <div class="nav-link text-primary">
                                     @User.Identity.Name

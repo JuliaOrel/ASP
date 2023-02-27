@@ -72,17 +72,17 @@ namespace MyBlog.Controllers
 
             //IQueryable<Category> categories = _context.Categories;
             List<Category> categories = await _context.Categories.ToListAsync();
-            PostsVM postVM = new PostsVM
-            (
-                items,
-                new FilterVM(categories, categoryId, search),
-                new PageVM(page, itemCount, page),
-                new SortVM(sortOrder)
+            //PostsVM postVM = new PostsVM
+            //(
+            //    items,
+            //    new FilterVM(categories, categoryId, search),
+            //    new PageVM(page, itemCount, page),
+            //    new SortVM(sortOrder)
                 
-                //Categories = await categories.ToListAsync(),
-                //CategoryId = categoryId
-            );
-            return View(postVM);
+            //    //Categories = await categories.ToListAsync(),
+            //    //CategoryId = categoryId
+            //);
+            return View(/*postVM*/);
         }
 
         // GET: Posts/Details/5
