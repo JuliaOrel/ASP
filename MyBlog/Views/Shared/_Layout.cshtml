@@ -26,8 +26,34 @@
                         </li>
                         <vc:categories />
                     </ul>
+                    @{ 
+                        var userClaims = User.Claims;
+                        string highestClaim = "";
 
+                        if (userClaims.FirstOrDefault(c => c.Type == MyClaims.SuperAdmin)?.Type == MyClaims.SuperAdmin)
+                        {
+                            highestClaim = MyClaims.SuperAdmin;
+                        }
+                        else if (userClaims.FirstOrDefault(c => c.Type == MyClaims.Admin)?.Type == MyClaims.Admin)
+                        {
+                            highestClaim = MyClaims.Admin;
+                        }
+                        else if (userClaims.FirstOrDefault(c => c.Type == MyClaims.PostsWriter)?.Type == MyClaims.PostsWriter)
+                        {
+                            highestClaim = MyClaims.PostsWriter;
+                        }
+                        else
+                        {
+                            highestClaim = "Has no Claims";
+                        }
+                    }
                     <ul class="navbar-nav">
+                        <li class="nav-item bg-light rounded rounded-1">
+                            <div class="nav-link text-primary">
+                                @User.Identity.Name
+                            </div>
+                        </li>
+                        
                         @if (User.Identity.IsAuthenticated)
                         {
                             @if (User.HasClaim(MyClaims.SuperAdmin, MyClaims.SuperAdmin))

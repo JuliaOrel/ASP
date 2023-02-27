@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MyBlog.Authorization;
 using MyBlog.Data;
 using MyBlog.Data.Entitties;
 using MyBlog.Models.ViewModels;
@@ -111,6 +113,7 @@ namespace MyBlog.Controllers
         }
 
         // GET: Posts/Create
+        [Authorize(Policy =MyPolicies.PostsWriterAndAboveAccess)]
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
@@ -123,6 +126,7 @@ namespace MyBlog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = MyPolicies.PostsWriterAndAboveAccess)]
         public async Task<IActionResult> Create([Bind("Id,Title,Description,Body,Created,MainPostImage,IsDeleted,CategoryId,UserId")] Post post)
         {
             if (ModelState.IsValid)
@@ -137,6 +141,7 @@ namespace MyBlog.Controllers
         }
 
         // GET: Posts/Edit/5
+        [Authorize(Policy = MyPolicies.PostsWriterAndAboveAccess)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -159,6 +164,7 @@ namespace MyBlog.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = MyPolicies.PostsWriterAndAboveAccess)]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Body,Created,MainPostImage,IsDeleted,CategoryId,UserId")] Post post)
         {
             if (id != post.Id)
@@ -192,6 +198,7 @@ namespace MyBlog.Controllers
         }
 
         // GET: Posts/Delete/5
+        [Authorize(Policy = MyPolicies.AdminAndAboveAccess)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -214,6 +221,7 @@ namespace MyBlog.Controllers
         // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = MyPolicies.AdminAndAboveAccess)]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var post = await _context.Posts.FindAsync(id);

@@ -5,7 +5,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Index Posts</h1>
+@if (User.HasClaim(MyClaims.PostsWriter, MyClaims.PostsWriter))
+{
+    <a href="#"
+       class="btn btn-lg btn-primary">
+        New Post
+    </a>
+}
 
 <div class="text-center">
     <div class="dropdown dropdown-center mb-3">
