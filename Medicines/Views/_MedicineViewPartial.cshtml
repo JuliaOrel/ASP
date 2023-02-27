@@ -1,0 +1,22 @@
+﻿@model Medicines.Data.Entities.Medicine
+
+<div class="col col-lg-4 col-md-6 col-12">
+    <div class="card h-100 border-0 border-bottom border-3">
+        <a asp-action="Details"
+           asp-route-id="@Model.Id">
+            <h3>@Model.Name</h3>
+        </a>
+        
+    
+    @*<h5 class="card-title">
+        <a asp-action="Details"
+           asp-route-id="@Model.Id"
+           class="text-decoration-none">@Model.Name</a>
+    </h5>*@
+    @*<p class="card-text">
+            <a asp-action="Index"
+               asp-route-categoryId="@Model.Category!.Id"
+               class="badge text-bg-warning rounded-pill">@Model.Category.Name</a>
+        </p>*@
+</div>
+    </div>

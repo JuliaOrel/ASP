@@ -1,0 +1,18 @@
+﻿@using Medicines.Data.Entities
+@model IEnumerable<Medicine>
+
+@if (Model.Any())
+{
+    <hr class="bg-primary mt-5" style="height:5px" />
+    <p class="fs-3">Last Viewed Medicines</p>
+    <hr class="bg-warning mb-5" style="height:5px" />
+
+    <div class="row">
+        @foreach (Medicine medicine in Model)
+        {
+            <p>@medicine.Name</p>
+           
+            @*<partial name="_MedicineViewPartial" model="medicine" />*@
+        }
+    </div>
+}
