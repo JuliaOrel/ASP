@@ -2,6 +2,7 @@
 using MyBlog.Data.Entitties;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,6 +10,7 @@ namespace MyBlog.Models.ViewModels.NavigationViewModels
 {
     public class FilterVM
     {
+        [Display(Name = "Categories")]
         public SelectList CategoriesSL { get; set; }
         public int CategoryId { get; set; }
         public string Search { get; set; }

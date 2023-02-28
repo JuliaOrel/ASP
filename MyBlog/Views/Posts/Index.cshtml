@@ -1,4 +1,5 @@
 ﻿@using MyBlog.Models.ViewModels
+@using Microsoft.AspNetCore.Html
 @model PostsVM
 
 @{
@@ -14,85 +15,112 @@
     </a>
 }
 
-<div class="text-center">
-    <div class="dropdown dropdown-center mb-3">
-        <partial name="_CategoriesDropDownListPartial" model="new CategoriesDropDownListVM
-{Categories=Model.Categories,
-CategoryId=Model.CategoryId}" />
+@* Filter *@
+<div class="col-lg-8 border-start border-end border-bottom border-3 rounded-bottom mb-3">
+    <form asp-action="Index" method="get" class="row align-items-lg-end mb-3">
 
-        @*<button class="btn btn-secondary dropdown-toggle mb-3"
-                            type="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                        @(Model.CategoryId == 0 ?
-            "All Categories" :
-            Model.Categories.First(c => c.Id == Model.CategoryId).Name)
-                    </button>
-                    <ul class="dropdown-menu">
-                        @{
-                            string active = "";
-                            bool isActive = false;
-                        }
+        <div class="col-lg-4">
+            <label asp-for="@Model.FilterVM!.Search"
+                   class="form-label"></label>
+            <input name="search"
+                   value="@Model.FilterVM?.Search"
+                   type="search"
+                   class="form-control"
+                   placeholder="search" />
+        </div>
 
-                        @foreach (var category in Model.Categories)
-                        {
-                            if (category.Id == Model.CategoryId && isActive == false)
-                            {
-                                active = "active";
-                                isActive = true;
-                            }
+        <div class="col-lg-4 border-start border-end ">
+            <label asp-for="@Model.FilterVM!.CategoriesSL"
+                   class="form-label"></label>
+            <select name="categoryId"
+                    asp-items="@Model.FilterVM!.CategoriesSL"
+                    class="form-select bg-light text-dark"></select>
+        </div>
 
-                            <li>
-                                <a asp-action="Index"
-                                   asp-controller="Posts"
-                                   asp-route-categoryId="@category.Id"
-                                   class="@active dropdown-item">@category.Name</a>
-                            </li>
-                            @(active = "")
-                        }
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li>
-                            <a asp-action="Index"
-                               asp-controller="Posts"
-                               asp-route-categoryId="0"
-                               class="dropdown-item @(isActive == false ? "active" : "")">All Categories</a>
-                        </li>
-                    </ul>*@
+        <input type="hidden"
+               name="sortOrder"
+               value="@Model.SortVM!.Current" />
+
+        <div class="col-lg-4 text-center">
+            <input type="submit"
+                   value="Filter"
+                   class="btn btn-success w-100" />
+        </div>
+    </form>
+</div>
+
+
+@* Sort (alternative version without tag-helper) *@
+<div class="offset-lg-2 col-lg-2 border-start border-end border-3 mb-3">
+    <div class="text-center">
+        <div>Sort</div>
+        <div class="dropdown">
+
+            @{
+                IHtmlContent MakeElementForSortState(SortState sortState)
+                {
+                    return sortState switch
+                    {
+                        SortState.TitleAsc => Html.Raw("<i class='bi bi-arrow-up'></i> Title"),
+                        SortState.TitleDesc => Html.Raw("<i class='bi bi-arrow-down'></i> Title"),
+                        SortState.DescriptionAsc => Html.Raw("<i class='bi bi-arrow-up'></i> Description"),
+                        SortState.DescriptionDesc => Html.Raw("<i class='bi bi-arrow-down'></i> Description"),
+                        SortState.CategoryAsc => Html.Raw("<i class='bi bi-arrow-up'></i> Category"),
+                        SortState.CategoryDesc => Html.Raw("<i class='bi bi-arrow-down'></i> Category"),
+                        SortState.CreatedAsc => Html.Raw("<i class='bi bi-arrow-up'></i> Created"),
+                        SortState.CreatedDesc => Html.Raw("<i class='bi bi-arrow-down'></i> Created"),
+                        _ => Html.Raw("<i class='bi bi-arrow-up'></i> Title")
+                    };
+                }
+            }
+
+            <a class="btn dropdown-toggle w-100"
+               href="#"
+               role="button"
+               id="dropdownMenuLink"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">
+                @MakeElementForSortState(Model.SortVM!.Current)
+            </a>
+
+
+            <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
+                @foreach (SortState state in (SortState[])Enum.GetValues(typeof(SortState)))
+                {
+                    IHtmlContent sortStateElement = MakeElementForSortState(state);
+
+                    <li>
+                        <a class="dropdown-item" style="cursor:pointer"
+                           asp-action="Index"
+                           asp-route-page="@Model.PageVM!.PageNumber"
+                           asp-route-categoryId="@Model.FilterVM.CategoryId"
+                           asp-route-search="@Model.FilterVM.Search"
+                           asp-route-sortOrder="@state">
+                            @sortStateElement
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
     </div>
 </div>
 
-<div class="row g-3">
 
+
+<div class="row g-3 link-warning">
     @foreach (var post in Model.Posts)
     {
         <partial name="_PostViewPartial" model="post" />
-        @*<div class="col col-lg-4 col-md-6 col-12">
-                <div class="card h-100 border-0 border-bottom border-3">
-                    <a asp-action="Details"
-                       asp-route-id="@post.Id">
-                        <img src="data:image/*;base64,@(Convert.ToBase64String(post.MainPostImage))"
-                             class="card-img-top"
-                             alt="@post.Title">
-                    </a>
-                    <div class="card-body">
-                    </div>
-                    <div class="card-footer bg-white">
-                        <h5 class="card-title">
-                            <a asp-action="Details"
-                               asp-route-id="@post.Id"
-                               class="text-decoration-none">@post.Title</a>
-                        </h5>
-                        <p class="card-text">
-                            <a asp-action="Index"
-                               asp-route-categoryId="@post.Category!.Id"
-                               class="badge text-bg-warning rounded-pill">@post.Category.Name</a>
-                        </p>
-                    </div>
-                </div>
-            </div>*@
     }
 </div>
+
+@* Pagination *@
+<page-link page-vm="Model.PageVM!"
+           page-action="Index"
+           page-url-categoryId="@(Model.FilterVM.CategoryId)"
+           page-url-search="@(Model.FilterVM.Search!)"
+           page-url-sortOrder="@(Model.SortVM.Current)">
+</page-link>
+
 
 

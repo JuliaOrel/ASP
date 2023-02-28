@@ -37,7 +37,7 @@ namespace MyBlog.Controllers
             {
                 posts = posts.Where(p => p.CategoryId == categoryId);
             }
-            if(string.IsNullOrEmpty(search))
+            if(!string.IsNullOrEmpty(search))
             {
                 posts = posts.Where(p => p.Title.Contains(search));
             }
@@ -76,17 +76,18 @@ namespace MyBlog.Controllers
 
             //IQueryable<Category> categories = _context.Categories;
             List<Category> categories = await _context.Categories.ToListAsync();
-            //PostsVM postVM = new PostsVM
-            //(
-            //    items,
-            //    new FilterVM(categories, categoryId, search),
-            //    new PageVM(page, itemCount, page),
-            //    new SortVM(sortOrder)
+            PostsVM postVM = new PostsVM
+            (
+                items,
+                new FilterVM(categories, categoryId, search),
+                new SortVM(sortOrder),
+                new PageVM(page, itemCount, page)
                 
-            //    //Categories = await categories.ToListAsync(),
-            //    //CategoryId = categoryId
-            //);
-            return View(/*postVM*/);
+
+            //Categories = await categories.ToListAsync(),
+            //CategoryId = categoryId
+            );
+            return View(postVM);
         }
 
         // GET: Posts/Details/5
