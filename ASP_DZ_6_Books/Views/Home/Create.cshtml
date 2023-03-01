@@ -13,7 +13,7 @@
             <form asp-action="Create" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 @*<input type="hidden" asp-for="Book.Id" />
-                    <input type="hidden" asp-for="Book.Image" />*@
+        <input type="hidden" asp-for="Book.Image" />*@
                 <div class="mb-3">
                     <label asp-for="Book.NameBook" class="control-label"></label>
                     <input asp-for="Book.NameBook" class="form-control" />
@@ -47,10 +47,24 @@
                     <span asp-validation-for="Image" class="text-danger"></span>
                 </div>
 
-
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+                <div class="mb-3">
+                    <label class="control-label">Tags</label>
+                    <input name="Tags" class="form-control" required />
+                    <span class="text-danger"></span>
                 </div>
+
+                <div id="newTagId"></div>
+
+                <div class="mb-3">
+                    <button type="button"
+                            onclick="addNewTag()"
+                            class="btn btn-primary">
+                        AddTag
+                    </button>
+                </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
             </form>
         </div>
     </div>
@@ -66,3 +80,4 @@ else
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script src="/js/createTag.js"></script>

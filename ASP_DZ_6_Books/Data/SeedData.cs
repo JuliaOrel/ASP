@@ -20,7 +20,7 @@ namespace ASP_DZ_6_Books.Data
                  serviceProvider.GetRequiredService<DbContextOptions<BooksContext>>();
             using (BooksContext context = new BooksContext(options))
             {
-                context.Database.EnsureDeleted();
+                //context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
                 if (context.Books.Any() == false)
                 {

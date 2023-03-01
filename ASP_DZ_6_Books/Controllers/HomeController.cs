@@ -116,8 +116,7 @@ namespace ASP_DZ_6_Books.Controllers
             foreach (var tag in vM.Tags)
             {
                 vM.Book.Tags.Add(new Tag
-                {
-                    
+                {                 
                     Name=tag,
                     BookId=vM.Book.Id
 
