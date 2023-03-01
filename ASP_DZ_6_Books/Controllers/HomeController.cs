@@ -1,6 +1,7 @@
 ﻿using ASP_DZ_6_Books.Data;
 using ASP_DZ_6_Books.Models;
 using ASP_DZ_6_Books.Models.DTO;
+using ASP_DZ_6_Books.Models.ViewModels;
 using ASP_DZ_6_Books.Models.ViewModels.BooksViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -57,6 +58,7 @@ namespace ASP_DZ_6_Books.Controllers
             }
 
             Book book = await _booksContext.Books
+                .Include(b => b.Tags)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (book == null)
@@ -85,7 +87,7 @@ namespace ASP_DZ_6_Books.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateBooksVM vM)
+        public async Task<IActionResult> Create(CreateBooksVM vM/*, BookTagVM vM1*/)
         {
             if (ModelState.IsValid == false)
             {
@@ -110,6 +112,18 @@ namespace ASP_DZ_6_Books.Controllers
                 vM.Book.Image = dataImage;
             }
             Book bookToCreate = _mapper.Map<Book>(vM.Book);
+
+            foreach (var tag in vM.Tags)
+            {
+                vM.Book.Tags.Add(new Tag
+                {
+                    
+                    Name=tag,
+                    BookId=vM.Book.Id
+
+                });
+               
+            }
             _booksContext.Books.Add(bookToCreate);
             await _booksContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

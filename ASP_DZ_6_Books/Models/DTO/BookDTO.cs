@@ -17,5 +17,6 @@ namespace ASP_DZ_6_Books.Models.DTO
         public string Publisher { get; set; }
         public int YearIssue { get; set; }
         public byte[] Image { get; set; }
+        public List<Tag> Tags { get; set; }
     }
 }

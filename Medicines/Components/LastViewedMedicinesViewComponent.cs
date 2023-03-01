@@ -16,7 +16,7 @@ namespace Medicines.Components
 
             foreach (string key
                 in HttpContext.Session.Keys
-                    .Where(k => k.Contains("LastViewedPosts")))
+                    .Where(k => k.Contains("LastViewedMedicines")))
             {
                 sessionPosts.Add(HttpContext.Session.Get<Medicine>(key)!);
             }

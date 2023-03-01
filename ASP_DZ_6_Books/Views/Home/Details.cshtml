@@ -30,6 +30,12 @@
                 <p class="card-text" style="white-space: pre-line">
                     @Model.Book.YearIssue
                 </p>
+                <ol>
+                    @foreach (var item in Model.Book.Tags)
+                    {
+                        <li>@item.Name</li>
+                    }
+                </ol>
 
             </div>
         </div>

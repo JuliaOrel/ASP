@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASP_DZ_6_Books.Migrations
 {
     [DbContext(typeof(BooksContext))]
-    [Migration("20230224161326_AddUser")]
-    partial class AddUser
+    [Migration("20230301121837_AddTag")]
+    partial class AddTag
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,26 @@ namespace ASP_DZ_6_Books.Migrations
                     b.ToTable("Books");
                 });
 
+            modelBuilder.Entity("ASP_DZ_6_Books.Models.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("Tags");
+                });
+
             modelBuilder.Entity("ASP_DZ_6_Books.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -70,6 +90,22 @@ namespace ASP_DZ_6_Books.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("ASP_DZ_6_Books.Models.Tag", b =>
+                {
+                    b.HasOne("ASP_DZ_6_Books.Models.Book", "Book")
+                        .WithMany("Tags")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("ASP_DZ_6_Books.Models.Book", b =>
+                {
+                    b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618
         }

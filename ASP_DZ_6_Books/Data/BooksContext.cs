@@ -13,6 +13,7 @@ namespace ASP_DZ_6_Books.Data
             : base(options) { }
         public DbSet<Book> Books => Set<Book>();
         public DbSet<User> Users => Set<User>();
+        public DbSet<Tag> Tags => Set<Tag>();
 
     }
 }
