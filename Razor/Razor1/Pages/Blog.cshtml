@@ -1,0 +1,11 @@
+﻿@page
+@model Razor1.Pages.BlogModel
+@{
+}
+
+<h1>@Model.Message</h1>
+<form method="post">
+    <input name="name" placeholder="name" />
+    <input name="postsCount" placeholder="count" />
+    <input type="submit" value="Send" />
+</form>
