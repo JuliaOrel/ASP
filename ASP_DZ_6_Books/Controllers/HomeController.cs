@@ -76,7 +76,7 @@ namespace ASP_DZ_6_Books.Controllers
 
         public async Task<IActionResult> CreateAsync()
         {
-            IQueryable<Book> books = _booksContext.Books;
+            IQueryable<Book> books = _booksContext.Books.Include(b=>b.Tags);
 
             IEnumerable<BookDTO> booksDTO = _mapper
                 .Map<IEnumerable<BookDTO>>(await books.ToListAsync());
@@ -91,7 +91,7 @@ namespace ASP_DZ_6_Books.Controllers
         {
             if (ModelState.IsValid == false)
             {
-                IQueryable<Book> books = _booksContext.Books;
+                IQueryable<Book> books = _booksContext.Books.Include(b=>b.Tags);
 
                 IEnumerable<BookDTO> booksDTO = _mapper
                     .Map<IEnumerable<BookDTO>>(await books.ToListAsync());
@@ -112,10 +112,10 @@ namespace ASP_DZ_6_Books.Controllers
                 vM.Book.Image = dataImage;
             }
             Book bookToCreate = _mapper.Map<Book>(vM.Book);
-
+            bookToCreate.Tags = new List<Tag>();
             foreach (var tag in vM.Tags)
             {
-                vM.Book.Tags.Add(new Tag
+                bookToCreate.Tags.Add(new Tag
                 {                 
                     Name=tag,
                     BookId=vM.Book.Id
