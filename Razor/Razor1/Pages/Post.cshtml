@@ -1,0 +1,19 @@
+﻿@page "{handler}"
+@model Razor1.Pages.PostModel
+@{
+}
+
+<h1>Posts</h1>
+<table class="table table-striped">
+    <tr>
+        <th>Name</th>
+        <th>Rating</th>
+    </tr>
+    @foreach (var item in Model.DisplayedPosts)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Rating</td>
+        </tr>
+    }
+</table>
