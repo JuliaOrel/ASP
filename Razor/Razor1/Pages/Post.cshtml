@@ -1,8 +1,12 @@
-﻿@page "{handler}"
+﻿@page
 @model Razor1.Pages.PostModel
 @{
 }
-
+<form method="post">
+    <input type="number" name="rating"/>
+    <input type="submit" asp-page-handler="GreaterByRating" value="Greater"/>
+    <input type="submit" asp-page-handler="LessByRating" value="Less"/>
+</form>
 <h1>Posts</h1>
 <table class="table table-striped">
     <tr>

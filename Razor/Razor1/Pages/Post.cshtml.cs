@@ -36,9 +36,24 @@ namespace Razor1.Pages
             DisplayedPosts = _posts.Where(x => x.Name.Contains(name)).ToList();
         }
 
-        public void OnGetByRating(int rating)
+        public IActionResult OnGetByRating(int rating)
         {
             DisplayedPosts = _posts.Where(x => x.Rating==rating).ToList();
+            if(DisplayedPosts.Count==0)
+            {
+               return RedirectToPage();
+            }
+            return Page();
+        }
+
+        public void OnPostGreaterByRating(int rating)
+        {
+            DisplayedPosts = _posts.Where(x => x.Rating > rating).ToList();
+        }
+
+        public void OnPostLessByRating(int rating)
+        {
+            DisplayedPosts = _posts.Where(x => x.Rating < rating).ToList();
         }
     }
 }
