@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.33214.272
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Razor1", "Razor1\Razor1.csproj", "{DA8C7D4A-F1E5-492C-9E19-44DF7196EA10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsSite", "NewsSite\NewsSite.csproj", "{953845FE-332F-46C4-96A8-B21D1966C0F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsSite", "NewsSite\NewsSite.csproj", "{953845FE-332F-46C4-96A8-B21D1966C0F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

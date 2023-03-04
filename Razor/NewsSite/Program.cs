@@ -20,7 +20,9 @@ namespace NewsSite
             {
                 var sp = scope.ServiceProvider;
                 var context = sp.GetRequiredService<NewsBlogContext>();
+                //context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
+                SeedData.Initialize(context);
 
             }
             host.Run();
