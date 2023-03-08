@@ -30,15 +30,30 @@ namespace NewsSite.Pages.News
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            //if (!ModelState.IsValid)
+            //{
+            //    return Page();
+            //}
+
+            //_context.NewsOne.Add(NewsOne);
+            //await _context.SaveChangesAsync();
+
+            //return RedirectToPage("./Index");
+            var emptynews = new NewsOne();
+
+            if (await TryUpdateModelAsync<NewsOne>(
+                emptynews,
+                "newsOne",   // Prefix for form value.
+                s => s.Title, s => s.Text, s => s.Date))
             {
-                return Page();
+                _context.NewsOne.Add(emptynews);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
 
-            _context.NewsOne.Add(NewsOne);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            return Page();
         }
+
     }
 }
+

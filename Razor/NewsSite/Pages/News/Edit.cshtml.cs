@@ -41,32 +41,48 @@ namespace NewsSite.Pages.News
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
+            //if (!ModelState.IsValid)
+            //{
+            //    return Page();
+            //}
+
+            //_context.Attach(NewsOne).State = EntityState.Modified;
+
+            //try
+            //{
+            //    await _context.SaveChangesAsync();
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!NewsOneExists(NewsOne.ID))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+
+            //return RedirectToPage("./Index");
+            var newsToUpdate = await _context.NewsOne.FindAsync(id);
+
+            if (newsToUpdate == null)
             {
-                return Page();
+                return NotFound();
             }
 
-            _context.Attach(NewsOne).State = EntityState.Modified;
-
-            try
+            if (await TryUpdateModelAsync<NewsOne>(
+                newsToUpdate,
+                "newsOne",
+                s => s.Title, s => s.Text, s => s.Date))
             {
                 await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!NewsOneExists(NewsOne.ID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return RedirectToPage("./Index");
+            return Page();
         }
 
         private bool NewsOneExists(int id)
