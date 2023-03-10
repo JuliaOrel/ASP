@@ -20,6 +20,8 @@ namespace NewsSite.Pages.News
         }
 
         public NewsOne NewsOne { get; set; }
+        [BindProperty]
+        public Comment Comment { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,13 +30,23 @@ namespace NewsSite.Pages.News
                 return NotFound();
             }
 
-            NewsOne = await _context.NewsOne.FirstOrDefaultAsync(m => m.ID == id);
+            NewsOne = await _context.NewsOne.Include(f=>f.Comments).FirstOrDefaultAsync(m => m.ID == id);
 
             if (NewsOne == null)
             {
                 return NotFound();
             }
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAddComment()
+        {
+           
+            await _context.Comment.AddAsync(Comment);
+            await _context.SaveChangesAsync();
+            //Comment = await _context.Comment.FirstOrDefaultAsync(c => c.ID == id);
+
+            return RedirectToPage("Details", new { id = Comment.NewsOneId });
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿@page
+﻿@page "{handler?}"
+
 @model NewsSite.Pages.News.DetailsModel
 
 @{
@@ -29,9 +30,30 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.NewsOne.Date)
         </dd>
+
+        <dt>
+            Comments
+        </dt>
+        <dd>
+            @foreach(var comment in Model.NewsOne.Comments)
+            {
+                <div>@comment.TextComment</div>
+            }
+        </dd>
     </dl>
 </div>
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.NewsOne.ID">Edit</a> |
     <a asp-page="./Index">Back to List</a>
+
+    <form asp-page-handler="AddComment" method="POST">
+        <input type="hidden" asp-for="Comment.NewsOneId" value="@Model.NewsOne.ID" />
+        <input type="text" asp-for="Comment.TextComment" />
+
+        <input type="submit"
+               
+               value="Add" />
+
+    </form>
+
 </div>

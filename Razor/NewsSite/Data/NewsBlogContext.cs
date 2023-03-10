@@ -15,9 +15,11 @@ namespace NewsSite.Data
         }
 
         public DbSet<NewsSite.Models.NewsOne> NewsOne { get; set; }
+        public DbSet<NewsSite.Models.Comment> Comment { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<NewsOne>().ToTable("NewsOne");
+            modelBuilder.Entity<Comment>().ToTable("Comment");
 
         }
     }
