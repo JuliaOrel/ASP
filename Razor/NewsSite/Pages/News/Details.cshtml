@@ -31,9 +31,10 @@
             @Html.DisplayFor(model => model.NewsOne.Date)
         </dd>
 
-        <dt>
-            Comments
+        <dt class="col-sm-2">
+            Comments:
         </dt>
+        
         <dd>
             @foreach(var comment in Model.NewsOne.Comments)
             {
@@ -43,17 +44,18 @@
     </dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.NewsOne.ID">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-
     <form asp-page-handler="AddComment" method="POST">
+        <label asp-for="Comment.TextComment" class="control-label"></label>
         <input type="hidden" asp-for="Comment.NewsOneId" value="@Model.NewsOne.ID" />
         <input type="text" asp-for="Comment.TextComment" />
 
         <input type="submit"
-               
                value="Add" />
 
     </form>
+    <a asp-page="./Edit" asp-route-id="@Model.NewsOne.ID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+
+
 
 </div>
