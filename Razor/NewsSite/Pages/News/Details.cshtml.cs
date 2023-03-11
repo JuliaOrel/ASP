@@ -41,12 +41,19 @@ namespace NewsSite.Pages.News
 
         public async Task<IActionResult> OnPostAddComment()
         {
-           
-            await _context.Comment.AddAsync(Comment);
-            await _context.SaveChangesAsync();
+            ForbiddenWords fb = new ForbiddenWords();
+            if (!fb.isThereAnyWord(Comment.TextComment))
+            {
+                await _context.Comment.AddAsync(Comment);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("Details", new { id = Comment.NewsOneId });
+            }
+            else
+                return RedirectToPage("/Forbid");
+            
             //Comment = await _context.Comment.FirstOrDefaultAsync(c => c.ID == id);
 
-            return RedirectToPage("Details", new { id = Comment.NewsOneId });
+           
         }
     }
 }
