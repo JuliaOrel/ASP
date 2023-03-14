@@ -22,6 +22,8 @@ namespace NewsSite.Pages.News
 
         [BindProperty]
         public NewsOne NewsOne { get; set; }
+        [BindProperty]
+        public Comment Comment { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,7 +32,7 @@ namespace NewsSite.Pages.News
                 return NotFound();
             }
 
-            NewsOne = await _context.NewsOne.FirstOrDefaultAsync(m => m.ID == id);
+            NewsOne = await _context.NewsOne.Include(f=>f.Comments).FirstOrDefaultAsync(m => m.ID == id);
 
             if (NewsOne == null)
             {
@@ -38,10 +40,17 @@ namespace NewsSite.Pages.News
             }
             return Page();
         }
-
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync(int id)
+        //public async Task<IActionResult> OnPostEditComment(int id)
+        //{
+        //    var newsToUpdate=await _context.NewsOne.Include(f => f.Comments).FirstOrDefaultAsync(m => m.ID == id);
+        //    Comment = await _context.Comment.FirstOrDefaultAsync();
+        //    await _context.SaveChangesAsync();
+            
+        //    return Page();
+        //}
+            // To protect from overposting attacks, enable the specific properties you want to bind to.
+            // For more details, see https://aka.ms/RazorPagesCRUD.
+            public async Task<IActionResult> OnPostAsync(int id)
         {
             //if (!ModelState.IsValid)
             //{
@@ -67,7 +76,7 @@ namespace NewsSite.Pages.News
             //}
 
             //return RedirectToPage("./Index");
-            var newsToUpdate = await _context.NewsOne.FindAsync(id);
+            var newsToUpdate = await _context.NewsOne.Include(f => f.Comments).FirstOrDefaultAsync(m => m.ID == id);
 
             if (newsToUpdate == null)
             {
@@ -77,7 +86,7 @@ namespace NewsSite.Pages.News
             if (await TryUpdateModelAsync<NewsOne>(
                 newsToUpdate,
                 "newsOne",
-                s => s.Title, s => s.Text, s => s.Date))
+                s => s.Title, s => s.Text, s => s.Date, s =>s.Comments))
             {
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");

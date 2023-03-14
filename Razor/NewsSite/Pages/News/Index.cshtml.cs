@@ -23,7 +23,7 @@ namespace NewsSite.Pages.News
 
         public async Task OnGetAsync()
         {
-            NewsOne = await _context.NewsOne.ToListAsync();
+            NewsOne = await _context.NewsOne.Include(c=>c.Comments).ToListAsync();
         }
       
 
