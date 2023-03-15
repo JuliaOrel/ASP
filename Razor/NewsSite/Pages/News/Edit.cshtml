@@ -30,11 +30,20 @@
                 <span asp-validation-for="NewsOne.Date" class="text-danger"></span>
             </div>
             <div class="form-group">
+
+                @{
+                    int index = 0;
+                }
+
                 @foreach (var comment in Model.NewsOne.Comments)
                 {
-                    <input type="hidden" asp-for="@comment.NewsOneId" value="@Model.NewsOne.ID" />
-                    <input asp-for="@comment.TextComment" />
+                    <input type="hidden" name="NewsOne.Comments[@index].ID" value="@comment.ID" />
+                    <input type="hidden" name="NewsOne.Comments[@index].NewsOneId" value="@comment.NewsOneId" />
+                    <input name="NewsOne.Comments[@index].TextComment" value="@comment.TextComment" />
+                    <input type="submit" asp-page-handler="DelComment" asp-route-id="@comment.ID" value="Delete" />
+                    @*<a asp-page-handler="DelComment" asp-route-id="@comment.ID">Delete</a>*@
 
+                    index++;
                 }
             </div>
             

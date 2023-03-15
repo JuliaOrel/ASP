@@ -40,42 +40,39 @@ namespace NewsSite.Pages.News
             }
             return Page();
         }
-        //public async Task<IActionResult> OnPostEditComment(int id)
-        //{
-        //    var newsToUpdate=await _context.NewsOne.Include(f => f.Comments).FirstOrDefaultAsync(m => m.ID == id);
-        //    Comment = await _context.Comment.FirstOrDefaultAsync();
-        //    await _context.SaveChangesAsync();
-            
-        //    return Page();
-        //}
-            // To protect from overposting attacks, enable the specific properties you want to bind to.
-            // For more details, see https://aka.ms/RazorPagesCRUD.
-            public async Task<IActionResult> OnPostAsync(int id)
+        public async Task<IActionResult> OnPostDelComment(int? id)
         {
-            //if (!ModelState.IsValid)
+            var c = await _context.Comment.Where(d => d.NewsOneId == id).ToListAsync();
+            //var newsToUpdate = await _context.NewsOne.Include(f => f.Comments).ToListAsync();
+            //newsToUpdate.Remove()
+            //foreach (var item in newsToUpdate)
             //{
-            //    return Page();
+            //    item.
+                
             //}
+            
+            if(id == null)
+            {
+                return NotFound();
+            }
 
-            //_context.Attach(NewsOne).State = EntityState.Modified;
+            Comment commentToDelete = await _context.Comment.FindAsync(id);
+            if(commentToDelete == null)
+            {
+                return NotFound();
+            }
 
-            //try
-            //{
-            //    await _context.SaveChangesAsync();
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!NewsOneExists(NewsOne.ID))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
+            _context.Comment.Remove(commentToDelete);
 
-            //return RedirectToPage("./Index");
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("Edit", new { id = commentToDelete.NewsOneId });
+        }
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see https://aka.ms/RazorPagesCRUD.
+        public async Task<IActionResult> OnPostAsync(int id)
+        {
+           
             var newsToUpdate = await _context.NewsOne.Include(f => f.Comments).FirstOrDefaultAsync(m => m.ID == id);
 
             if (newsToUpdate == null)
