@@ -28,8 +28,16 @@ namespace Auth0
             {
                 options.Domain = Configuration["Auth0:Domain"];
                 options.ClientId = Configuration["Auth0:ClientId"];
+                options.Scope = "openid profile email";
             });
-            services.AddRazorPages();
+
+            
+            services.AddRazorPages(options=>
+            {
+                options.Conventions.AuthorizePage("/Test/Index");
+                options.Conventions.AuthorizePage("/Account/Logout");
+                options.Conventions.AuthorizePage("/Account/UserProfile");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

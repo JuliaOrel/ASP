@@ -11,7 +11,7 @@ namespace Auth0.Pages.Account
 {
     public class LoginModel : PageModel
     {
-        public async void OnGet(string returnUrl="/")
+        public async Task OnGet(string returnUrl="/")
         {
             var auth = new LoginAuthenticationPropertiesBuilder()
                 .WithRedirectUri(returnUrl)

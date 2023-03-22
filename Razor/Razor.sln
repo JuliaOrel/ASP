@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsSite", "NewsSite\NewsSi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Intro", "Intro\Intro.csproj", "{4AF124E9-1EA1-4F35-B9CB-2866650A8ECE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth0", "Auth0\Auth0.csproj", "{B8F9DAEF-26FD-41BF-AF04-F51534710E4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth0", "Auth0\Auth0.csproj", "{B8F9DAEF-26FD-41BF-AF04-F51534710E4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
