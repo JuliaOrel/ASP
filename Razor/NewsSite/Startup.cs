@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NewsSite.Data;
+using Auth0.AspNetCore.Authentication;
 
 namespace NewsSite
 {
@@ -25,7 +26,18 @@ namespace NewsSite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            services.AddAuth0WebAppAuthentication(options =>
+            {
+                options.Domain = Configuration["NewsSite:Domain"];
+                options.ClientId = Configuration["NewsSite:ClientID"];
+                options.Scope = "openid profile email";
+            });
+            services.AddRazorPages(options =>
+            {
+                options.Conventions.AuthorizePage("/Test/Index");
+                options.Conventions.AuthorizePage("/Account/Logout");
+                options.Conventions.AuthorizePage("/Account/UserProfile");
+            });
 
             services.AddDbContext<NewsBlogContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("NewsBlogContext")));
@@ -51,7 +63,7 @@ namespace NewsSite
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
