@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Auth0.Pages.Account.UserProfile
+namespace Auth0.Pages.Account
 {
     public class UserProfileModel : PageModel
     {

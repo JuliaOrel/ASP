@@ -37,6 +37,7 @@ namespace Auth0
                 options.Conventions.AuthorizePage("/Test/Index");
                 options.Conventions.AuthorizePage("/Account/Logout");
                 options.Conventions.AuthorizePage("/Account/UserProfile");
+                //options.Conventions.AuthorizePage("/Account/UserProfile");
             });
         }
 
