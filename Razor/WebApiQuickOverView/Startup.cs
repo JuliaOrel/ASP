@@ -29,7 +29,12 @@ namespace WebApiQuickOverView
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddXmlSerializerFormatters()
+                .AddMvcOptions(o=>
+                {
+                    o.FormatterMappings.SetMediaTypeMappingForFormat("xml", "application/xml");
+                });
             
             services.AddSwaggerGen(c =>
             {

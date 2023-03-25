@@ -14,6 +14,6 @@ namespace WebApiQuickOverView.Data
         {
         }
 
-        public DbSet<Shared.Models.ToDoItem> ToDoItem { get; set; }
+        public DbSet<Shared.Models.ToDoItem> ToDoItems { get; set; }
     }
 }
