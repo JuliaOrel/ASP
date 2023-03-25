@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Intro", "Intro\Intro.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth0", "Auth0\Auth0.csproj", "{B8F9DAEF-26FD-41BF-AF04-F51534710E4B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiQuickOverView", "WebApiQuickOverView\WebApiQuickOverView.csproj", "{EE447C57-FF36-4701-9D0A-1AB2ADF27566}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{554A759D-0618-4304-9F00-26899F460053}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{B8F9DAEF-26FD-41BF-AF04-F51534710E4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8F9DAEF-26FD-41BF-AF04-F51534710E4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8F9DAEF-26FD-41BF-AF04-F51534710E4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE447C57-FF36-4701-9D0A-1AB2ADF27566}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE447C57-FF36-4701-9D0A-1AB2ADF27566}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE447C57-FF36-4701-9D0A-1AB2ADF27566}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE447C57-FF36-4701-9D0A-1AB2ADF27566}.Release|Any CPU.Build.0 = Release|Any CPU
+		{554A759D-0618-4304-9F00-26899F460053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{554A759D-0618-4304-9F00-26899F460053}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{554A759D-0618-4304-9F00-26899F460053}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{554A759D-0618-4304-9F00-26899F460053}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
