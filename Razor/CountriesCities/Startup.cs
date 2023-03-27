@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using CountriesCities.Data;
 
 namespace CountriesCities
 {
@@ -27,11 +29,16 @@ namespace CountriesCities
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(o=>
+                o.JsonSerializerOptions.ReferenceHandler=System.Text.Json.Serialization.ReferenceHandler.Preserve);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CountriesCities", Version = "v1" });
             });
+
+            services.AddDbContext<CountriesCitiesContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("CountriesCitiesContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
