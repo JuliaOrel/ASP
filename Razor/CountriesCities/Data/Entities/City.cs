@@ -12,7 +12,7 @@ namespace CountriesCities.Data.Entities
         public int Population { get; set; }
         public string AirPollutionDegree { get; set; }
         public bool IsDeleted { get; set; }
-        public int CountryId { get; set; }
+        public int? CountryId { get; set; }
         public Country Country { get; set; }
 
     }

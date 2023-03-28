@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CountriesCities.Interfaces
 {
-    interface ICountryRepository
+    public interface ICountryRepository
     {
     }
 }

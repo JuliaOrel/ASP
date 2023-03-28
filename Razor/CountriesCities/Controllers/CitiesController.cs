@@ -9,6 +9,7 @@ using CountriesCities.Data;
 using CountriesCities.Data.Entities;
 using AutoMapper;
 using CountriesCitiesShared.DTO;
+using CountriesCities.Interfaces;
 
 namespace CountriesCities.Controllers
 {
@@ -17,30 +18,67 @@ namespace CountriesCities.Controllers
     public class CitiesController : ControllerBase
     {
         private readonly CountriesCitiesContext _context;
-        private readonly IMapper _mapper;
+        private readonly ICityService _cityService;
+        //private readonly IMapper _mapper;
 
-        public CitiesController(CountriesCitiesContext context, IMapper mapper)
+        public CitiesController(CountriesCitiesContext context, ICityService cityService)
         {
             _context = context;
-            _mapper = mapper;
+            _cityService = cityService;
+            //_mapper = mapper;
         }
 
-        // GET: api/Cities
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CityDetailsDTO>>> GetCity()
+        // GET: api/Cities/GetCities
+        [HttpGet("GetCities")]
+        public async Task<ActionResult<IEnumerable<CityDTO>>> GetCities()
         {
-             var entities=await _context.Cities
-                .Include(c => c.Country)
-                .ToListAsync();
-            var cities = _mapper.Map<IEnumerable<CityDetailsDTO>>(entities);
+            if(_context.Cities==null)
+            {
+                return NotFound();
+            }
+            IEnumerable<CityDTO> cities = await _cityService.GetCities();
+            // var entities=await _context.Cities
+            //    .Include(c => c.Country)
+            //    .ToListAsync();
+            //var cities = _mapper.Map<IEnumerable<CityDetailsDTO>>(entities);
+            return Ok(cities);
+        }
+
+        // GET: api/Cities/GetCitiesDetails
+        [HttpGet("GetCitiesDetails")]
+        public async Task<ActionResult<IEnumerable<CityDetailsDTO>>> GetCitiesDetails()
+        {
+            if (_context.Cities == null)
+            {
+                return NotFound();
+            }
+            IEnumerable<CityDetailsDTO> cities = await _cityService.GetCitiesDetails();//new List<CityDetailsDTO>();
+            // var entities=await _context.Cities
+            //    .Include(c => c.Country)
+            //    .ToListAsync();
+            //var cities = _mapper.Map<IEnumerable<CityDetailsDTO>>(entities);
             return Ok(cities);
         }
 
         // GET: api/Cities/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<City>> GetCity(int id)
+        [HttpGet("GetCity/{id}")]
+        public async Task<ActionResult<CityDTO>> GetCity(int id)
         {
-            var city = await _context.Cities.FindAsync(id);
+            CityDTO city = await _cityService.GetCity(id);//FindAsync(id);
+
+            if (city == null)
+            {
+                return NotFound();
+            }
+
+            return city;
+        }
+
+        // GET: api/Cities/GetCityDetails
+        [HttpGet("GetCityDetails/{id}")]
+        public async Task<ActionResult<CityDetailsDTO>> GetCityDeatils(int id)
+        {
+            CityDetailsDTO city = await _cityService.GetCityDetails(id);//FindAsync(id);
 
             if (city == null)
             {

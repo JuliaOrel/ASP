@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using CountriesCities.Data;
 using CountriesCities.AutoMapperProfiles;
+using CountriesCities.Interfaces;
+using CountriesCities.Services;
+using CountriesCities.Repositories;
 
 namespace CountriesCities
 {
@@ -38,6 +41,10 @@ namespace CountriesCities
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CountriesCities", Version = "v1" });
             });
             services.AddAutoMapper(typeof(CityProfile), typeof(CountryProfile));
+            services.AddScoped<ICityService, CityService>();
+            services.AddScoped<ICityRepository, CityReposotory>();
+            services.AddScoped<ICountryService, CountryService>();
+            services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddDbContext<CountriesCitiesContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("CountriesCitiesContext")));
         }
