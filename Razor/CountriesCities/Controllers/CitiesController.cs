@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CountriesCities.Data;
 using CountriesCities.Data.Entities;
+using AutoMapper;
+using CountriesCitiesShared.DTO;
 
 namespace CountriesCities.Controllers
 {
@@ -15,19 +17,23 @@ namespace CountriesCities.Controllers
     public class CitiesController : ControllerBase
     {
         private readonly CountriesCitiesContext _context;
+        private readonly IMapper _mapper;
 
-        public CitiesController(CountriesCitiesContext context)
+        public CitiesController(CountriesCitiesContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Cities
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<City>>> GetCity()
+        public async Task<ActionResult<IEnumerable<CityDetailsDTO>>> GetCity()
         {
-            return await _context.Cities
-                .Include(c=>c.Country)
+             var entities=await _context.Cities
+                .Include(c => c.Country)
                 .ToListAsync();
+            var cities = _mapper.Map<IEnumerable<CityDetailsDTO>>(entities);
+            return Ok(cities);
         }
 
         // GET: api/Cities/5

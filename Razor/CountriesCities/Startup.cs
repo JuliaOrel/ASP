@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using CountriesCities.Data;
+using CountriesCities.AutoMapperProfiles;
 
 namespace CountriesCities
 {
@@ -36,7 +37,7 @@ namespace CountriesCities
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CountriesCities", Version = "v1" });
             });
-
+            services.AddAutoMapper(typeof(CityProfile), typeof(CountryProfile));
             services.AddDbContext<CountriesCitiesContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("CountriesCitiesContext")));
         }
