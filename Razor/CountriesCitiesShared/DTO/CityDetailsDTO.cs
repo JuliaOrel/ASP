@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft;
+using System.Text.Json.Serialization;
 
 namespace CountriesCitiesShared.DTO
 {
@@ -11,7 +13,7 @@ namespace CountriesCitiesShared.DTO
     {
         [Required]
         [Display(Name="Country Name")]
-        //[JsonPropertyOrder(10)]
+      //[JsonPr]
         public string CountryName { get; set; }
         [Display(Name = "Country Code")]
         public int CountryCode { get; set; }
