@@ -14,5 +14,9 @@ namespace Shared.Models
         public int YearIssue { get; set; }
         public double Price { get; set; }
         public string Color { get; set; }
+        public bool IsDeleted { get; set; }
+        public int? CompanyId { get; set; }
+        public Company Company { get; set; }
+
     }
 }

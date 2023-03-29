@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using CarsApi.Data;
 using Shared.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using AutoMapper;
+using CarsApi.Interfaces;
 
 namespace CarsApi.Controllers
 {
@@ -16,20 +18,38 @@ namespace CarsApi.Controllers
     public class CarsController : ControllerBase
     {
         private readonly CarsApiContext _context;
+        //private readonly IMapper _mapper;
+        private readonly ICarService _carService;
 
-        public CarsController(CarsApiContext context)
+        public CarsController(CarsApiContext context, ICarService carService)
         {
+            
             _context = context;
+            _carService = carService;
+            //_mapper = mapper;
+            _context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
-            if (_context.Cars.Any() == false)
+
+            Company company1 = new Company
             {
-                Car car1 = new()
+                Name = "BMW"
+            };
+            Company company2 = new Company
+            {
+                Name = "Mazda"
+            };
+            Company company3 = new Company
+            {
+                Name = "Volkswagen"
+            };
+            Car car1 = new()
                 {
                     Model = "Countryman",
                     Brand = "MINI Cooper",
                     Color = "Chilli Red",
                     Price = 1479151,
-                    YearIssue = 2020
+                    YearIssue = 2020,
+                    Company=company1
                 };
                 Car car2 = new()
                 {
@@ -37,7 +57,8 @@ namespace CarsApi.Controllers
                     Brand = "Mazda",
                     Color = "Magma Red",
                     Price = 1108880,
-                    YearIssue = 2020
+                    YearIssue = 2020,
+                    Company=company2
                 };
                 Car car3 = new()
                 {
@@ -45,27 +66,45 @@ namespace CarsApi.Controllers
                     Brand = "Volkswagen",
                     Color = "Diamond Metallic",
                     Price = 1212412,
-                    YearIssue = 2021
+                    YearIssue = 2021,
+                    Company=company3
                 };
                 List<Car> cars = new List<Car>() { car1, car2, car3 };
                 _context.Cars.AddRange(cars);
                 _context.SaveChanges();
-            }
+            
         }
 
-        // GET: api/Cars
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CarDTO>>> GetCar()
+        // GET: api/Cars/GetCars
+        [HttpGet("GetCars")]
+        public async Task<ActionResult<IEnumerable<CarDTO>>> GetCars()
         {
             if (_context.Cars == null)
             {
                 return NotFound();
             }
-            var cars = await _context.Cars.ToListAsync();
-            List<CarDTO> dto = cars.Select(t => ToDTO(t)).ToList();
-            return Ok(dto);
+            //var cars = await _context.Cars.ToListAsync();
+            //List<CarDTO> dto = cars.Select(t => ToDTO(t)).ToList();
+            //IEnumerable<Car> entities = await _context.Cars
+            //.Include(c => c.Company)
+            //.ToListAsync();
+            //IEnumerable<CarDetailsDTO>cars = _mapper.Map<IEnumerable<CarDetailsDTO>>(entities);
+            IEnumerable<CarDTO> cars = await _carService.GetCars();
+            return Ok(cars);
         }
 
+        // GET: api/Cars/GetCarsDetails
+        [HttpGet("GetCarsDetails")]
+        public async Task<ActionResult<IEnumerable<CarDetailsDTO>>> GetCarsDetails()
+        {
+            if (_context.Cars == null)
+            {
+                return NotFound();
+            }
+           
+            IEnumerable<CarDetailsDTO> cars = await _carService.GetCarsDetails();
+            return Ok(cars);
+        }
         // GET: api/Cars/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CarDTO>> GetCar(int id)

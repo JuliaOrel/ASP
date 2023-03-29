@@ -13,6 +13,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using CarsApi.Data;
+using CarsApi.AutoMapperProfiles;
+using CarsApi.Interfaces;
+using CarsApi.Services;
+using CarsApi.Repositories;
 
 namespace CarsApi
 {
@@ -34,7 +38,12 @@ namespace CarsApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CarsApi", Version = "v1" });
             });
+            services.AddAutoMapper(typeof(CarProfile), typeof(CompanyProfile));
 
+            services.AddScoped<ICarService, CarService>();
+            services.AddScoped<ICarRepository, CarRepository>();
+            services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddDbContext<CarsApiContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("CarsApiContext")));
         }

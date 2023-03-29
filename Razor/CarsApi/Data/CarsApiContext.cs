@@ -15,5 +15,6 @@ namespace CarsApi.Data
         }
 
         public DbSet<Shared.Models.Car> Cars { get; set; }
+        public DbSet<Shared.Models.Company> Companies { get; set; }
     }
 }
