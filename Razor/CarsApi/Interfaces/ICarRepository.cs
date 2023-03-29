@@ -10,5 +10,7 @@ namespace CarsApi.Interfaces
     {
         Task<IEnumerable<Car>> GetCars();
         Task<IEnumerable<Car>> GetCarsDetails();
+        Task<Car> GetCar(int id);
+        Task<Car> GetCarDetails(int id);
     }
 }

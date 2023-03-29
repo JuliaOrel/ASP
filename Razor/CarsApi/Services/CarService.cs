@@ -18,6 +18,28 @@ namespace CarsApi.Services
             _carRepository = carRepository;
         }
 
+        public async Task<CarDTO> GetCar(int id)
+        {
+            Car entity = await _carRepository.GetCar(id);
+            if(entity is null)
+            {
+                return null;
+            }
+            CarDTO car = _mapper.Map<CarDTO>(entity);
+            return car;
+        }
+
+        public async Task<CarDetailsDTO> GetCarDetails(int id)
+        {
+            Car entity = await _carRepository.GetCarDetails(id);
+            if (entity is null)
+            {
+                return null;
+            }
+            CarDetailsDTO car = _mapper.Map<CarDetailsDTO>(entity);
+            return car;
+        }
+
         public async Task<IEnumerable<CarDTO>> GetCars()
         {
             IEnumerable<Car> entities = await _carRepository.GetCars();

@@ -27,7 +27,7 @@ namespace CarsApi.Controllers
             _context = context;
             _carService = carService;
             //_mapper = mapper;
-            _context.Database.EnsureDeleted();
+            //_context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
 
             Company company1 = new Company
@@ -105,18 +105,34 @@ namespace CarsApi.Controllers
             IEnumerable<CarDetailsDTO> cars = await _carService.GetCarsDetails();
             return Ok(cars);
         }
-        // GET: api/Cars/5
-        [HttpGet("{id}")]
+        // GET: api/Cars/GetCar/5
+        [HttpGet("GetCar/{id}")]
         public async Task<ActionResult<CarDTO>> GetCar(int id)
         {
-            var car = await _context.Cars.FindAsync(id);
+            //var car = await _context.Cars.FindAsync(id);
+            CarDTO car = await _carService.GetCar(id);
 
             if (car == null)
             {
                 return NotFound();
             }
-            CarDTO dto = ToDTO(car);
-            return dto;
+            //CarDTO dto = ToDTO(car);
+            return car;
+        }
+
+        // GET: api/Cars/GetCarDetails/5
+        [HttpGet("GetCarDetails/{id}")]
+        public async Task<ActionResult<CarDTO>> GetCarDetails(int id)
+        {
+            //var car = await _context.Cars.FindAsync(id);
+            CarDetailsDTO car = await _carService.GetCarDetails(id);
+
+            if (car == null)
+            {
+                return NotFound();
+            }
+            //CarDTO dto = ToDTO(car);
+            return car;
         }
 
         // PUT: api/Cars/5
