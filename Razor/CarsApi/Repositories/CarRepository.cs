@@ -1,6 +1,7 @@
 ﻿using CarsApi.Data;
 using CarsApi.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Shared.Models;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,13 @@ namespace CarsApi.Repositories
         public CarRepository(CarsApiContext context)
         {
             _context = context;
+        }
+
+        public async Task<Car> DeleteCar(Car entity)
+        {
+            entity.IsDeleted = true;
+            await SaveChangesAsync();
+            return entity;
         }
 
         public async Task<Car> GetCar(int id)
@@ -59,6 +67,25 @@ namespace CarsApi.Repositories
                     .LoadAsync();
             }
             return await entities.ToListAsync();
+        }
+
+        public async Task<Car> PostCar(Car entity)
+        {
+            EntityEntry<Car> addedEntity = await _context.Cars.AddAsync(entity);
+            await SaveChangesAsync();
+            return addedEntity.Entity;
+        }
+
+        public async Task<Car> PutCar(Car entity)
+        {
+            EntityEntry<Car> updatedEntity = _context.Cars.Update(entity);
+            await SaveChangesAsync();
+            return updatedEntity.Entity;
+        }
+
+        private async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

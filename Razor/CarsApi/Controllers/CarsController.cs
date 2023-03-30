@@ -26,53 +26,7 @@ namespace CarsApi.Controllers
             
             _context = context;
             _carService = carService;
-            //_mapper = mapper;
-            //_context.Database.EnsureDeleted();
-            _context.Database.EnsureCreated();
-
-            Company company1 = new Company
-            {
-                Name = "BMW"
-            };
-            Company company2 = new Company
-            {
-                Name = "Mazda"
-            };
-            Company company3 = new Company
-            {
-                Name = "Volkswagen"
-            };
-            Car car1 = new()
-                {
-                    Model = "Countryman",
-                    Brand = "MINI Cooper",
-                    Color = "Chilli Red",
-                    Price = 1479151,
-                    YearIssue = 2020,
-                    Company=company1
-                };
-                Car car2 = new()
-                {
-                    Model = "CX-30",
-                    Brand = "Mazda",
-                    Color = "Magma Red",
-                    Price = 1108880,
-                    YearIssue = 2020,
-                    Company=company2
-                };
-                Car car3 = new()
-                {
-                    Model = "T-Roc",
-                    Brand = "Volkswagen",
-                    Color = "Diamond Metallic",
-                    Price = 1212412,
-                    YearIssue = 2021,
-                    Company=company3
-                };
-                List<Car> cars = new List<Car>() { car1, car2, car3 };
-                _context.Cars.AddRange(cars);
-                _context.SaveChanges();
-            
+            //_mapper = mapper;               
         }
 
         // GET: api/Cars/GetCars
@@ -83,12 +37,7 @@ namespace CarsApi.Controllers
             {
                 return NotFound();
             }
-            //var cars = await _context.Cars.ToListAsync();
-            //List<CarDTO> dto = cars.Select(t => ToDTO(t)).ToList();
-            //IEnumerable<Car> entities = await _context.Cars
-            //.Include(c => c.Company)
-            //.ToListAsync();
-            //IEnumerable<CarDetailsDTO>cars = _mapper.Map<IEnumerable<CarDetailsDTO>>(entities);
+           
             IEnumerable<CarDTO> cars = await _carService.GetCars();
             return Ok(cars);
         }
@@ -116,7 +65,7 @@ namespace CarsApi.Controllers
             {
                 return NotFound();
             }
-            //CarDTO dto = ToDTO(car);
+           
             return car;
         }
 
@@ -124,14 +73,14 @@ namespace CarsApi.Controllers
         [HttpGet("GetCarDetails/{id}")]
         public async Task<ActionResult<CarDTO>> GetCarDetails(int id)
         {
-            //var car = await _context.Cars.FindAsync(id);
+            
             CarDetailsDTO car = await _carService.GetCarDetails(id);
 
             if (car == null)
             {
                 return NotFound();
             }
-            //CarDTO dto = ToDTO(car);
+            
             return car;
         }
 
@@ -144,11 +93,17 @@ namespace CarsApi.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(ToEntity(carDto)).State = EntityState.Modified;
+            CarDTO result = null;
+            //_context.Entry(ToEntity(carDto)).State = EntityState.Modified;
 
             try
             {
+                result = await _carService.PutCar(carDto);
+                if(result is null)
+                {
+                    return NotFound();
+                }
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -163,7 +118,7 @@ namespace CarsApi.Controllers
                 }
             }
 
-            return carDto;
+            return result;
         }
 
         // POST: api/Cars
@@ -171,27 +126,26 @@ namespace CarsApi.Controllers
         [HttpPost]
         public async Task<ActionResult<CarDTO>> PostCar(CarDTO carDTO)
         {
-            EntityEntry<Car> entity = _context.Cars.Add(ToEntity(carDTO));
-            await _context.SaveChangesAsync();
-            carDTO.Id = entity.Entity.Id;               
+            if(carDTO.Id>0)
+            {
+                carDTO.Id = 0;
+            }
+            CarDTO result = await _carService.PostCar(carDTO);
 
-            return CreatedAtAction("GetCar", new { id = entity.Entity.Id }, carDTO);
+            return CreatedAtAction("GetCar", new { id = result.Id }, result);
         }
 
         // DELETE: api/Cars/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<CarDTO>> DeleteCar(int id)
         {
-            var car = await _context.Cars.FindAsync(id);
-            if (car == null)
+            var result = await _carService.DeleteCar(id);
+            if (result is null)
             {
                 return NotFound();
             }
 
-            _context.Cars.Remove(car);
-            await _context.SaveChangesAsync();
-
-            return ToDTO(car);
+            return result;
         }
 
         private bool CarExists(int id)

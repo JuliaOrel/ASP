@@ -12,5 +12,8 @@ namespace CarsApi.Interfaces
         Task<IEnumerable<Car>> GetCarsDetails();
         Task<Car> GetCar(int id);
         Task<Car> GetCarDetails(int id);
+        Task<Car> PostCar(Car entity);
+        Task<Car> PutCar(Car entity);
+        Task<Car> DeleteCar(Car entity);
     }
 }

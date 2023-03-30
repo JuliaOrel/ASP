@@ -12,5 +12,7 @@ namespace CountriesCities.Interfaces
         Task<IEnumerable<CityDetailsDTO>> GetCitiesDetails();
         Task<CityDTO> GetCity(int id);
         Task<CityDetailsDTO> GetCityDetails(int id);
+
+        
     }
 }

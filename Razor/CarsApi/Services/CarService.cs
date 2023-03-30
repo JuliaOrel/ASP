@@ -18,6 +18,18 @@ namespace CarsApi.Services
             _carRepository = carRepository;
         }
 
+        public async Task<CarDTO> DeleteCar(int id)
+        {
+            Car entity = await _carRepository.GetCar(id);
+            if(entity is null)
+            {
+                return null;
+            }
+            Car deletedCar = await _carRepository.DeleteCar(entity);
+            CarDTO result = _mapper.Map<CarDTO>(deletedCar);
+            return result;
+        }
+
         public async Task<CarDTO> GetCar(int id)
         {
             Car entity = await _carRepository.GetCar(id);
@@ -54,6 +66,26 @@ namespace CarsApi.Services
             IEnumerable<CarDetailsDTO> cars =
                 _mapper.Map<IEnumerable<CarDetailsDTO>>(entities);
             return cars;
+        }
+
+        public async Task<CarDTO> PostCar(CarDTO car)
+        {
+            Car entity = _mapper.Map<Car>(car);
+            Car addedEntity = await _carRepository.PostCar(entity);
+            CarDTO result = _mapper.Map<CarDTO>(addedEntity);
+            return result;
+        }
+
+        public async Task<CarDTO> PutCar(CarDTO car)
+        {
+            Car entity = _mapper.Map<Car>(car);
+            if(entity is null)
+            {
+                return null;
+            }
+            Car updatedCar = await _carRepository.PutCar(entity);
+            CarDTO result = _mapper.Map<CarDTO>(updatedCar);
+            return result;
         }
     }
 }
