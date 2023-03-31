@@ -18,6 +18,11 @@ namespace CarsApi.Repositories
             _context = context;
         }
 
+        public bool CityExists(int id)
+        {
+            return _context.Cars.Any(c => c.Id == id);
+        }
+
         public async Task<Car> DeleteCar(Car entity)
         {
             entity.IsDeleted = true;

@@ -18,6 +18,11 @@ namespace CarsApi.Services
             _carRepository = carRepository;
         }
 
+        public bool CarExists(int id)
+        {
+            return _carRepository.CityExists(id);
+        }
+
         public async Task<CarDTO> DeleteCar(int id)
         {
             Car entity = await _carRepository.GetCar(id);

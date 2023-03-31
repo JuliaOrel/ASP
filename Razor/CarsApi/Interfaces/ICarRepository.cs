@@ -15,5 +15,6 @@ namespace CarsApi.Interfaces
         Task<Car> PostCar(Car entity);
         Task<Car> PutCar(Car entity);
         Task<Car> DeleteCar(Car entity);
+        bool CityExists(int id);
     }
 }

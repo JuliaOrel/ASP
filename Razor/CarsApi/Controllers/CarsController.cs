@@ -17,14 +17,14 @@ namespace CarsApi.Controllers
     [ApiController]
     public class CarsController : ControllerBase
     {
-        private readonly CarsApiContext _context;
+        //private readonly CarsApiContext _context;
         //private readonly IMapper _mapper;
         private readonly ICarService _carService;
 
-        public CarsController(CarsApiContext context, ICarService carService)
+        public CarsController(ICarService carService)
         {
             
-            _context = context;
+            //_context = context;
             _carService = carService;
             //_mapper = mapper;               
         }
@@ -33,10 +33,6 @@ namespace CarsApi.Controllers
         [HttpGet("GetCars")]
         public async Task<ActionResult<IEnumerable<CarDTO>>> GetCars()
         {
-            if (_context.Cars == null)
-            {
-                return NotFound();
-            }
            
             IEnumerable<CarDTO> cars = await _carService.GetCars();
             return Ok(cars);
@@ -46,10 +42,6 @@ namespace CarsApi.Controllers
         [HttpGet("GetCarsDetails")]
         public async Task<ActionResult<IEnumerable<CarDetailsDTO>>> GetCarsDetails()
         {
-            if (_context.Cars == null)
-            {
-                return NotFound();
-            }
            
             IEnumerable<CarDetailsDTO> cars = await _carService.GetCarsDetails();
             return Ok(cars);
@@ -104,11 +96,11 @@ namespace CarsApi.Controllers
                     return NotFound();
                 }
 
-                await _context.SaveChangesAsync();
+                //await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CarExists(id))
+                if (!_carService.CarExists(id))
                 {
                     return NotFound();
                 }
@@ -148,10 +140,10 @@ namespace CarsApi.Controllers
             return result;
         }
 
-        private bool CarExists(int id)
-        {
-            return _context.Cars.Any(e => e.Id == id);
-        }
+        //private bool CarExists(int id)
+        //{
+        //    return _context.Cars.Any(e => e.Id == id);
+        //}
 
         [NonAction]
         private CarDTO ToDTO(Car car)

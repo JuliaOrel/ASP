@@ -15,6 +15,6 @@ namespace CarsApi.Interfaces
         Task<CarDTO> PostCar(CarDTO car);
         Task<CarDTO> PutCar(CarDTO car);
         Task<CarDTO> DeleteCar(int id);
-
+        bool CarExists(int id);
     }
 }
