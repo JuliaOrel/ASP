@@ -17,9 +17,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarsApi", "CarsApi\CarsApi.csproj", "{A627F4FC-2021-4E65-90FA-BCF35F5D3CB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountriesCities", "CountriesCities\CountriesCities.csproj", "{C9E5BAC3-F192-4B05-96CD-88220B883CFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CountriesCities", "CountriesCities\CountriesCities.csproj", "{C9E5BAC3-F192-4B05-96CD-88220B883CFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountriesCitiesShared", "CountriesCitiesShared\CountriesCitiesShared.csproj", "{839AC05E-A9F8-4197-B074-304B8751A81C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CountriesCitiesShared", "CountriesCitiesShared\CountriesCitiesShared.csproj", "{839AC05E-A9F8-4197-B074-304B8751A81C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{7EFA88FB-CDBA-4A01-BC5A-82F31F3D4776}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureBlobStorage", "AzureBlobStorage\AzureBlobStorage.csproj", "{B50E2E11-0F43-40A4-BDB3-6CE61C48EC68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +67,14 @@ Global
 		{839AC05E-A9F8-4197-B074-304B8751A81C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{839AC05E-A9F8-4197-B074-304B8751A81C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{839AC05E-A9F8-4197-B074-304B8751A81C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EFA88FB-CDBA-4A01-BC5A-82F31F3D4776}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EFA88FB-CDBA-4A01-BC5A-82F31F3D4776}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EFA88FB-CDBA-4A01-BC5A-82F31F3D4776}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EFA88FB-CDBA-4A01-BC5A-82F31F3D4776}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B50E2E11-0F43-40A4-BDB3-6CE61C48EC68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B50E2E11-0F43-40A4-BDB3-6CE61C48EC68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B50E2E11-0F43-40A4-BDB3-6CE61C48EC68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B50E2E11-0F43-40A4-BDB3-6CE61C48EC68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
