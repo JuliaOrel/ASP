@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -21,34 +22,48 @@ namespace CarsBlazorClient.HttpServices
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
         }
-        public Task<CarDTO> DelCar(int id)
+        public async Task<CarDTO> DelCar(int id)
         {
-            throw new NotImplementedException();
+            HttpClient httpClient = CreateNamedHttpClient();
+            HttpResponseMessage response = await httpClient.DeleteAsync($"/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                string stringResponse = await response.Content.ReadAsStringAsync();
+                CarDTO result = JsonSerializer.Deserialize<CarDTO>(stringResponse, _jsonSerializerOptions);
+                return result;
+            }
+            return null;
         }
 
-        public Task<CarDTO> GetCar(int id)
+        public async Task<CarDTO> GetCar(int id)
         {
-            throw new NotImplementedException();
+            HttpClient httpClient = CreateNamedHttpClient();
+            var response = await httpClient.GetFromJsonAsync<CarDTO>($"/GetCar/{id}");
+            return response;
         }
 
-        public Task<CarDetailsDTO> GetCarDetails(int id)
+        public async Task<CarDetailsDTO> GetCarDetails(int id)
         {
-            throw new NotImplementedException();
+            HttpClient httpClient = CreateNamedHttpClient();
+            var response = await httpClient.GetFromJsonAsync<CarDetailsDTO>($"/GetCarDetails/{id}");
+            return response;
         }
 
         public async Task<List<CarDTO>> GetCars()
         {
             HttpClient httpClient = CreateNamedHttpClient();
-            HttpResponseMessage response = await httpClient
-                .GetAsync("/GetCars");
-            
-            string content = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode == false)
-            {
-                throw new ApplicationException(content);
-            }
-            var cars = JsonSerializer.Deserialize<List<CarDTO >> (content, _jsonSerializerOptions);
-            return cars;
+            //HttpResponseMessage response = await httpClient
+            //    .GetAsync("/GetCars");
+
+            //string content = await response.Content.ReadAsStringAsync();
+            //if (response.IsSuccessStatusCode == false)
+            //{
+            //    throw new ApplicationException(content);
+            //}
+            //var cars = JsonSerializer.Deserialize<List<CarDTO >> (content, _jsonSerializerOptions);
+            //return cars;
+            var response = await httpClient.GetFromJsonAsync<IEnumerable<CarDTO>>("/GetCars");
+            return response.ToList();
         }
 
         private HttpClient CreateNamedHttpClient()
@@ -56,19 +71,38 @@ namespace CarsBlazorClient.HttpServices
             return _httpClientFactory.CreateClient("CarsHttpClient");
         }
 
-        public Task<List<CarDetailsDTO>> GetCarsDetails()
+        public async Task<List<CarDetailsDTO>> GetCarsDetails()
         {
-            throw new NotImplementedException();
+            HttpClient httpClient = CreateNamedHttpClient();
+            var response = await httpClient.GetFromJsonAsync<IEnumerable<CarDetailsDTO>>("/GetCarsDetails");
+            return response.ToList();
+
         }
 
-        public Task<CarDTO> PostCar(CarDTO car)
+        public async Task<CarDTO> PostCar(CarDTO car)
         {
-            throw new NotImplementedException();
+            HttpClient httpClient = CreateNamedHttpClient();
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync<CarDTO>("", car);
+            if(response.IsSuccessStatusCode)
+            {
+                string stringResponse = await response.Content.ReadAsStringAsync();
+                CarDTO result = JsonSerializer.Deserialize<CarDTO>(stringResponse, _jsonSerializerOptions);
+                return result;
+            }
+            return null;
         }
 
-        public Task<CarDTO> PutCar(CarDTO car)
+        public async Task<CarDTO> PutCar(CarDTO car)
         {
-            throw new NotImplementedException();
+            HttpClient httpClient = CreateNamedHttpClient();
+            HttpResponseMessage response = await httpClient.PutAsJsonAsync<CarDTO>($"/{car.Id}", car);
+            if (response.IsSuccessStatusCode)
+            {
+                string stringResponse = await response.Content.ReadAsStringAsync();
+                CarDTO result = JsonSerializer.Deserialize<CarDTO>(stringResponse, _jsonSerializerOptions);
+                return result;
+            }
+            return null;
         }
     }
 }

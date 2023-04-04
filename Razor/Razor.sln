@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureBlobStorage", "AzureBl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureQueue", "AzureQueue\AzureQueue.csproj", "{7A765FB8-29DA-41B6-AFC8-E38E933D6195}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarsBlazorClient", "CarsBlazorClient\CarsBlazorClient.csproj", "{8C266AA0-4F3C-4989-97BF-4150FB53F701}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarsBlazorClient", "CarsBlazorClient\CarsBlazorClient.csproj", "{8C266AA0-4F3C-4989-97BF-4150FB53F701}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
