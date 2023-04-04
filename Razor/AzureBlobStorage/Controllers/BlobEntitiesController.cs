@@ -7,16 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AzureBlobStorage.Data;
 using AzureBlobStorage.Models;
+using Azure.Storage.Blobs;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace AzureBlobStorage.Controllers
 {
     public class BlobEntitiesController : Controller
     {
         private readonly AzureBlobStorageContext _context;
+        private readonly BlobServiceClient _blobServiceClient;
+        private readonly IConfiguration _configuration;
+        private readonly string _containerName;
 
-        public BlobEntitiesController(AzureBlobStorageContext context)
+     public BlobEntitiesController(AzureBlobStorageContext context, IConfiguration configuration, BlobServiceClient blobServiceClient)
         {
             _context = context;
+            _blobServiceClient = blobServiceClient;
+            _configuration = configuration;
+            _containerName = _configuration.GetSection("Azure:BlobContainerName").Value;
+            
         }
 
         // GET: BlobEntities
@@ -54,15 +64,27 @@ namespace AzureBlobStorage.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FileName,Uri")] BlobEntity blobEntity)
+        public async Task<IActionResult> Create(CreateBlobVM model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(blobEntity);
+                string fileName = Guid.NewGuid().ToString() + model.Image.FileName;
+                BlobContainerClient blobContainerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
+                await blobContainerClient.CreateIfNotExistsAsync();
+                await blobContainerClient.SetAccessPolicyAsync(Azure.Storage.Blobs.Models.PublicAccessType.BlobContainer);
+                BlobClient blobClient = blobContainerClient.GetBlobClient(fileName);
+                Stream imageStream = model.Image.OpenReadStream();
+                await blobClient.UploadAsync(imageStream);
+                BlobEntity blobEntityToAdd = new BlobEntity
+                {
+                    FileName = fileName,
+                    Uri = blobClient.Uri.AbsoluteUri,
+                };
+                await _context.BlobEntities.AddAsync(blobEntityToAdd);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
             }
-            return View(blobEntity);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: BlobEntities/Edit/5
