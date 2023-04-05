@@ -20,6 +20,25 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
+<script>
+    function actionCarToastHandler(actionColor, message) {
+
+        const toastEl = document.getElementById('actionCarToast');
+        const toast = new bootstrap.Toast(toastEl);
+
+        const toastHeaderEl = document.getElementById('actionCarToastHeader');
+        const toastBodyEl = document.getElementById('actionCarToastBody');
+
+        toastHeaderEl.className = '';
+        toastHeaderEl.classList.add('toast-header');
+        toastHeaderEl.classList.add(actionColor);
+        toastBodyEl.innerText = message;
+
+        toast.show();
+    }
+
+</script>

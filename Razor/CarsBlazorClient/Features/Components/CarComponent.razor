@@ -1,0 +1,29 @@
+﻿<h3>CarComponent</h3>
+<tr>
+    <td scope="row">@Car.Model</td>
+    <td scope="row">@Car.Brand</td>
+    <td scope="row">@Car.Color</td>
+    <td scope="row">@Car.YearIssue</td>
+    <td scope="row">@Car.CompanyId</td>
+    <td scope="row">@Car.CompanyName</td>
+    <td>
+        <a href="/car/@Car.Id" class="btn btn-primary">Details</a>
+    </td>
+    <td>
+        <a href="/edit-car/@Car.Id" class="btn btn-warning">Edit</a>
+    </td>
+    <td>
+        <button @onclick="OnDeleteCar" class="btn btn-danger">Delete</button>
+    </td>
+</tr>
+
+@code {
+    [Parameter]
+    public CarDetailsDTO Car { get; set; }
+    [Parameter]
+    public EventCallback<int> DeleteCarCallback { get; set; }
+    private async Task OnDeleteCar()
+    {
+        await DeleteCarCallback.InvokeAsync(Car.Id);
+    }
+}

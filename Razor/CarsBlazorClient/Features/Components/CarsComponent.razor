@@ -1,0 +1,31 @@
+﻿<h3>CarsComponent</h3>
+<a href="/add-car" class="btn btn-primary mb-5">Add car</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Model</th>
+            <th scope="col">Brand</th>
+            <th scope="col">Color</th>
+            <th scope="col">Year</th>
+            <th scope="col">Company Id</th>
+            <th scope="col">Company Name</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (CarDetailsDTO car in Cars)
+        {
+            <CarComponent Car="car" DeleteCarCallback="DeleteCarCallback"/>
+        }
+    </tbody>
+</table>
+@code {
+    [Parameter]
+    public List<CarDetailsDTO> Cars { get; set; }
+    [Parameter]
+    public EventCallback<int> DeleteCarCallback { get; set; }
+}

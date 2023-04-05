@@ -11,6 +11,7 @@
     public ICarHttpService CarHttpService { get; set; }
     [Inject]
     public ICompanyHttpService CompanyHttpService { get; set; }
+    [Inject]
     public IJSRuntime JS { get; set; }
     protected override async Task OnInitializedAsync()
     {

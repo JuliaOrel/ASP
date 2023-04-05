@@ -1,0 +1,36 @@
+﻿<h3>GetCarsDetailsPage</h3>
+@if(Cars is null)
+            {
+    <p>Super loading animation</p>
+            }
+            else
+            {
+                <CarsComponent Cars="Cars" DeleteCarCallback="DeleteCarHandler"/>
+            }
+@code {
+    public List<CarDetailsDTO> Cars { get; set; }
+    [Inject]
+    public ICarHttpService CarHttpService { get; set; }
+    [Inject]
+    public IJSRuntime JS { get; set; }
+    protected  override async Task OnInitializedAsync()
+    {
+        Cars = await CarHttpService.GetCarsDetails();
+    }
+    private async Task DeleteCarHandler(int id)
+    {
+        CarDTO deleteCar = await CarHttpService.DelCar(id);
+        if(deleteCar is not null)
+        {
+            CarDetailsDTO car = Cars.Find(c => c.Id == deleteCar.Id);
+            if(car is not null)
+            {
+                await JS.InvokeVoidAsync(
+                    "actionCarToastHandler",
+                    "bg-danger",
+                    $"Car {car.Model} was deleted");
+                Cars.Remove(car);
+            }
+        }
+    }
+}
