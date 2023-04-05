@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Shared.Models;
+using CarsShared.Models;
 
 namespace CarsApi.Data
 {
@@ -14,7 +14,7 @@ namespace CarsApi.Data
         {
         }
 
-        public DbSet<Shared.Models.Car> Cars { get; set; }
-        public DbSet<Shared.Models.Company> Companies { get; set; }
+        public DbSet<CarsShared.Models.Car> Cars { get; set; }
+        public DbSet<CarsShared.Models.Company> Companies { get; set; }
     }
 }

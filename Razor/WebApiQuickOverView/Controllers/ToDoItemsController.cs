@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Shared.Models;
+using CarsShared.Models;
 using WebApiQuickOverView.Data;
 
 namespace WebApiQuickOverView.Controllers

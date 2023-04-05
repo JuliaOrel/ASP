@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CarsApi.Data;
-using Shared.Models;
+using CarsShared.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using AutoMapper;
 using CarsApi.Interfaces;

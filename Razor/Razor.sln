@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth0", "Auth0\Auth0.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiQuickOverView", "WebApiQuickOverView\WebApiQuickOverView.csproj", "{EE447C57-FF36-4701-9D0A-1AB2ADF27566}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{554A759D-0618-4304-9F00-26899F460053}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarsShared", "Shared\CarsShared.csproj", "{554A759D-0618-4304-9F00-26899F460053}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarsApi", "CarsApi\CarsApi.csproj", "{A627F4FC-2021-4E65-90FA-BCF35F5D3CB0}"
 EndProject

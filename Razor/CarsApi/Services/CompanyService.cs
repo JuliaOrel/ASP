@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CarsApi.Interfaces;
-using Shared.Models;
+using CarsShared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿using Shared.Models;
+﻿using CarsShared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +25,7 @@ namespace CarsBlazorClient.HttpServices
         public async Task<CarDTO> DelCar(int id)
         {
             HttpClient httpClient = CreateNamedHttpClient();
-            HttpResponseMessage response = await httpClient.DeleteAsync($"/{id}");
+            HttpResponseMessage response = await httpClient.DeleteAsync($"Cars/{id}");
             if (response.IsSuccessStatusCode)
             {
                 string stringResponse = await response.Content.ReadAsStringAsync();
@@ -38,14 +38,14 @@ namespace CarsBlazorClient.HttpServices
         public async Task<CarDTO> GetCar(int id)
         {
             HttpClient httpClient = CreateNamedHttpClient();
-            var response = await httpClient.GetFromJsonAsync<CarDTO>($"/GetCar/{id}");
+            var response = await httpClient.GetFromJsonAsync<CarDTO>($"Cars/GetCar/{id}");
             return response;
         }
 
         public async Task<CarDetailsDTO> GetCarDetails(int id)
         {
             HttpClient httpClient = CreateNamedHttpClient();
-            var response = await httpClient.GetFromJsonAsync<CarDetailsDTO>($"/GetCarDetails/{id}");
+            var response = await httpClient.GetFromJsonAsync<CarDetailsDTO>($"Cars/GetCarDetails/{id}");
             return response;
         }
 
@@ -62,7 +62,7 @@ namespace CarsBlazorClient.HttpServices
             //}
             //var cars = JsonSerializer.Deserialize<List<CarDTO >> (content, _jsonSerializerOptions);
             //return cars;
-            var response = await httpClient.GetFromJsonAsync<IEnumerable<CarDTO>>("/GetCars");
+            var response = await httpClient.GetFromJsonAsync<IEnumerable<CarDTO>>("Cars/GetCars");
             return response.ToList();
         }
 
@@ -74,7 +74,7 @@ namespace CarsBlazorClient.HttpServices
         public async Task<List<CarDetailsDTO>> GetCarsDetails()
         {
             HttpClient httpClient = CreateNamedHttpClient();
-            var response = await httpClient.GetFromJsonAsync<IEnumerable<CarDetailsDTO>>("/GetCarsDetails");
+            var response = await httpClient.GetFromJsonAsync<IEnumerable<CarDetailsDTO>>("Cars/GetCarsDetails");
             return response.ToList();
 
         }
@@ -82,7 +82,7 @@ namespace CarsBlazorClient.HttpServices
         public async Task<CarDTO> PostCar(CarDTO car)
         {
             HttpClient httpClient = CreateNamedHttpClient();
-            HttpResponseMessage response = await httpClient.PostAsJsonAsync<CarDTO>("", car);
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync<CarDTO>("Cars", car);
             if(response.IsSuccessStatusCode)
             {
                 string stringResponse = await response.Content.ReadAsStringAsync();
@@ -95,7 +95,7 @@ namespace CarsBlazorClient.HttpServices
         public async Task<CarDTO> PutCar(CarDTO car)
         {
             HttpClient httpClient = CreateNamedHttpClient();
-            HttpResponseMessage response = await httpClient.PutAsJsonAsync<CarDTO>($"/{car.Id}", car);
+            HttpResponseMessage response = await httpClient.PutAsJsonAsync<CarDTO>($"Cars/{car.Id}", car);
             if (response.IsSuccessStatusCode)
             {
                 string stringResponse = await response.Content.ReadAsStringAsync();

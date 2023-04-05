@@ -1,24 +1,41 @@
 ﻿
 @page "/cars"
 
+
+
 <h1>Cars</h1>
 @code{
     public List<CarDetailsDTO> Cars { get; set; }
+    public List<CompanyDetailsDTO> Companies { get; set; }
     [Inject]
     public ICarHttpService CarHttpService { get; set; }
+    [Inject]
+    public ICompanyHttpService CompanyHttpService { get; set; }
     public IJSRuntime JS { get; set; }
     protected override async Task OnInitializedAsync()
     {
         Cars = await CarHttpService.GetCarsDetails();
-        if(Cars is not null)
+        Companies = await CompanyHttpService.GetCompaiesDetails();
+        if (Cars is not null)
         {
             foreach (var car in Cars)
             {
-                Console.WriteLine(car.Name+", "+car.CompanyName);
+                Console.WriteLine(car.CompanyName);
             }
         }
-
-
-
+        if (Companies is not null)
+        {
+            foreach (var company in Companies)
+            {
+                Console.WriteLine(company.Name);
+                foreach (var car in company.Cars)
+                {
+                    Console.WriteLine(car.Model);
+                }
+            }
+        }
     }
+
+
 }
+

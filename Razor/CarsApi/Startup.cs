@@ -32,7 +32,15 @@ namespace CarsApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors(policy =>
+            {
+                policy.AddPolicy("BlazorClientPolicy", options =>
+                {
+                    options.AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .WithOrigins("https://localhost:5001");
+                });
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -61,7 +69,7 @@ namespace CarsApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors("BlazorClientPolicy");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

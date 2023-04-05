@@ -1,7 +1,7 @@
 ﻿using CarsApi.Data;
 using CarsApi.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Shared.Models;
+using CarsShared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

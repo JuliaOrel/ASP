@@ -1,4 +1,4 @@
-﻿using Shared.Models;
+﻿using CarsShared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,13 +25,13 @@ namespace CarsBlazorClient.HttpServices
         }
         public async Task<List<CompanyDetailsDTO>> GetCompaiesDetails()
         {
-            var response = await _typedHttpClient.GetFromJsonAsync<IEnumerable<CompanyDetailsDTO>>("/GetCompaniesDetails");
+            var response = await _typedHttpClient.GetFromJsonAsync<IEnumerable<CompanyDetailsDTO>>("Companies/GetCompaniesDetails");
             return response.ToList();
         }
 
         public async Task<List<CompanyDTO>> GetCompanies()
         {
-            var response = await _typedHttpClient.GetFromJsonAsync<IEnumerable<CompanyDTO>>("/GetCompanies");
+            var response = await _typedHttpClient.GetFromJsonAsync<IEnumerable<CompanyDTO>>("Companies/GetCompanies");
             return response.ToList();
         }
     }

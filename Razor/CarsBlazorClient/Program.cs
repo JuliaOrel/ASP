@@ -21,12 +21,12 @@ namespace CarsBlazorClient
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddHttpClient("CarsHttpClient", configure =>
             {
-                configure.BaseAddress = new Uri("https://localhost:5001/api/Cars");
+                configure.BaseAddress = new Uri("https://localhost:5001/api/");
             });
 
             builder.Services.AddHttpClient<ICompanyHttpService, CompanyHttpService>(configure =>
             {
-                configure.BaseAddress= new Uri("https://localhost:5001/api/Companies");
+                configure.BaseAddress= new Uri("https://localhost:5001/api/");
             });
             builder.Services.AddScoped<ICarHttpService, CarHttpService>();
             await builder.Build().RunAsync();
