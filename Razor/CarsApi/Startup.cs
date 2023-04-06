@@ -38,7 +38,7 @@ namespace CarsApi
                 {
                     options.AllowAnyMethod()
                     .AllowAnyHeader()
-                    .WithOrigins("https://localhost:5001");
+                    .WithOrigins("https://localhost:44363");
                 });
             });
             services.AddControllers();

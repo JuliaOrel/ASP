@@ -1,5 +1,69 @@
-﻿<h3>GetCarDetailsPage</h3>
-
-@code {
-
+﻿@page "/car/{id:int}"
+@if (Car is null)
+{
+    <p>Loading City...</p>
 }
+else
+{
+<dl class="row mb-3">
+    <dt class="">Model</dt>
+    <dd class="ms-0">@Car.Model</dd>
+
+    <dt class="">Brand</dt>
+    <dd class="ms-0">@Car.Brand</dd>
+
+    <dt class="">Price</dt>
+    <dd class="ms-0">@Car.Price</dd>
+
+    <dt class="">Color</dt>
+    <dd class="ms-0">@Car.Color</dd>
+
+    <dt class="">Year</dt>
+    <dd class="ms-0">@Car.YearIssue</dd>
+
+    <dt class="">Company Id</dt>
+    <dd class="ms-0">@Car.CompanyId</dd>
+
+    <dt class="">Company Name</dt>
+    <dd class="ms-0">@Car.CompanyName</dd>
+</dl>
+    <div>
+        <a href="/edit-car/@Car.Id" class="btn btn-warning">Edit</a> |
+        <a href="/cars" class="btn btn-primary">On GetCarsDetailsPage</a> |
+        <a type="button" @onclick="DeleteCar" class="btn btn-danger">Delete Car</a>
+    </div>
+}
+
+
+    @code {
+        [Parameter]
+        public int Id { get; set; }
+        public CarDetailsDTO Car { get; set; }
+        [Inject]
+        public ICarHttpService CarHttpService { get; set; }
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+        [Inject]
+        public IJSRuntime JS { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            Car = await CarHttpService.GetCarDetails(Id);
+        }
+
+
+        private async Task DeleteCar()
+        {
+            CarDTO result = await CarHttpService.DelCar(Id);
+            if (result != null)
+            {
+                await JS.InvokeVoidAsync(
+                "actionCarToastHandler",
+                "bg-danger",
+                $"Car {result.Model} was deleted!");
+
+                NavigationManager.NavigateTo("/cars");
+            }
+        }
+
+    }

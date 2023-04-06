@@ -1,5 +1,91 @@
-﻿<h3>AddOrEditCarPage</h3>
+﻿@page "/add-car"
+@page "/edit-car/{id:int}"
+
 
 @code {
+        [Parameter]
+        public int Id { get; set; }
+    public CarDTO Car { get; set; }
+    public List<CompanyDTO> Companies { get; set; }
+
+    [Inject]
+    ICarHttpService CarHttpService { get; set; }
+
+    [Inject]
+    ICompanyHttpService CompanyHttpService { get; set; }
+
+    private string PageHeader = "";
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    public IJSRuntime JS { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Companies = await CompanyHttpService.GetCompanies();
+
+        if (Id != 0)
+        {
+            PageHeader = "Edit City";
+            Car = await CarHttpService.GetCar(Id);
+        }
+        else
+        {
+            PageHeader = "Add City";
+            Car = new CarDTO();
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (Car.CompanyId == 0)
+        {
+            Car.CompanyId = null;
+        }
+
+        CarDTO result = null;
+
+        if (Car.Id == 0)
+        {
+            result = await CarHttpService.PostCar(Car);
+            if (result != null)
+            {
+                await JS.InvokeVoidAsync(
+                "actionCarToastHandler",
+                "bg-success",
+                $"Car {result.Model} was added!");
+            }
+        }
+        else if (Car.Id > 0)
+        {
+            result = await CarHttpService.PutCar(Car);
+            if (result != null)
+            {
+                await JS.InvokeVoidAsync(
+                "actionCarToastHandler",
+                "bg-warning",
+                $"Car {result.Model} was edited!");
+            }
+        } 
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
