@@ -23,23 +23,33 @@ else if (Car is null && Id != 0)
         <ValidationMessage For="@(() => Car.Model)" />
     </div>
     <div class="form-floating mb-3">
-        <InputNumber @bind-Value="Car.Brand" class="form-control" />
+        <InputText @bind-Value="Car.Brand" class="form-control" />
         <label class="form-label">Car Brand</label>
         <ValidationMessage For="@(() => Car.Brand)" />
+    </div>
+    <div class="form-floating mb-3">
+        <InputText @bind-Value="Car.Color" class="form-control" />
+        <label class="form-label">Car Color</label>
+        <ValidationMessage For="@(() => Car.Color)" />
     </div>
     <div class="form-floating mb-3">
         <InputNumber @bind-Value="Car.Price" class="form-control" />
         <label class="form-label">Car Price</label>
         <ValidationMessage For="@(() => Car.Price)" />
     </div>
+    <div class="form-floating mb-3">
+        <InputNumber @bind-Value="Car.YearIssue" class="form-control" />
+        <label class="form-label">Car Year</label>
+        <ValidationMessage For="@(() => Car.YearIssue)" />
+    </div>
     <div class="mb-3">
-        <InputSelect @bind-Value="Car.CompanyId" class="form-select">
+        <CustomInputSelect @bind-Value="Car.CompanyId" class="form-select">
             <option selected value="0">Without Company</option>
             @foreach (var item in Companies)
                 {
                 <option value="@item.Id">@item.Name</option>
                 }
-        </InputSelect>
+        </CustomInputSelect>
     </div>
     <div class="mb-3">
         @if (Id != 0)
