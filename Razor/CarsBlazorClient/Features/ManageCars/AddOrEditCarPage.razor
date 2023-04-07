@@ -1,10 +1,80 @@
 ﻿@page "/add-car"
 @page "/edit-car/{id:int}"
 
+<h2>@PageHeader</h2>
 
+@if (Car is null && Id == 0)
+{
+    <p>Loading form for add city...</p>
+}
+else if (Car is null && Id != 0)
+{
+    <p>Loadingform for edit city...</p>
+}
+            else
+            {
+<EditForm Model="Car" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-floating mb-3">
+        <InputText @bind-Value="Car.Model" class="form-control" />
+        <label class="form-label">Car Model</label>
+        <ValidationMessage For="@(() => Car.Model)" />
+    </div>
+    <div class="form-floating mb-3">
+        <InputNumber @bind-Value="Car.Brand" class="form-control" />
+        <label class="form-label">Car Brand</label>
+        <ValidationMessage For="@(() => Car.Brand)" />
+    </div>
+    <div class="form-floating mb-3">
+        <InputNumber @bind-Value="Car.Price" class="form-control" />
+        <label class="form-label">Car Price</label>
+        <ValidationMessage For="@(() => Car.Price)" />
+    </div>
+    <div class="mb-3">
+        <InputSelect @bind-Value="Car.CompanyId" class="form-select">
+            <option selected value="0">Without Company</option>
+            @foreach (var item in Companies)
+                {
+                <option value="@item.Id">@item.Name</option>
+                }
+        </InputSelect>
+    </div>
+    <div class="mb-3">
+        @if (Id != 0)
+        {
+            <input type="submit"
+                   value="Edit Car"
+                   class="btn btn-warning me-1" />
+
+            <a href="/car/@Car.Id"
+               class="btn btn-success me-5">Details</a>
+
+            <button type="button"
+                    @onclick="DeleteCar"
+                    class="btn btn-danger">
+                Delete Car
+            </button>
+        }
+        else if (Id == 0)
+        {
+            <input type="submit"
+                   value="Add Car"
+                   class="btn btn-success" />
+        }
+    </div>
+
+    <div class="mb-3">
+        <a href="/cars"
+           class="btn btn-primary">On GetCarsDetailsPage</a>
+    </div>
+
+</EditForm>
+            }
 @code {
-        [Parameter]
-        public int Id { get; set; }
+    [Parameter]
+    public int Id { get; set; }
     public CarDTO Car { get; set; }
     public List<CompanyDTO> Companies { get; set; }
 
@@ -68,8 +138,35 @@
                 "bg-warning",
                 $"Car {result.Model} was edited!");
             }
-        } 
+        }
+        if (result != null)
+        {
+            NavigationManager.NavigateTo("/cars");
+        }
+        else
+        {
+            await JS.InvokeVoidAsync(
+            "actionCarToastHandler",
+            "bg-danger",
+            $"There was a problem to {PageHeader} {Car.Model}...");
+        }
+
     }
+
+    private async Task DeleteCar()
+    {
+        CarDTO result = await CarHttpService.DelCar(Id);
+        if (result != null)
+        {
+            await JS.InvokeVoidAsync(
+            "actionCarToastHandler",
+            "bg-danger",
+            $"Car {result.Model} was deleted!");
+
+            NavigationManager.NavigateTo("/cars");
+        }
+    }
+
 
 
 

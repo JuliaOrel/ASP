@@ -1,5 +1,40 @@
-﻿<h3>GetCompaniesDetailsPage</h3>
+﻿@page "/companies"
+<h3>GetCompaniesDetailsPage</h3>
+@if (Companies == null)
+{
+    <p>Loading the companies...</p>
+}
+else
+{
+    <dl class="mb-5">
+        @foreach (var company in Companies)
+        {
+            <dt>@company.Name</dt>
+
+            if (company.Cars is not null)
+            {
+                foreach (var car in company.Cars)
+                {
+                    <dd class="ms-5">@car.Model</dd>
+
+                }
+            }
+        }
+    </dl>
+
+    <a href="/cars"
+       class="btn btn-primary">On GetCarsDetails</a>
+}
 
 @code {
+    public List<CompanyDetailsDTO> Companies { get; set; }
+
+    [Inject]
+    public ICompanyHttpService CompanyHttpService { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Companies = await CompanyHttpService.GetCompaiesDetails();
+    }
 
 }
