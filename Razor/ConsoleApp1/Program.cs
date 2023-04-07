@@ -3,8 +3,9 @@ using System.IO;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 
-string connString= "DefaultEndpointsProtocol=https;AccountName=teststoraccount14;AccountKey=ZiHjvVDLZjg3UtfVLGi5nzVrBS62YvmCaN+XmaksNsOok586GpRNo9V1zYw0ZjN4gJsbgRW98CA/+ASt7cP2Mw==;BlobEndpoint=https://teststoraccount14.blob.core.windows.net/;QueueEndpoint=https://teststoraccount14.queue.core.windows.net/;TableEndpoint=https://teststoraccount14.table.core.windows.net/;FileEndpoint=https://teststoraccount14.file.core.windows.net/;";
-BlobServiceClient blobServiceClient = new BlobServiceClient(connString);
+//string connString= "DefaultEndpointsProtocol=https;AccountName=teststoraccount14;AccountKey=ZiHjvVDLZjg3UtfVLGi5nzVrBS62YvmCaN+XmaksNsOok586GpRNo9V1zYw0ZjN4gJsbgRW98CA/+ASt7cP2Mw==;BlobEndpoint=https://teststoraccount14.blob.core.windows.net/;QueueEndpoint=https://teststoraccount14.queue.core.windows.net/;TableEndpoint=https://teststoraccount14.table.core.windows.net/;FileEndpoint=https://teststoraccount14.file.core.windows.net/;";
+string EmulatorConnString = "AccountName=teststoraccount14;AccountKey=ZiHjvVDLZjg3UtfVLGi5nzVrBS62YvmCaN+XmaksNsOok586GpRNo9V1zYw0ZjN4gJsbgRW98CA/+ASt7cP2Mw==;EndpointSuffix=core.windows.net;DefaultEndpointsProtocol=https;";
+BlobServiceClient blobServiceClient = new BlobServiceClient(EmulatorConnString);
 string containerName = "text-files-container";
 string localDirectory = "../../../Data";
 string fileName = "textFile" + Guid.NewGuid().ToString() + ".txt";

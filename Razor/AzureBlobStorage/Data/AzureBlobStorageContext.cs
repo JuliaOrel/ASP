@@ -12,7 +12,7 @@ namespace AzureBlobStorage.Data
         public AzureBlobStorageContext (DbContextOptions<AzureBlobStorageContext> options)
             : base(options)
         {
-
+            Database.EnsureCreated();
         }
 
         public DbSet<AzureBlobStorage.Models.BlobEntity> BlobEntities { get; set; }

@@ -35,23 +35,23 @@ namespace AzureBlobStorage.Controllers
             return View(await _context.BlobEntities.ToListAsync());
         }
 
-        // GET: BlobEntities/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //// GET: BlobEntities/Details/5
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var blobEntity = await _context.BlobEntities
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (blobEntity == null)
-            {
-                return NotFound();
-            }
+        //    var blobEntity = await _context.BlobEntities
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (blobEntity == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(blobEntity);
-        }
+        //    return View(blobEntity);
+        //}
 
         // GET: BlobEntities/Create
         public IActionResult Create()
@@ -100,7 +100,12 @@ namespace AzureBlobStorage.Controllers
             {
                 return NotFound();
             }
-            return View(blobEntity);
+            EditBlobVM editBlobVM = new EditBlobVM
+            {
+                BlobEntity = blobEntity,
+            };
+
+            return View(editBlobVM);
         }
 
         // POST: BlobEntities/Edit/5
@@ -108,34 +113,38 @@ namespace AzureBlobStorage.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FileName,Uri")] BlobEntity blobEntity)
+        public async Task<IActionResult> Edit(int id, EditBlobVM model)
         {
-            if (id != blobEntity.Id)
+            if (id != model.BlobEntity.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid == false)
             {
-                try
-                {
-                    _context.Update(blobEntity);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BlobEntityExists(blobEntity.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                return View(model);
+            }
+            if(model.Image is null)
+            {
                 return RedirectToAction(nameof(Index));
             }
-            return View(blobEntity);
+            string fileName = Guid.NewGuid().ToString() + model.Image.FileName;
+            BlobContainerClient blobContainerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
+            await blobContainerClient.CreateIfNotExistsAsync();
+            await blobContainerClient.SetAccessPolicyAsync(Azure.Storage.Blobs.Models.PublicAccessType.BlobContainer);
+
+            BlobClient blobClientToDelete =
+                blobContainerClient.GetBlobClient(model.BlobEntity.FileName);
+            await blobClientToDelete.DeleteIfExistsAsync();
+            
+            BlobClient blobClient = blobContainerClient.GetBlobClient(fileName); blobClient = blobContainerClient.GetBlobClient(fileName);
+            Stream imageStream = model.Image.OpenReadStream();
+            await blobClient.UploadAsync(imageStream);
+            model.BlobEntity.FileName = fileName;
+            model.BlobEntity.Uri = blobClient.Uri.AbsoluteUri;
+            _context.BlobEntities.Update(model.BlobEntity);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: BlobEntities/Delete/5
@@ -147,7 +156,7 @@ namespace AzureBlobStorage.Controllers
             }
 
             var blobEntity = await _context.BlobEntities
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FindAsync(id);
             if (blobEntity == null)
             {
                 return NotFound();
@@ -162,6 +171,15 @@ namespace AzureBlobStorage.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var blobEntity = await _context.BlobEntities.FindAsync(id);
+            if(blobEntity == null)
+            {
+                return NotFound();
+            }
+            BlobContainerClient blobContainerClient =
+                _blobServiceClient.GetBlobContainerClient(_containerName);
+            BlobClient blobClientToDelete =
+                blobContainerClient.GetBlobClient(blobEntity.FileName);
+            await blobClientToDelete.DeleteIfExistsAsync();
             _context.BlobEntities.Remove(blobEntity);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
