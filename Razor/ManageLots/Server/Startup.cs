@@ -1,3 +1,4 @@
+using ManageLots.Server.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,6 +26,15 @@ namespace ManageLots.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddScoped<AzureQueueService>(factory =>
+            {
+                return new AzureQueueService
+                {
+                    AzureStorageConnectionString = Configuration
+                    .GetValue<string>("Azure:AzureStorageConnectionString"),
+                    QueueName = Configuration.GetValue<string>("Azure:QueueName")
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Queues;
+﻿using Azure;
+using Azure.Storage.Queues;
 using Azure.Storage.Queues.Models;
 using ManageLots.Shared;
 using System;
@@ -32,7 +33,7 @@ namespace ManageLots.Server.Services
 
         public async Task <IEnumerable<LotGetModel>> GetAllLots()
         {
-            QueueClient queueClient = await GetQueueClientAsync();
+            QueueClient queueClient = await CreateQueueClientAsync();
             QueueMessage[] queueMessages = (await queueClient.ReceiveMessagesAsync(
                 maxMessages: 10,
                 visibilityTimeout: TimeSpan.FromSeconds(1))).Value;
@@ -46,9 +47,35 @@ namespace ManageLots.Server.Services
             return lots;
         }
 
-        private Task<QueueClient> GetQueueClientAsync()
+        public async Task<LotGetModel> AddLot(LotAddModel lotAddModel)
         {
-            throw new NotImplementedException();
+            if(lotAddModel is null)
+            {
+                return null;
+            }
+            QueueClient queueClient = await CreateQueueClientAsync();
+            string json = JsonSerializer.Serialize(lotAddModel, _jsonSerializerOptions);
+            SendReceipt response=await queueClient.SendMessageAsync(messageText: json, timeToLive: TimeSpan.FromDays(1));
+            LotGetModel lotGetModel = new LotGetModel
+            {
+                Currency = lotAddModel.Currency,
+                Amount = lotAddModel.Amount,
+                Seller = lotAddModel.Seller,
+                MessageId = response.MessageId,
+                PopReceipt = response.PopReceipt
+            };
+            return lotGetModel;
+        }
+
+        public async Task<Response> DeleteMessageAsync(string messgeId, string popReceipt)
+        {
+            //QueueServiceClient queueServiceClient =
+            //   new QueueServiceClient(AzureStorageConnectionString);
+            //QueueClient queueClient = queueServiceClient.GetQueueClient(QueueName);
+            //await queueClient.CreateIfNotExistsAsync();
+            QueueClient queueClient = await CreateQueueClientAsync();
+            Response result = await queueClient.DeleteMessageAsync(messgeId, popReceipt);
+            return result;
         }
     }
 }
