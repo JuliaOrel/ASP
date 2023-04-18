@@ -18,6 +18,11 @@ namespace AzureWebJobsEx
             builder.ConfigureLogging((context, configure) =>
             {
                 configure.AddConsole();
+                string appInsightsKey = context.Configuration.GetSection("AppInsightsKey").Value;
+                if(string.IsNullOrEmpty(appInsightsKey))
+                {
+                    configure.AddApplicationInsightsWebJobs(a => a.InstrumentationKey = appInsightsKey);
+                }
             });
 
             IHost host = builder.Build();
