@@ -1,0 +1,23 @@
+﻿@model CognitiveServices.Models.AddImageModel
+
+@{ 
+    ViewData["Title"] = "Add Image";
+}
+
+<h2>Add Image</h2>
+<form asp-action="AddImage" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="Image" class="form-label"></label>
+        <input asp-for="Image" type="file" class="form-control"/>
+        <span asp-validation-for="Image" class="text-danger"></span>
+    </div>
+    <div>
+        <input type="submit" value="add" class="btn btn-lg btn-primary"/>
+    </div>
+    
+
+</form>
+
+<a asp-action="Index">Back</a>
+
