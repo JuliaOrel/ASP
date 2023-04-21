@@ -1,0 +1,34 @@
+﻿
+@model CognitiveServices.Models.TranslatorVM
+
+@{
+    ViewData["Title"] = "Translate";
+ }
+
+<h1>Translate</h1>
+
+<form asp-action="Translate" class="mb-5">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="From" class="form-label"></label>
+        <select asp-for="FromValue" asp-items="@Html.GetEnumSelectList<Languages>()"
+                class="form-select">
+            <option selected="selected" disabled="disabled">Choose Language</option>
+        </select>
+        <span asp-validation-for="FromValue" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="To" class="form-label"></label>
+        <select asp-for="ToValue" asp-items="@Html.GetEnumSelectList<Languages>()"multiple
+                class="form-select">
+            <option selected="selected" disabled="disabled">Choose Language</option>
+        </select>
+        <span asp-validation-for="ToValue" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Text" class="form-label"></label>
+        <textarea asp-for="Text"></textarea>
+
+    </div>
+</form>

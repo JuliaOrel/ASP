@@ -40,6 +40,15 @@ namespace CognitiveServices
 
                 return new AzureComputerVisionService(key, endPoint);
             });
+
+            services.AddScoped<TranslationService>(FACTORY =>
+            {
+                string key = Configuration.GetValue<string>("Azure:Translator:Key");
+                string region = Configuration.GetValue<string>("Azure:Translator:Region");
+                string endpoint = Configuration.GetValue<string>("Azure:Translator:Endpoint");
+
+                return new TranslationService(key, region, endpoint);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
