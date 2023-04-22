@@ -12,12 +12,17 @@
         <input asp-for="Image" type="file" class="form-control"/>
         <span asp-validation-for="Image" class="text-danger"></span>
     </div>
-    <div>
-        <input type="submit" value="add" class="btn btn-lg btn-primary"/>
+    <div class="mb-3">
+        <input type="submit" value="Add" class="btn btn-lg btn-primary"/>
     </div>
     
 
 </form>
 
 <a asp-action="Index">Back</a>
+@section Scripts {
+   @{ 
+       await Html.RenderPartialAsync("_ValidationScriptsPartial");
+   }
+}
 

@@ -27,16 +27,16 @@ namespace CognitiveServices
             services.AddControllersWithViews();
             services.AddScoped<AzureBlobService>(factory =>
             {
-                string azureConnectionString = Configuration.GetValue<string>("Azure: BlobStorage:ConnectionString");
-                string blobContainerName = Configuration.GetValue<string>("Azure: BlobStorage:ConnectionString");
+                string azureConnectionString = Configuration.GetValue<string>("Azure:BlobStorage:ConnectionString");
+                string blobContainerName = Configuration.GetValue<string>("Azure:BlobStorage:ConnectionString");
 
                 return new AzureBlobService(azureConnectionString, blobContainerName);
             });
 
             services.AddScoped<AzureComputerVisionService>(factory =>
             {
-                string key = Configuration.GetValue<string>("Azure: ComputerVision:Key");
-                string endPoint = Configuration.GetValue<string>("Azure: ComputerVision:EndPoint");
+                string key = Configuration.GetValue<string>("Azure:ComputerVision:Key");
+                string endPoint = Configuration.GetValue<string>("Azure:ComputerVision:EndPoint");
 
                 return new AzureComputerVisionService(key, endPoint);
             });

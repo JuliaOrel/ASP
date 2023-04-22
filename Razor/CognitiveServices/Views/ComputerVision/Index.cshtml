@@ -10,6 +10,11 @@
                 <img src="data:image/*;base64, @(Convert.ToBase64String(item.ImageData))"
                      class="card-img-bottom"
                      alt="@item.ImageData"/>
+                <figcaption class="figure-caption">
+                    <div style="white-space:pre-line">
+                        @item.ComputerVisionStatus
+                    </div>
+                </figcaption>
             </figure>
         </div>
     }

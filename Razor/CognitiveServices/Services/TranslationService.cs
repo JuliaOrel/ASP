@@ -15,7 +15,6 @@ namespace CognitiveServices.Services
         private readonly string _endpoint;
 
         public static readonly Dictionary<Languages, string> languagesCodes;
-        private object languageCodes;
 
         public TranslationService(string key, string region, string endpoint)
         {
@@ -33,12 +32,12 @@ namespace CognitiveServices.Services
             languagesCodes.Add(Languages.Polish, "pl");
         }
 
-        public async Task<TranslationResult[]> Translate(string text, Languages[] to, Languages[] from=null,
+        public async Task<TranslationResult[]> Translate(string text, Languages[] to, Languages? from=null,
             Dictionary<string, string> requestParameters=null)
         {
-            using(var httpClient=new HttpClient)
+            using(var httpClient=new HttpClient())
             {
-                using (var request = new HttpRequestMessage)
+                using (var request = new HttpRequestMessage())
                 {
                     request.Method = HttpMethod.Post;
                     request.RequestUri = BuildRequestUri(to, from, requestParameters);
@@ -71,14 +70,27 @@ namespace CognitiveServices.Services
 
         private Uri BuildRequestUri(
             Languages[]to, 
-            Languages[]from,
+            Languages? from,
             Dictionary<string,string> requestParameters)
         {
             string route = _endpoint + "translate?api-version=3.0";
             if(from is not null)
             {
-                route+= $"&from{languagesCodes[from.va]}"
+                route += $"&from{languagesCodes[from.Value]}";
             }
+            foreach (Languages languages in to)
+            {
+                route += $"&to{languagesCodes[languages]}";
+            }
+            if(requestParameters is not null)
+            {
+                foreach (var parametr in requestParameters)
+                {
+                    route += $"&{parametr.Key}={parametr.Value}";
+                }
+            }
+            return new Uri(route);
         }
+        
     }
 }

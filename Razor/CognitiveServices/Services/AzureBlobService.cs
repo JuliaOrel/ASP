@@ -10,9 +10,9 @@ namespace CognitiveServices.Services
     {
         private readonly BlobServiceClient _blobServiceClient;
         public BlobContainerClient BlobContainerClient { get; private set; }
-        public AzureBlobService(string azureStorageConnectionString, string containerName)
+        public AzureBlobService(string azureConnectionString, string containerName)
         {
-            _blobServiceClient = new BlobServiceClient(azureStorageConnectionString);
+            _blobServiceClient = new BlobServiceClient(azureConnectionString);
             BlobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
             BlobContainerClient.CreateIfNotExists();
         }

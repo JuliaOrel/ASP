@@ -37,9 +37,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManageLots.Shared", "Manage
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureWebJobsEx", "AzureWebJobsEx\AzureWebJobsEx.csproj", "{23542690-4E56-485F-9F91-370136496029}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatsCosmosDb", "CatsCosmosDb\CatsCosmosDb.csproj", "{6660E357-35CA-4BBB-96D1-E93561A04705}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatsCosmosDb", "CatsCosmosDb\CatsCosmosDb.csproj", "{6660E357-35CA-4BBB-96D1-E93561A04705}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CognitiveServices", "CognitiveServices\CognitiveServices.csproj", "{2A8671A9-0985-4E99-8ED2-ED11A73A61A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CognitiveServices", "CognitiveServices\CognitiveServices.csproj", "{2A8671A9-0985-4E99-8ED2-ED11A73A61A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramLogPollingExample", "TelegramLogPollingExample\TelegramLogPollingExample.csproj", "{C7977A23-FAF6-4AEB-B572-2B4C50DD907C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,6 +125,10 @@ Global
 		{2A8671A9-0985-4E99-8ED2-ED11A73A61A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A8671A9-0985-4E99-8ED2-ED11A73A61A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A8671A9-0985-4E99-8ED2-ED11A73A61A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7977A23-FAF6-4AEB-B572-2B4C50DD907C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7977A23-FAF6-4AEB-B572-2B4C50DD907C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7977A23-FAF6-4AEB-B572-2B4C50DD907C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7977A23-FAF6-4AEB-B572-2B4C50DD907C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
