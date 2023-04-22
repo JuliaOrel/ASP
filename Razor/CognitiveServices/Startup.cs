@@ -28,7 +28,7 @@ namespace CognitiveServices
             services.AddScoped<AzureBlobService>(factory =>
             {
                 string azureConnectionString = Configuration.GetValue<string>("Azure:BlobStorage:ConnectionString");
-                string blobContainerName = Configuration.GetValue<string>("Azure:BlobStorage:ConnectionString");
+                string blobContainerName = Configuration.GetValue<string>("Azure:BlobStorage:ContainerName");
 
                 return new AzureBlobService(azureConnectionString, blobContainerName);
             });
