@@ -13,15 +13,21 @@ namespace AzureTableExample.Services
     public class TableService: ITableService
     {
         private readonly string _tableName = "ProductsTable";
-        private readonly IConfiguration _configuration;
+       private readonly IConfiguration _configuration;
         private readonly string _connectionString;
         private readonly ILogger<TableService> _logger;
 
         public TableService(IConfiguration configuration, ILogger<TableService> logger)
         {
+            _configuration = configuration;
             _connectionString = _configuration
                 .GetSection("AzureStorageConnectionString").Value;
             _logger = logger;
+            _logger.LogInformation("Info");
+            _logger.LogDebug("Debug");
+            _logger.LogWarning("Warning");
+            _logger.LogError("Error");
+            _logger.LogCritical("Critical");
         }
 
         private async Task<TableClient> GetTableClient()

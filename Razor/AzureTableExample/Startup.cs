@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,9 @@ namespace AzureTableExample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Serilog.Core.Logger serilogGogger = new LoggerConfiguration()
+            //     .WriteTo.Console()
+            //     .CreateLogger();
             services.AddScoped<ITableService, TableService>();
 
             services.AddControllers();
@@ -39,12 +43,13 @@ namespace AzureTableExample
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
+            //if (env.IsDevelopment())
+            //{
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
+                
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AzureTableExample v1"));
-            }
+            //}
 
             app.UseHttpsRedirection();
 
