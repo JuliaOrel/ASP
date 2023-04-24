@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelegramLogPollingExample",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureTableExample", "AzureTableExample\AzureTableExample.csproj", "{63A2404F-F985-4EFA-9BDD-D5059EBEB90A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureTableDoctors", "AzureTableDoctors\AzureTableDoctors.csproj", "{C71B2D01-6361-4833-A2B6-942783D64D49}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{63A2404F-F985-4EFA-9BDD-D5059EBEB90A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63A2404F-F985-4EFA-9BDD-D5059EBEB90A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63A2404F-F985-4EFA-9BDD-D5059EBEB90A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C71B2D01-6361-4833-A2B6-942783D64D49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C71B2D01-6361-4833-A2B6-942783D64D49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C71B2D01-6361-4833-A2B6-942783D64D49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C71B2D01-6361-4833-A2B6-942783D64D49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
