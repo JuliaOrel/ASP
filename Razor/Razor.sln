@@ -41,7 +41,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatsCosmosDb", "CatsCosmosD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CognitiveServices", "CognitiveServices\CognitiveServices.csproj", "{2A8671A9-0985-4E99-8ED2-ED11A73A61A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramLogPollingExample", "TelegramLogPollingExample\TelegramLogPollingExample.csproj", "{C7977A23-FAF6-4AEB-B572-2B4C50DD907C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelegramLogPollingExample", "TelegramLogPollingExample\TelegramLogPollingExample.csproj", "{C7977A23-FAF6-4AEB-B572-2B4C50DD907C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureTableExample", "AzureTableExample\AzureTableExample.csproj", "{63A2404F-F985-4EFA-9BDD-D5059EBEB90A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,6 +131,10 @@ Global
 		{C7977A23-FAF6-4AEB-B572-2B4C50DD907C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7977A23-FAF6-4AEB-B572-2B4C50DD907C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7977A23-FAF6-4AEB-B572-2B4C50DD907C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63A2404F-F985-4EFA-9BDD-D5059EBEB90A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63A2404F-F985-4EFA-9BDD-D5059EBEB90A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63A2404F-F985-4EFA-9BDD-D5059EBEB90A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63A2404F-F985-4EFA-9BDD-D5059EBEB90A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
