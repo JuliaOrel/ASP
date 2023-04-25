@@ -43,9 +43,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CognitiveServices", "Cognit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelegramLogPollingExample", "TelegramLogPollingExample\TelegramLogPollingExample.csproj", "{C7977A23-FAF6-4AEB-B572-2B4C50DD907C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureTableExample", "AzureTableExample\AzureTableExample.csproj", "{63A2404F-F985-4EFA-9BDD-D5059EBEB90A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureTableExample", "AzureTableExample\AzureTableExample.csproj", "{63A2404F-F985-4EFA-9BDD-D5059EBEB90A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureTableDoctors", "AzureTableDoctors\AzureTableDoctors.csproj", "{C71B2D01-6361-4833-A2B6-942783D64D49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureTableDoctors", "AzureTableDoctors\AzureTableDoctors.csproj", "{C71B2D01-6361-4833-A2B6-942783D64D49}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlShortener", "UrlShortener\UrlShortener.csproj", "{3DB92B03-3721-48B2-B57E-DD6CAFD5503C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,6 +143,10 @@ Global
 		{C71B2D01-6361-4833-A2B6-942783D64D49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C71B2D01-6361-4833-A2B6-942783D64D49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C71B2D01-6361-4833-A2B6-942783D64D49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DB92B03-3721-48B2-B57E-DD6CAFD5503C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DB92B03-3721-48B2-B57E-DD6CAFD5503C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DB92B03-3721-48B2-B57E-DD6CAFD5503C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DB92B03-3721-48B2-B57E-DD6CAFD5503C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
