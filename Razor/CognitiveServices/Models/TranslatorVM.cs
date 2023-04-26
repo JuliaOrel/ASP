@@ -9,9 +9,9 @@ namespace CognitiveServices.Models
 {
     public class TranslatorVM
     {
-        public SelectList From { get; set; }
+        //public SelectList From { get; set; }
         public MultiSelectList To { get; set; }
-        public int FromValue { get; set; }
+        //public int FromValue { get; set; }
         public int[] ToValue { get; set; }
         public Languages Languages { get; set; }
         [Required]

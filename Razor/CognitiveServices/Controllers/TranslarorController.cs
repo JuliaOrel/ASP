@@ -29,7 +29,7 @@ namespace CognitiveServices.Controllers
 
             TranslatorVM model = new TranslatorVM
             {
-                From = from,
+                //From = from,
                 To = to
             };
 
@@ -41,19 +41,19 @@ namespace CognitiveServices.Controllers
         {
             if(ModelState.IsValid==false)
             {
-                model.From = new SelectList(Enum.GetValues(typeof(Languages)), model.FromValue.ToString());
-                model.To = new MultiSelectList(Enum.GetValues(typeof(Languages)), model.ToValue.ToString());
+                //model.From = new SelectList(Enum.GetValues(typeof(Languages)), model.FromValue);
+                model.To = new MultiSelectList(Enum.GetValues(typeof(Languages)), model.ToValue);
 
                 return View(model);
             }
-            Languages from = (Languages)model.FromValue;
+            //Languages from = (Languages)model.FromValue;
             Languages[] to = new Languages[model.ToValue.Length];
             for (int i = 0; i < model.ToValue.Length; i++)
             {
                 to[i] = (Languages)model.ToValue[i];
             }
 
-            TranslationResult[] results = await _translationService.Translate(text: model.Text, to: to, from: from,
+            TranslationResult[] results = await _translationService.Translate(text: model.Text, to: to,
                 requestParameters: null);
             model.TranslationResults = results;
             return View(model);

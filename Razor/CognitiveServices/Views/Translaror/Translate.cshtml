@@ -1,0 +1,61 @@
+﻿
+@model CognitiveServices.Models.TranslatorVM
+
+@{
+    ViewData["Title"] = "Translate";
+ }
+
+<h1>Translate</h1>
+
+<form asp-action="Translate" class="mb-5">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+   
+
+    <div class="mb-3">
+        <label asp-for="To" class="form-label"></label>
+        <select asp-for="ToValue" asp-items="@Html.GetEnumSelectList<Languages>()"
+                class="form-select">
+            <option selected="selected" disabled="disabled">Choose Language</option>
+        </select>
+        <span asp-validation-for="ToValue" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Text" class="form-label"></label>
+        <textarea asp-for="Text" class="form-control"></textarea>
+        <span asp-validation-for="Text" class="text-danger"></span>
+
+    </div>
+
+    <div class="mb-3">
+        <input type="submit" value="Translate" class="btn btn-lg btn-primary"/>
+    </div>
+</form>
+
+@if(Model.TranslationResults is not null)
+{
+    foreach (var result in Model.TranslationResults)
+    {
+        if(result.DetectedLanquage is not null)
+                    {
+                        <dl>
+                            <dt>Detected language:</dt>
+                            <dd>@result.DetectedLanquage.Language</dd>
+                            <dt>Score:</dt>
+                            <dd>@result.DetectedLanquage.Score</dd>
+                        </dl>
+                    }
+        <hr style="height:5px"/>
+        if(result.Translations is not null)
+                    {
+                        <dl>
+                            @foreach (var translate in result.Translations)
+                            {
+                                <dt>Translated to <span class="text-success">@translate.To</span></dt>
+                                <dd>@translate.Text</dd>
+                            }
+                        </dl>
+                    }
+    }
+
+
+}
