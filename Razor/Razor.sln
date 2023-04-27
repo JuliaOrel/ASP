@@ -49,11 +49,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureTableDoctors", "AzureT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UrlShortener", "UrlShortener\UrlShortener.csproj", "{3DB92B03-3721-48B2-B57E-DD6CAFD5503C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebHookTelegramBot", "WebHookTelegramBot\WebHookTelegramBot.csproj", "{94018195-9E6B-49A4-B261-66985134226F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHookTelegramBot", "WebHookTelegramBot\WebHookTelegramBot.csproj", "{94018195-9E6B-49A4-B261-66985134226F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetWebHook", "SetWebHook\SetWebHook.csproj", "{33F3239B-FF00-4CB0-945F-DB333D5BF74C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SetWebHook", "SetWebHook\SetWebHook.csproj", "{33F3239B-FF00-4CB0-945F-DB333D5BF74C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherBot", "WeatherBot\WeatherBot.csproj", "{CAF336E6-BDA1-4C7D-B7E1-1381E10F884A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherBot", "WeatherBot\WeatherBot.csproj", "{CAF336E6-BDA1-4C7D-B7E1-1381E10F884A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLExample", "MLExample\MLExample.csproj", "{6D9CE367-646D-46C6-850E-AA2942B2C411}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -165,6 +167,10 @@ Global
 		{CAF336E6-BDA1-4C7D-B7E1-1381E10F884A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAF336E6-BDA1-4C7D-B7E1-1381E10F884A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAF336E6-BDA1-4C7D-B7E1-1381E10F884A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D9CE367-646D-46C6-850E-AA2942B2C411}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D9CE367-646D-46C6-850E-AA2942B2C411}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D9CE367-646D-46C6-850E-AA2942B2C411}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D9CE367-646D-46C6-850E-AA2942B2C411}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
