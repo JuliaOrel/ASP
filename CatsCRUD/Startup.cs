@@ -29,7 +29,7 @@ namespace CatsCRUD
             services.AddControllersWithViews();
             services.AddDbContext<CatsContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING"));
             });
             services.AddAutoMapper(typeof(CatProfile), typeof(BreedProfile));
         }
