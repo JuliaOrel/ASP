@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -20,9 +21,19 @@ botClient.StartReceiving(updateHandler: UpdateHandlerAsync,
 Console.ReadLine();
 cts.Cancel();
 
-async Task PollingErrorHandlerAsync(ITelegramBotClient botClient, Exception ex, CancellationToken ct)
+Task PollingErrorHandlerAsync(ITelegramBotClient botClient, Exception ex, CancellationToken ct)
 {
-    throw new NotImplementedException();
+    var error = ex switch
+    {
+        ApiRequestException requestException=>
+        $"Error:\n"+
+        $"{requestException.Message}\n"+
+        $"{requestException.ErrorCode}"+
+        $"{requestException.Data}",
+        _ => ex.ToString(),
+    };
+    Console.WriteLine(error);
+    return Task.CompletedTask;
 }
 
 async Task UpdateHandlerAsync(ITelegramBotClient botClient, Telegram.Bot.Types.Update update, CancellationToken ct)
@@ -38,6 +49,12 @@ async Task UpdateHandlerAsync(ITelegramBotClient botClient, Telegram.Bot.Types.U
     {
         long chatId = message.Chat.Id;
         await botClient.SendTextMessageAsync(chatId: chatId, text: "Here your doc: ", cancellationToken: ct);
+        await botClient.ForwardMessageAsync(
+            chatId,
+            chatId,
+            message.MessageId,
+            cancellationToken: ct
+            );
       
     }
 }
