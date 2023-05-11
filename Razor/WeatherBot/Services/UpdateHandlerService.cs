@@ -31,7 +31,7 @@ namespace WeatherBot.Services
                 $"Telegram Error:\n" +
                 $"{apiRequestException.Message} " +
                 $"{apiRequestException.ErrorCode}",
-                _ => ex.ToString();
+                _ => ex.ToString()
             };
             _logger.LogError("Error: " + error);
             return Task.CompletedTask;
